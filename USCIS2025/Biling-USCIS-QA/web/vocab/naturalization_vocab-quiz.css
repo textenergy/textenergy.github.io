@@ -1,0 +1,196 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+/* Container */
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h1 {
+    color: #003366;
+    text-align: center;
+}
+
+/* Instructions box */
+.instructions {
+    background-color: #e8f4f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Passage display */
+.passage {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #003366;
+    margin: 20px 0;
+}
+
+/* Question styling */
+.question {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #fafafa;
+    border-radius: 5px;
+}
+
+.question-text {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Option styling */
+.option {
+    margin: 8px 0;
+    padding: 8px;
+}
+
+.option label {
+    cursor: pointer;
+    padding-left: 5px;
+}
+
+/* Button styling */
+.buttons {
+    text-align: center;
+    margin: 30px 0;
+}
+
+button {
+    background-color: #003366;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+button:hover {
+    background-color: #004488;
+}
+
+/* Result display */
+.result {
+    text-align: center;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    display: none;
+}
+
+.result.show {
+    display: block;
+}
+
+.result.correct {
+    background-color: #e8f5e9;
+    border: 2px solid #4caf50;
+}
+
+.result.incorrect {
+    background-color: #ffebee;
+    border: 2px solid #f44336;
+}
+
+/* Incorrect answer highlighting */
+.question.incorrect-answer {
+    border: 3px dashed #000;
+    background-color: #fff3cd;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0,0,0,0.03) 10px,
+        rgba(0,0,0,0.03) 20px
+    );
+}
+
+.question.incorrect-answer .question-text::before {
+    content: "✗ ";
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Correct answer indicator */
+.question.correct-answer .question-text::before {
+    content: "✓ ";
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Matching exercise styles */
+.matching-container {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.word-column,
+.definition-column {
+    flex: 1;
+}
+
+.word-item,
+.definition-item {
+    padding: 12px;
+    margin: 8px 0;
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.word-item:hover,
+.definition-item:hover {
+    background-color: #e8f4f8;
+    border-color: #003366;
+}
+
+.word-item.selected,
+.definition-item.selected {
+    background-color: #003366;
+    color: white;
+    border-color: #003366;
+}
+
+.word-item.matched,
+.definition-item.matched {
+    background-color: #e0e0e0;
+    border-color: #999;
+    cursor: default;
+}
+
+.word-item.correct,
+.definition-item.correct {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    cursor: default;
+}
+
+.word-item.incorrect,
+.definition-item.incorrect {
+    background-color: #ffebee;
+    border-color: #f44336;
+    cursor: default;
+}
+
+.definition-item .letter {
+    font-weight: bold;
+    margin-right: 5px;
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary for the Naturalization Interview: Matching Exercise</title>
+
+	<link rel="stylesheet" href="naturalization_vocab-quiz.css"/>
+	<link rel="stylesheet" href="../Biling-USCIS-QA.css">
+</head>
+<body>
+	<nav class="nav-bar">
+        <a class="vocab" href="naturalization_quiz_vocab1.html">Vocabulary: Self-Test 1</a>
+        <a class="vocab" href="naturalization_quiz_vocab2.html">Vocabulary: Self-Test 2</a>
+        <a class="vocab current" href="naturalization_matching_vocab2.html">Vocabulary: Self-Test 2, Matching Exercise</a>
+	    <a class="vocab" href="interview_commands_practice.html">Interview Commands</a> 
+	    <a href="../Biling-USCIS-QA2025.html"><b>Quiz Study Home</b></a>
+    </nav>
+    <div class="container">
+        <h1>Vocabulary for the Naturalization Interview: Self-Test 2</h1>
+        <h2 style="text-align: center; color: #003366;">Matching Exercise</h2>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong> Read each word below and match it with the best meaning that relates to the naturalization interview and Form N-400. Click on a word, then click on its matching definition.
+        </div>
+
+        <div class="matching-container" id="matchingContainer">
+            <div class="word-column" id="wordColumn">
+                <div class="word-item" data-word="1" onclick="selectWord(this)">1. spouse</div>
+                <div class="word-item" data-word="2" onclick="selectWord(this)">2. request</div>
+                <div class="word-item" data-word="3" onclick="selectWord(this)">3. exempt</div>
+                <div class="word-item" data-word="4" onclick="selectWord(this)">4. date of birth</div>
+                <div class="word-item" data-word="5" onclick="selectWord(this)">5. habitual</div>
+                <div class="word-item" data-word="6" onclick="selectWord(this)">6. disability</div>
+                <div class="word-item" data-word="7" onclick="selectWord(this)">7. federal</div>
+                <div class="word-item" data-word="8" onclick="selectWord(this)">8. advocate</div>
+                <div class="word-item" data-word="9" onclick="selectWord(this)">9. dependent</div>
+                <div class="word-item" data-word="10" onclick="selectWord(this)">10. swear</div>
+                <div class="word-item" data-word="11" onclick="selectWord(this)">11. prior</div>
+                <div class="word-item" data-word="12" onclick="selectWord(this)">12. marital status</div>
+                <div class="word-item" data-word="13" onclick="selectWord(this)">13. register</div>
+            </div>
+
+            <div class="definition-column" id="definitionColumn">
+                <div class="definition-item" data-def="A" onclick="selectDefinition(this)"><span class="letter">A.</span> often, frequent, or doing something from habit</div>
+                <div class="definition-item" data-def="B" onclick="selectDefinition(this)"><span class="letter">B.</span> officially sign up or put your name on a list</div>
+                <div class="definition-item" data-def="C" onclick="selectDefinition(this)"><span class="letter">C.</span> U.S. government or central government</div>
+                <div class="definition-item" data-def="D" onclick="selectDefinition(this)"><span class="letter">D.</span> before, previous</div>
+                <div class="definition-item" data-def="E" onclick="selectDefinition(this)"><span class="letter">E.</span> ask for something formally or politely</div>
+                <div class="definition-item" data-def="F" onclick="selectDefinition(this)"><span class="letter">F.</span> make a serious promise</div>
+                <div class="definition-item" data-def="G" onclick="selectDefinition(this)"><span class="letter">G.</span> publicly support an idea or person</div>
+                <div class="definition-item" data-def="H" onclick="selectDefinition(this)"><span class="letter">H.</span> whether you are single, married, divorced, or widowed</div>
+                <div class="definition-item" data-def="I" onclick="selectDefinition(this)"><span class="letter">I.</span> have special permission to not do something</div>
+                <div class="definition-item" data-def="J" onclick="selectDefinition(this)"><span class="letter">J.</span> a physical or mental condition that limits one or more major life activities</div>
+                <div class="definition-item" data-def="K" onclick="selectDefinition(this)"><span class="letter">K.</span> month, day, and year that a person was born</div>
+                <div class="definition-item" data-def="L" onclick="selectDefinition(this)"><span class="letter">L.</span> husband or wife</div>
+                <div class="definition-item" data-def="M" onclick="selectDefinition(this)"><span class="letter">M.</span> someone who depends on you for food, clothes, money, etc.</div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button id="checkBtn" onclick="checkAnswers()" disabled>Check Answers</button>
+            <button id="clearBtn" onclick="clearMatches()">Clear All</button>
+            <button id="retryBtn" onclick="retryExercise()" style="display:none;">Try Again</button>
+        </div>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const correctMatches = {
+            '1': 'L',  // spouse - husband or wife
+            '2': 'E',  // request - ask for something formally or politely
+            '3': 'I',  // exempt - have special permission to not do something
+            '4': 'K',  // date of birth - month, day, and year that a person was born
+            '5': 'A',  // habitual - often, frequent, or doing something from habit
+            '6': 'J',  // disability - a physical or mental condition that limits one or more major life activities
+            '7': 'C',  // federal - U.S. government or central government
+            '8': 'G',  // advocate - publicly support an idea or person
+            '9': 'M',  // dependent - someone who depends on you for food, clothes, money, etc.
+            '10': 'F', // swear - make a serious promise
+            '11': 'D', // prior - before, previous
+            '12': 'H', // marital status - whether you are single, married, divorced, or widowed
+            '13': 'B'  // register - officially sign up or put your name on a list
+        };
+
+        let userMatches = {};
+        let selectedWord = null;
+        let selectedDefinition = null;
+        let isChecked = false;
+
+        function selectWord(element) {
+            if (isChecked) return;
+            
+            if (selectedWord) {
+                selectedWord.classList.remove('selected');
+            }
+            
+            selectedWord = element;
+            element.classList.add('selected');
+            
+            if (selectedDefinition) {
+                createMatch();
+            }
+        }
+
+        function selectDefinition(element) {
+            if (isChecked) return;
+            
+            if (selectedDefinition) {
+                selectedDefinition.classList.remove('selected');
+            }
+            
+            selectedDefinition = element;
+            element.classList.add('selected');
+            
+            if (selectedWord) {
+                createMatch();
+            }
+        }
+
+        function createMatch() {
+            const wordNum = selectedWord.dataset.word;
+            const defLetter = selectedDefinition.dataset.def;
+            
+            userMatches[wordNum] = defLetter;
+            
+            selectedWord.classList.remove('selected');
+            selectedWord.classList.add('matched');
+            selectedDefinition.classList.remove('selected');
+            selectedDefinition.classList.add('matched');
+            selectedWord = null;
+            selectedDefinition = null;
+            
+            updateCheckButton();
+        }
+
+        function updateCheckButton() {
+            const checkBtn = document.getElementById('checkBtn');
+            checkBtn.disabled = Object.keys(userMatches).length !== 13;
+        }
+
+        function clearMatches() {
+            userMatches = {};
+            selectedWord = null;
+            selectedDefinition = null;
+            
+            document.querySelectorAll('.word-item, .definition-item').forEach(item => {
+                item.classList.remove('selected', 'correct', 'incorrect', 'matched');
+            });
+            
+            updateCheckButton();
+        }
+
+        function checkAnswers() {
+            isChecked = true;
+            let correctCount = 0;
+            
+            for (let wordNum in userMatches) {
+                const userAnswer = userMatches[wordNum];
+                const correctAnswer = correctMatches[wordNum];
+                
+                const wordElement = document.querySelector(`.word-item[data-word="${wordNum}"]`);
+                const defElement = document.querySelector(`.definition-item[data-def="${userAnswer}"]`);
+                
+                if (userAnswer === correctAnswer) {
+                    wordElement.classList.add('correct');
+                    defElement.classList.add('correct');
+                    correctCount++;
+                } else {
+                    wordElement.classList.add('incorrect');
+                    defElement.classList.add('incorrect');
+                }
+            }
+            
+            const percentage = Math.round((correctCount / 13) * 100);
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.textContent = `Your Score: ${correctCount} out of 13 (${percentage}%)`;
+            resultDiv.className = 'result show';
+            
+            if (percentage >= 70) {
+                resultDiv.classList.add('correct');
+            } else {
+                resultDiv.classList.add('incorrect');
+            }
+            
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('clearBtn').style.display = 'none';
+            document.getElementById('retryBtn').style.display = 'inline-block';
+        }
+
+        function retryExercise() {
+            isChecked = false;
+            userMatches = {};
+            selectedWord = null;
+            selectedDefinition = null;
+            
+            document.querySelectorAll('.word-item, .definition-item').forEach(item => {
+                item.classList.remove('selected', 'correct', 'incorrect', 'matched');
+            });
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result';
+            resultDiv.textContent = '';
+            
+            document.getElementById('checkBtn').style.display = 'inline-block';
+            document.getElementById('clearBtn').style.display = 'inline-block';
+            document.getElementById('retryBtn').style.display = 'none';
+            
+            updateCheckButton();
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

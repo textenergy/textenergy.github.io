@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Instrucciones de Entrevista</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .reset-container {
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .reset-container.active {
+            display: block;
+        }
+        
+        .instruction-text {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .reset-btn {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .reset-btn:hover {
+            background-color: #ee5a5a;
+        }
+        
+        .command-section {
+            background-color: white;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .command-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            transition: background-color 0.3s;
+        }
+        
+        .command-header:hover {
+            background-color: #e9ecef;
+        }
+        
+        .command-header.completed {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .speaker-icon {
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        
+        .speaker-icon:hover {
+            transform: scale(1.2);
+        }
+        
+        .command-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .command-content.active {
+            display: block;
+        }
+        
+        .command-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .command-image img {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .command-image img {
+                max-width: 300px;
+            }
+        }
+        
+        .options-container {
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            display: block;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        
+        .option.correct::after {
+            content: " ✓";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .option.incorrect {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .verify-btn {
+            background-color: #20b2aa;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .verify-btn:hover {
+            background-color: #1a9d96;
+        }
+        
+        .verify-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .navigation {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        .navigation.active {
+            display: inline-block;
+        }
+        
+        .nav-btn {
+            background-color: #ff9966;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+        
+        .nav-btn:hover {
+            background-color: #ff8552;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .close-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        
+        .close-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+    <link rel="stylesheet" href="naturalization_vocab-quiz.css"/>    
+    <link rel="stylesheet" href="../Biling-USCIS-QA.css">
+</head>
+<body>
+    
+    <nav class="nav-bar">
+        <a class="vocab" href="naturalization_quiz_vocab1.html">Vocabulary: Self-Test 1</a>
+        <a class="vocab" href="naturalization_quiz_vocab2.html">Vocabulary: Self-Test 2</a>
+        <a class="vocab" href="naturalization_matching_vocab2.html">Vocabulary: Self-Test 2, Matching Exercise</a>
+        <a class="vocab  current" href="interview_commands_practice.html">Interview Commands</a> 
+        <a href="../Biling-USCIS-QA2025.html"><b>Quiz Study Home</b></a>
+    </nav>
+    <h1>Práctica de Instrucciones de Entrevista</h1>
+    
+    <div class="instruction-text" id="instruction-text">
+        Haz clic en una frase para poner a prueba tu comprensión.
+    </div>
+    
+    <div class="reset-container" id="reset-container">
+        <button class="reset-btn" onclick="resetAll()">Borrar/Empezar de Nuevo</button>
+    </div>
+    
+    <div id="commands-container"></div>
+
+    <script>
+        const commands = [
+            {
+                english: "Please follow me.",
+                spanish: "Sígame, por favor.",
+                image: "PleaseFollowMe.png"
+            },
+            {
+                english: "Sign your name here.",
+                spanish: "Firme aquí.",
+                image: "SignYourNameHere.jpg"
+            },
+            {
+                english: "Please be seated.",
+                spanish: "Siéntese, por favor.",
+                image: "PleaseBeSeated.png"
+            },
+            {
+                english: "Write this sentence here.",
+                spanish: "Escriba esta oración aquí.",
+                image: "WriteThisSentenceHere.png"
+            },
+            {
+                english: "Please remain standing.",
+                spanish: "Permanezca de pie, por favor.",
+                image: "PleaseRemainStanding.png"
+            },
+            {
+                english: "Read this sentence.",
+                spanish: "Lea esta oración.",
+                image: "ReadThisSentence.png"
+            },
+            {
+                english: "Please wait here.",
+                spanish: "Espere aquí, por favor.",
+                image: "PleaseWaitHere.png"
+            },
+            {
+                english: "Raise your right hand.",
+                spanish: "Levante la mano derecha.",
+                image: "RasieYourRightHand.png"
+            },
+            {
+                english: "Please hand me your passport.",
+                spanish: "Entrégueme su pasaporte, por favor.",
+                image: "PleaseHandMeYourPassport.png"
+            },
+            {
+                english: "Please print your name.",
+                spanish: "Escriba su nombre en letra de molde, por favor.",
+                image: "PrintYOurName.png"
+            }
+        ];
+
+        let currentOptions = [];
+        let completedCommands = new Set();
+
+        function speakText(text) {
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9; // Slightly slower for clarity
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function generateOptions(correctIndex) {
+            const allSpanish = commands.map(c => c.spanish);
+            const correct = allSpanish[correctIndex];
+            const distractors = allSpanish.filter((_, i) => i !== correctIndex);
+            const selectedDistractors = shuffleArray(distractors).slice(0, 3);
+            const options = shuffleArray([correct, ...selectedDistractors]);
+            return options;
+        }
+
+        function initializeCommands() {
+            currentOptions = commands.map((_, i) => generateOptions(i));
+            completedCommands.clear();
+            renderCommands();
+        }
+
+        function renderCommands() {
+            const container = document.getElementById('commands-container');
+            container.innerHTML = '';
+
+            commands.forEach((cmd, index) => {
+                const section = document.createElement('div');
+                section.className = 'command-section';
+                
+                const header = document.createElement('div');
+                header.className = 'command-header';
+                if (completedCommands.has(index)) {
+                    header.classList.add('completed');
+                }
+                
+                const headerText = document.createElement('span');
+                headerText.textContent = cmd.english;
+                headerText.onclick = () => toggleSection(index);
+                headerText.style.cursor = 'pointer';
+                
+                const speakerIcon = document.createElement('span');
+                speakerIcon.className = 'speaker-icon';
+                speakerIcon.textContent = '🔊';
+                speakerIcon.title = 'Escuchar';
+                speakerIcon.onclick = (e) => {
+                    e.stopPropagation(); // Prevent toggling section
+                    speakText(cmd.english);
+                };
+                
+                header.appendChild(headerText);
+                header.appendChild(speakerIcon);
+                
+                const content = document.createElement('div');
+                content.className = 'command-content';
+                content.id = `content-${index}`;
+                
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'command-image';
+                const img = document.createElement('img');
+                img.src = cmd.image;
+                img.alt = cmd.english;
+                imageDiv.appendChild(img);
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options-container';
+                optionsContainer.id = `options-${index}`;
+                
+                currentOptions[index].forEach((option, optIndex) => {
+                    const label = document.createElement('label');
+                    label.className = 'option';
+                    label.id = `option-${index}-${optIndex}`;
+                    
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `command-${index}`;
+                    radio.value = option;
+                    radio.onchange = () => clearFeedback(index);
+                    
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(option));
+                    optionsContainer.appendChild(label);
+                });
+                
+                const buttonsDiv = document.createElement('div');
+                
+                const verifyBtn = document.createElement('button');
+                verifyBtn.className = 'verify-btn';
+                verifyBtn.textContent = 'Verificar';
+                verifyBtn.onclick = () => verifyAnswer(index);
+                verifyBtn.id = `verify-${index}`;
+                
+                const navDiv = document.createElement('div');
+                navDiv.className = 'navigation';
+                navDiv.id = `nav-${index}`;
+                
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'nav-btn';
+                prevBtn.textContent = '← Anterior';
+                prevBtn.onclick = () => navigateTo(index - 1);
+                prevBtn.disabled = index === 0;
+                
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'nav-btn';
+                nextBtn.textContent = 'Siguiente →';
+                nextBtn.onclick = () => navigateTo(index + 1);
+                nextBtn.disabled = index === commands.length - 1;
+                
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'close-btn';
+                closeBtn.textContent = 'Cerrar';
+                closeBtn.onclick = () => closeSection(index);
+                
+                navDiv.appendChild(prevBtn);
+                navDiv.appendChild(nextBtn);
+                navDiv.appendChild(closeBtn);
+                
+                buttonsDiv.appendChild(verifyBtn);
+                buttonsDiv.appendChild(navDiv);
+                
+                content.appendChild(imageDiv);
+                content.appendChild(optionsContainer);
+                content.appendChild(buttonsDiv);
+                
+                section.appendChild(header);
+                section.appendChild(content);
+                container.appendChild(section);
+            });
+        }
+
+        function toggleSection(index) {
+            const content = document.getElementById(`content-${index}`);
+            const isCurrentlyActive = content.classList.contains('active');
+            
+            // Close all sections
+            document.querySelectorAll('.command-content').forEach(c => {
+                c.classList.remove('active');
+            });
+            
+            // Toggle the clicked section (open if was closed, close if was open)
+            if (!isCurrentlyActive) {
+                content.classList.add('active');
+            }
+            
+            // Show reset button and hide instruction on first interaction
+            showResetButton();
+        }
+
+        function clearFeedback(index) {
+            const optionsContainer = document.getElementById(`options-${index}`);
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+        }
+
+        function verifyAnswer(index) {
+            const selectedRadio = document.querySelector(`input[name="command-${index}"]:checked`);
+            
+            if (!selectedRadio) {
+                return;
+            }
+            
+            const selectedValue = selectedRadio.value;
+            const correctAnswer = commands[index].spanish;
+            const selectedLabel = selectedRadio.parentElement;
+            
+            if (selectedValue === correctAnswer) {
+                selectedLabel.classList.add('correct');
+                completedCommands.add(index);
+                
+                // Update header
+                const headers = document.querySelectorAll('.command-header');
+                headers[index].classList.add('completed');
+                
+                // Show navigation
+                const navDiv = document.getElementById(`nav-${index}`);
+                navDiv.classList.add('active');
+                
+                // Disable verify button
+                const verifyBtn = document.getElementById(`verify-${index}`);
+                verifyBtn.disabled = true;
+            } else {
+                selectedLabel.classList.add('incorrect');
+            }
+        }
+
+        function navigateTo(index) {
+            if (index < 0 || index >= commands.length) {
+                return;
+            }
+            
+            // Close all sections
+            document.querySelectorAll('.command-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Open target section
+            const targetContent = document.getElementById(`content-${index}`);
+            targetContent.classList.add('active');
+            
+            // Scroll to section
+            const sections = document.querySelectorAll('.command-section');
+            sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showResetButton() {
+            const resetContainer = document.getElementById('reset-container');
+            const instructionText = document.getElementById('instruction-text');
+            
+            if (!resetContainer.classList.contains('active')) {
+                resetContainer.classList.add('active');
+                instructionText.style.display = 'none';
+            }
+        }
+
+        function closeSection(index) {
+            const content = document.getElementById(`content-${index}`);
+            content.classList.remove('active');
+        }
+
+        function resetAll() {
+            initializeCommands();
+            
+            // Close all sections
+            document.querySelectorAll('.command-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Hide reset button and show instruction
+            const resetContainer = document.getElementById('reset-container');
+            const instructionText = document.getElementById('instruction-text');
+            resetContainer.classList.remove('active');
+            instructionText.style.display = 'block';
+        }
+
+        // Initialize on page load
+        initializeCommands();
+    </script>
+</body>
+</html>
