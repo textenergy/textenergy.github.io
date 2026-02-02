@@ -42,9 +42,14 @@ h1 {
 
 /* Clickable hub-link headings get an arrow indicator */
 a.hub-link h2::after {
-    content: " \25B8";  /* ▸ small right-pointing triangle */
+    content: " \25B6";  /* ▶ right-pointing triangle */
     color: #999;
     margin-left: 8px;
+}
+
+a.hub-link:hover h2 {
+    background-color: #e8f4f8;
+    border-radius: 4px;
 }
 
 a.hub-link:hover h2::after {
