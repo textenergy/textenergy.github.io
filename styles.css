@@ -40,10 +40,11 @@ h1 {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Clickable hub-link headings get an arrow indicator */
-a.hub-link h2::after {
-    content: " \25B6";  /* ▶ right-pointing triangle */
+/* Clickable hub-link heading arrow indicator */
+.heading-arrow {
     color: #999;
+    font-size: 1.5em;
+    vertical-align: middle;
     margin-left: 8px;
 }
 
@@ -52,7 +53,7 @@ a.hub-link:hover h2 {
     border-radius: 4px;
 }
 
-a.hub-link:hover h2::after {
+a.hub-link:hover .heading-arrow {
     color: inherit;
 }
 
