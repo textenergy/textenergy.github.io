@@ -17,7 +17,7 @@ h1 {
 
 .subtitle {
     text-align: center;
-    color: #666;
+    color: #333;
     font-size: 1.2em;
     margin-bottom: 25px;
 }
@@ -112,8 +112,7 @@ a.hub-link:hover .heading-arrow {
 }
 
 .coming-soon p {
-    color: #666;
-    font-style: italic;
+    color: #333;
 }
 
 /* Navigation */
