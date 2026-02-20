@@ -297,6 +297,13 @@ h2::after {
     transition: transform 0.3s;
 }
 
+h3::after {
+    content: ' ▼';
+    font-size: 0.6em;
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
 .content-row.collapsed h2::after {
     transform: rotate(-90deg);
 }
