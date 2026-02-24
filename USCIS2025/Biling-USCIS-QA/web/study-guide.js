@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const spanishElements = Array.from(spanishColumn.querySelectorAll('p, ul, ol'))
             .filter(el => !el.classList.contains('page-ref') && !el.classList.contains('caption'));
         
-        // Add click handlers to English elements
+        // Add click handlers to English elements (for Spanish toggle)
         englishElements.forEach((englishEl, index) => {
             if (index >= spanishElements.length) return;
             
@@ -176,3 +176,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Question/Answer popup (.qpop) functionality
+
+// Create a single shared overlay element
+const qpopOverlay = document.createElement('div');
+qpopOverlay.classList.add('qpop-overlay');
+document.body.appendChild(qpopOverlay);
+
+function openQpop(popupId) {
+    const popup = document.getElementById(popupId);
+    if (!popup) return;
+
+    // Inject header (red X) and footer (Close button) if not already present
+    if (!popup.querySelector('.qpop-header')) {
+        const header = document.createElement('div');
+        header.className = 'qpop-header';
+        header.innerHTML = '<button class="qpop-close-x" aria-label="Close">&#x2715;</button>';
+        popup.insertBefore(header, popup.firstChild);
+        header.querySelector('.qpop-close-x').addEventListener('click', function() {
+            closeQpop(popup);
+        });
+    }
+
+    if (!popup.querySelector('.qpop-footer')) {
+        const footer = document.createElement('div');
+        footer.className = 'qpop-footer';
+        footer.innerHTML = '<button class="qpop-close-btn">Close / Cerrar</button>';
+        popup.appendChild(footer);
+        footer.querySelector('.qpop-close-btn').addEventListener('click', function() {
+            closeQpop(popup);
+        });
+    }
+
+    popup.classList.add('visible');
+    qpopOverlay.classList.add('visible');
+
+    // Dismiss on overlay click
+    qpopOverlay.onclick = function() {
+        closeQpop(popup);
+    };
+
+    // Dismiss on Escape key
+    document.addEventListener('keydown', qpopEscHandler);
+}
+
+function closeQpop(popup) {
+    popup.querySelectorAll('audio').forEach(function(audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    });
+    popup.classList.remove('visible');
+    qpopOverlay.classList.remove('visible');
+    document.removeEventListener('keydown', qpopEscHandler);
+}
+
+function qpopEscHandler(e) {
+    if (e.key === 'Escape') {
+        const visiblePop = document.querySelector('.qpop.visible');
+        if (visiblePop) closeQpop(visiblePop);
+    }
+}
