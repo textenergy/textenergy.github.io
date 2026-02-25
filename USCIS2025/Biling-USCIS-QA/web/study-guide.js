@@ -47,18 +47,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.addEventListener('mouseleave', function(e) {
         if (!e.target.classList.contains('explan')) return;
-        if (!e.target._activePopup) {
-            // Fallback: find popup by data-popup attribute
-            const popupId = e.target.getAttribute('data-popup');
-            if (popupId) {
-                const popup = document.getElementById(popupId);
-                if (popup) popup.classList.remove('visible');
-            }
-            return;
-        }
         
-        e.target._activePopup.classList.remove('visible');
-        delete e.target._activePopup;
+        const popup = e.target._activePopup || (() => {
+            const popupId = e.target.getAttribute('data-popup');
+            return popupId ? document.getElementById(popupId) : null;
+        })();
+        
+        if (popup) popup.classList.remove('visible');
+        if (e.target._activePopup) delete e.target._activePopup;
     }, true);
     
     function positionPopup(popup, e) {
@@ -148,6 +144,10 @@ document.addEventListener('DOMContentLoaded', function() {
             englishEl.addEventListener('click', function(e) {
                 // Don't toggle Spanish if clicking on an explanation element
                 if (e.target.classList.contains('explan') || e.target.closest('.explan')) {
+                    return;
+                }
+                // Don't toggle Spanish if clicking on a question reference superscript
+                if (e.target.classList.contains('q-ref') || e.target.closest('.q-ref')) {
                     return;
                 }
                 
