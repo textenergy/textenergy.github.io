@@ -104,9 +104,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentElement = currentElement.nextElementSibling;
                 }
             }
-            // Otherwise toggle just the next content-row
+            // Otherwise toggle all consecutive content-rows following the h2
             else if (nextElement && nextElement.classList.contains('content-row')) {
-                nextElement.classList.toggle('collapsed');
+                let currentElement = nextElement;
+                while (currentElement && currentElement.classList && currentElement.classList.contains('content-row')) {
+                    currentElement.classList.toggle('collapsed');
+                    currentElement = currentElement.nextElementSibling;
+                }
             }
         });
     });

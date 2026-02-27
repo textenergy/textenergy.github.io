@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario N-400 · Parte 1: Elegibilidad · Guía Bilingüe</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0d2340;
+    --gold:   #b8860b;
+    --rust:   #8b3a1a;
+    --green:  #1e5c3a;
+    --red:    #7a2020;
+    --light:  #f7f4ee;
+    --mid:    #e4dfd3;
+    --white:  #ffffff;
+    --text:   #1a1a1a;
+    --muted:  #5a5a5a;
+    --en-bg:  #eef3f8;
+    --es-bg:  #f5f0e8;
+    --en-border: #4a7aaa;
+    --es-border: #b8860b;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  /* ======= PAGE LAYOUT ======= */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ======= HEADER ======= */
+  header {
+    border-top: 5px solid var(--navy);
+    border-bottom: 2px solid var(--gold);
+    padding: 1.5rem 0 1.2rem;
+    margin-bottom: 2rem;
+  }
+  header .agency {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: .3rem;
+  }
+  header h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.7rem;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: .25rem;
+  }
+  header .subtitle {
+    font-size: .9rem;
+    color: var(--muted);
+  }
+  header .version-note {
+    margin-top: .6rem;
+    font-size: .78rem;
+    background: var(--navy);
+    color: #fff;
+    display: inline-block;
+    padding: .2rem .6rem;
+    border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: .05em;
+  }
+
+  /* ======= SECTION TITLES ======= */
+  h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    border-bottom: 1.5px solid var(--mid);
+    padding-bottom: .4rem;
+    margin: 2rem 0 1rem;
+  }
+  h2 .es {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--muted);
+    margin-left: .5rem;
+  }
+
+  /* ======= INTRO NOTE ======= */
+  .intro-note {
+    background: var(--white);
+    border-left: 4px solid var(--navy);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: .93rem;
+    line-height: 1.6;
+  }
+  .intro-note p + p { margin-top: .6rem; }
+
+  /* ======= FORM IMAGE ======= */
+  .form-image-block {
+    background: var(--white);
+    border: 1.5px solid var(--mid);
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .form-image-block img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+  }
+  .form-image-block figcaption {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: .5rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ======= GENERAL REQUIREMENTS TABLE ======= */
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    font-size: .88rem;
+  }
+  .req-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: .5rem .8rem;
+    text-align: left;
+    font-weight: 500;
+  }
+  .req-table th.en { background: #1e3a5f; }
+  .req-table th.es { background: #5a3a00; }
+  .req-table td {
+    padding: .5rem .8rem;
+    vertical-align: top;
+    border-bottom: 1px solid var(--mid);
+  }
+  .req-table tr:nth-child(even) td { background: var(--white); }
+  .req-table tr:nth-child(odd) td { background: #f0ece4; }
+  .req-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .75rem;
+    color: var(--navy);
+    font-weight: 600;
+    white-space: nowrap;
+    width: 3rem;
+  }
+  .req-table .highlight {
+    background: #fff8e6 !important;
+    font-weight: 500;
+  }
+
+  /* ======= CATEGORY CARDS ======= */
+  .category-card {
+    background: var(--white);
+    border: 1.5px solid var(--mid);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: .8rem 1.2rem;
+    background: var(--navy);
+    color: #fff;
+  }
+  .card-header .box-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: var(--gold);
+    color: var(--navy);
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .card-header .card-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .card-header .card-title .es-title {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: .88rem;
+    opacity: .85;
+    margin-top: .1rem;
+  }
+
+  .card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  @media (max-width: 640px) {
+    .card-body { grid-template-columns: 1fr; }
+  }
+
+  .lang-panel {
+    padding: 1rem 1.2rem;
+    font-size: .88rem;
+    line-height: 1.6;
+  }
+  .lang-panel.en {
+    background: var(--en-bg);
+    border-right: 1px solid var(--mid);
+  }
+  .lang-panel.es {
+    background: var(--es-bg);
+  }
+  .lang-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: .4rem;
+  }
+  .lang-panel.en .lang-label { color: var(--en-border); }
+  .lang-panel.es .lang-label { color: var(--es-border); }
+
+  .lang-panel blockquote {
+    border-left: 3px solid;
+    padding-left: .8rem;
+    margin: .5rem 0;
+    font-style: italic;
+    color: #333;
+  }
+  .lang-panel.en blockquote { border-color: var(--en-border); }
+  .lang-panel.es blockquote { border-color: var(--es-border); }
+
+  .lang-panel p + p { margin-top: .5rem; }
+
+  /* note tags */
+  .note {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    padding: .1rem .4rem;
+    border-radius: 2px;
+    margin-right: .3rem;
+    vertical-align: middle;
+    font-style: normal;
+  }
+  .note.changed { background: #fff3cd; color: #7a5000; border: 1px solid #e6c200; }
+  .note.new     { background: #d4edda; color: #1a5c2a; border: 1px solid #5cb85c; }
+  .note.same    { background: #e8e8e8; color: #444;    border: 1px solid #bbb; }
+  .note.detail  { background: #d0e8f5; color: #0a3a5c; border: 1px solid #6aafd4; }
+
+  /* card footer notes */
+  .card-footer {
+    background: #f0ede6;
+    border-top: 1px solid var(--mid);
+    padding: .7rem 1.2rem;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+  .card-footer strong { color: var(--navy); }
+
+  /* ======= AGE NOTE BOX ======= */
+  .age-note {
+    background: #fff8e6;
+    border: 1.5px solid var(--gold);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: .88rem;
+  }
+  .age-note .age-title {
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: .4rem;
+  }
+
+  /* ======= DECISION TREE LINK ======= */
+  .tree-ref {
+    background: #eaf4ef;
+    border: 1.5px solid var(--green);
+    border-radius: 4px;
+    padding: .7rem 1.2rem;
+    font-size: .82rem;
+    color: var(--green);
+    margin-top: .5rem;
+  }
+
+  /* ======= LEGEND ======= */
+  .legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    font-size: .78rem;
+    align-items: center;
+  }
+  .legend-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--muted);
+    margin-right: .3rem;
+  }
+
+  footer {
+    margin-top: 3rem;
+    border-top: 2px solid var(--mid);
+    padding-top: 1rem;
+    font-size: .75rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="agency">USCIS · Formulario N-400 · Parte 1</div>
+  <h1>Información Sobre su Elegibilidad<br>
+    <span style="font-size:1.1rem;font-weight:400;font-style:italic;color:#5a5a5a;">Information About Your Eligibility</span>
+  </h1>
+  <div class="subtitle">Guía bilingüe · Bilingual Reference Guide</div>
+  <div class="version-note">Fuente EN: Instrucciones N-400 · 01/20/2025 · Expira 02/28/2027</div>
+</header>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="legend-title">Leyenda:</span>
+  <span class="note changed">CAMBIADO</span> texto diferente al 2019
+  <span class="note new">NUEVO</span> no existía en 2019
+  <span class="note detail">DETALLE</span> información adicional en instrucciones
+  <span class="note same">SIN CAMBIO</span> igual al 2019
+</div>
+
+<!-- INTRO NOTE -->
+<div class="intro-note">
+  <p><strong>Sobre este documento.</strong> Este documento es una guía de referencia para maestros y estudiantes adultos que preparan la solicitud de naturalización N-400. La fuente definitiva es la versión en inglés de las instrucciones del Formulario N-400, con fecha 01/20/2025. Las traducciones al español son para fines educativos y de orientación. En caso de discrepancia, prevalece el texto en inglés.</p>
+  <p><strong>About this document.</strong> This is a bilingual reference guide for teachers and adult students preparing the N-400 naturalization application. The authoritative source is the English-language N-400 Instructions dated 01/20/2025. Spanish translations are for educational and orientation purposes. In case of discrepancy, the English text governs.</p>
+</div>
+
+<!-- FORM IMAGE -->
+<figure class="form-image-block">
+  <img src="n400p01Part1-A-G.gif" alt="N-400 Form Part 1: Information About Your Eligibility, showing checkboxes A through G">
+  <figcaption>Formulario N-400 · Parte 1, Pregunta 1 — Seleccione solo una casilla · Select only one box</figcaption>
+</figure>
+
+<!-- ===================== GENERAL REQUIREMENTS ===================== -->
+<h2>Requisitos Generales de Elegibilidad <span class="es">· List of General Eligibility Requirements</span></h2>
+
+<p style="font-size:.88rem;margin-bottom:.8rem;color:var(--muted);">Estos requisitos aplican a <em>la mayoría</em> de los solicitantes. Cada categoría (A–G) puede tener variaciones. · These requirements apply to <em>most</em> applicants. Each category (A–G) may have variations.</p>
+
+<table class="req-table">
+  <tr>
+    <th class="en" style="width:2.5rem;">#</th>
+    <th class="en">English (2025) — Authoritative</th>
+    <th class="es">Español — Orientación</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>You are at least <strong>18 years of age</strong> when you file. <em>(Exception: active duty U.S. armed forces members.)</em></td>
+    <td>Tener al menos <strong>18 años de edad</strong> al presentar la solicitud. <em>(Excepción: miembros en servicio activo de las fuerzas armadas.)</em></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>You have been a <strong>lawful permanent resident (LPR)</strong> of the United States for at least <strong>5 years</strong>.</td>
+    <td>Haber sido <strong>residente permanente legal (RPL)</strong> de EE.UU. por al menos <strong>5 años</strong>.</td>
+  </tr>
+  <tr class="highlight">
+    <td>3</td>
+    <td>You have demonstrated <strong>continuous residence</strong> in the United States for at least <strong>5 years</strong>. <span class="note changed">CAMBIADO</span></td>
+    <td>Demostrar <strong>residencia continua</strong> en EE.UU. durante al menos <strong>5 años</strong>. <em>(La versión 2019 no especificaba el número de años en esta sección.)</em></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>You have lived in the U.S. state or USCIS district where you claim residence for at least <strong>3 months</strong> before filing.</td>
+    <td>Haber vivido en el estado o distrito de USCIS donde solicita por al menos <strong>3 meses</strong> antes de presentar la solicitud.</td>
+  </tr>
+  <tr class="highlight">
+    <td>5</td>
+    <td>You have demonstrated <strong>physical presence</strong> in the United States for at least <strong>30 months (913 days)</strong> out of the last 5 years. <span class="note changed">CAMBIADO</span></td>
+    <td>Demostrar <strong>presencia física</strong> en EE.UU. por al menos <strong>30 meses (913 días)</strong> de los últimos 5 años. <em>(La versión 2019 no especificaba el número en esta sección.)</em></td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>You demonstrate <strong>good moral character</strong>.</td>
+    <td>Demostrar <strong>buen carácter moral</strong>.</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>You demonstrate an attachment to the <strong>principles of the U.S. Constitution</strong>.</td>
+    <td>Demostrar adhesión a los <strong>principios de la Constitución de EE.UU.</strong></td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>You demonstrate a basic knowledge of <strong>U.S. history and government (civics)</strong> and an ability to read, write, speak, and understand basic <strong>English</strong>.</td>
+    <td>Demostrar conocimiento básico de la <strong>historia y el gobierno de EE.UU. (educación cívica)</strong> y capacidad de leer, escribir, hablar y entender <strong>inglés básico</strong>.</td>
+  </tr>
+  <tr class="highlight">
+    <td>9</td>
+    <td>You are willing to take the <strong>Oath of Allegiance</strong> and you are <strong>well disposed to the good order and happiness of the United States</strong>. <span class="note new">NUEVO</span></td>
+    <td>Estar dispuesto a tomar el <strong>Juramento de Lealtad</strong> y estar <strong>bien dispuesto al orden y la felicidad de EE.UU.</strong> <em>(Este requisito adicional no aparecía en las instrucciones de 2019.)</em></td>
+  </tr>
+</table>
+
+<!-- AGE NOTE -->
+<div class="age-note">
+  <div class="age-title">⚠ Nota sobre la edad mínima · Age requirement note</div>
+  <p>El requisito de 18 años aplica al presentar la solicitud, <em>excepto</em> para miembros de las fuerzas armadas en servicio activo (categorías 1-E y 1-F). El árbol de decisión para menores de 18 años ya fue elaborado por separado y cubre las rutas militares. El presente documento cubre únicamente las categorías para personas de 18 años o más.</p>
+  <p style="margin-top:.4rem;font-size:.82rem;color:var(--muted);">The age-18 requirement applies at filing, <em>except</em> for active duty armed forces members (categories 1-E and 1-F). The decision tree for applicants under 18 was produced separately and covers military paths. This document covers categories for persons 18 and older.</p>
+</div>
+
+
+<!-- ===================== CATEGORY A ===================== -->
+<h2>Casilla 1-A <span class="es">· General Provision / Disposición General</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">A</div>
+    <div class="card-title">
+      General Provision
+      <span class="es-title">Disposición General</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <blockquote>Select this box if you have been a lawful permanent resident (LPR) of the United States for at least 5 years.</blockquote>
+      <p>This is the standard path for most applicants. You must meet all 9 general requirements listed above, including 5 years continuous residence and 30 months physical presence.</p>
+      <p><span class="note detail">DETALLE</span> See <em>List of General Eligibility Requirements</em> in the instructions.</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <blockquote>Seleccione esta casilla si ha sido residente permanente legal (RPL) de EE.UU. por al menos 5 años.</blockquote>
+      <p>Esta es la vía estándar para la mayoría de solicitantes. Debe cumplir los 9 requisitos generales indicados arriba, incluyendo 5 años de residencia continua y 30 meses de presencia física.</p>
+      <p><strong>¿Cuándo puede presentar la solicitud antes de tiempo?</strong> Puede presentar el N-400 hasta <strong>90 días antes</strong> de cumplir el período de 5 años, pero debe cumplir todos los demás requisitos al momento de presentarla.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <strong>N-400 Parte 9 · Presencia y residencia:</strong> Las instrucciones detallan cómo contar interrupciones de residencia, viajes al exterior, y excepciones. · The instructions detail how to count residence interruptions, foreign travel, and exceptions.
+  </div>
+</div>
+
+
+<!-- ===================== CATEGORY B ===================== -->
+<h2>Casilla 1-B <span class="es">· Spouse of U.S. Citizen / Cónyuge de Ciudadano Estadounidense</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">B</div>
+    <div class="card-title">
+      Spouse of U.S. Citizen
+      <span class="es-title">Cónyuge de Ciudadano/a Estadounidense</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <blockquote>Select this box if you seek to naturalize based on your marriage to a U.S. citizen. Generally, to qualify for naturalization based on marriage to a U.S. citizen, you must have been a lawful permanent resident for at least 3 years.</blockquote>
+      <p>You must meet <strong>all four</strong> of these requirements at the time you file:</p>
+      <ol style="padding-left:1.2rem;margin:.4rem 0;font-size:.86rem;line-height:1.6;">
+        <li>You must be legally married to a U.S. citizen <strong>who resides in the United States</strong>, and you must remain legally married until you take the Oath of Allegiance;</li>
+        <li>You must have been <strong>living in marital union</strong> with your U.S. citizen spouse for at least <strong>3 years</strong>;</li>
+        <li>Your spouse must have been a U.S. citizen for at least <strong>3 years</strong>; and</li>
+        <li>You must have been a <strong>lawful permanent resident for at least 3 years</strong>.</li>
+      </ol>
+      <p><strong>Early filing:</strong> You may file up to 90 days before meeting the 3-year LPR requirement, but you must already have been married for 3 years at the time of filing.</p>
+      <p style="margin-top:.5rem;font-size:.82rem;color:#555;"><strong>Key evidence required:</strong> Proof spouse is a U.S. citizen for 3+ years; current marriage certificate; evidence of 3 years cohabitation (joint bank statements, lease/mortgage, tax transcripts, insurance policies).</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <blockquote>Seleccione esta casilla si desea naturalizarse basándose en su matrimonio con un/a ciudadano/a estadounidense. En general, debe haber sido residente permanente legal por al menos 3 años.</blockquote>
+      <p>Debe cumplir los <strong>cuatro</strong> requisitos siguientes al momento de presentar la solicitud:</p>
+      <ol style="padding-left:1.2rem;margin:.4rem 0;font-size:.86rem;line-height:1.6;">
+        <li>Estar legalmente casado/a con un/a ciudadano/a estadounidense <strong>que resida en EE.UU.</strong>, y permanecer casado/a hasta tomar el Juramento de Lealtad;</li>
+        <li>Haber <strong>vivido en unión matrimonial</strong> con ese/a cónyuge ciudadano/a por al menos <strong>3 años</strong>;</li>
+        <li>Su cónyuge debe haber sido ciudadano/a estadounidense por al menos <strong>3 años</strong>; y</li>
+        <li>Usted debe haber sido <strong>residente permanente legal por al menos 3 años</strong>.</li>
+      </ol>
+      <p><strong>Presentación anticipada:</strong> Puede presentar el N-400 hasta 90 días antes de cumplir los 3 años como RPL, pero ya debe llevar 3 años casado/a al momento de presentarla.</p>
+      <p style="margin-top:.5rem;font-size:.82rem;color:#555;"><strong>Documentos clave requeridos:</strong> Prueba de ciudadanía del cónyuge por 3+ años; certificado de matrimonio vigente; evidencia de 3 años de convivencia (cuentas bancarias conjuntas, contrato de arrendamiento/hipoteca, declaraciones de impuestos, pólizas de seguro).</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <strong>Diferencia clave con 1-A:</strong> Solo se requieren 3 años de RPL y residencia continua (no 5), pero el matrimonio debe mantenerse hasta el juramento y el cónyuge ciudadano debe residir en EE.UU. · Key difference from 1-A: Only 3 years LPR and continuous residence required (not 5), but marriage must continue through the oath and the citizen spouse must reside in the U.S.
+  </div>
+</div>
+
+
+<!-- ===================== CATEGORY C ===================== -->
+<h2>Casilla 1-C <span class="es">· VAWA</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">C</div>
+    <div class="card-title">
+      VAWA — Violence Against Women Act
+      <span class="es-title">Ley de Violencia Contra la Mujer (VAWA)</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <blockquote>Any person who obtained LPR status as the spouse or child of a U.S. citizen who subjected the person to battery or extreme cruelty may naturalize under the spousal provision without having to live in marital union for at least 3 years.</blockquote>
+      <p>To qualify, you must meet <strong>all six</strong> of these requirements — which differ significantly from the general requirements:</p>
+      <ol style="padding-left:1.2rem;margin:.4rem 0;font-size:.86rem;line-height:1.6;">
+        <li>Have obtained LPR status through an approved VAWA-based petition or special rule cancellation of removal;</li>
+        <li>Be at least <strong>18 years of age</strong>;</li>
+        <li>Continuously reside in the United States for at least <strong>3 years</strong> after obtaining LPR status;</li>
+        <li>Be physically present in the United States for at least <strong>18 months</strong> during the 3 years immediately before filing <em>(not 30 months)</em>;</li>
+        <li>Live in the state or USCIS district for at least <strong>3 months</strong> before filing; and</li>
+        <li>Demonstrate good moral character for at least <strong>3 years</strong> before filing.</li>
+      </ol>
+      <p><strong>NOTE:</strong> Evidence of the spouse's U.S. citizenship, marriage, divorce or separation, or marital union is <strong>NOT required</strong>.</p>
+      <p><span class="note new">NUEVO</span> These specific VAWA requirements were not explained in the 2019 Spanish instructions.</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <blockquote>Cualquier persona que obtuvo el estatus de RPL como cónyuge o hijo/a de un/a ciudadano/a estadounidense que le sometió a malos tratos o crueldad extrema puede naturalizarse sin necesidad de haber vivido en unión matrimonial por al menos 3 años.</blockquote>
+      <p>Para calificar, debe cumplir los <strong>seis</strong> requisitos siguientes — que difieren significativamente de los requisitos generales:</p>
+      <ol style="padding-left:1.2rem;margin:.4rem 0;font-size:.86rem;line-height:1.6;">
+        <li>Haber obtenido el estatus de RPL mediante una petición aprobada bajo VAWA o cancelación de deportación por regla especial;</li>
+        <li>Tener al menos <strong>18 años de edad</strong>;</li>
+        <li>Residir continuamente en EE.UU. por al menos <strong>3 años</strong> después de obtener la residencia permanente;</li>
+        <li>Haber estado físicamente presente en EE.UU. por al menos <strong>18 meses</strong> durante los 3 años anteriores a presentar la solicitud <em>(no 30 meses como en la vía general)</em>;</li>
+        <li>Vivir en el estado o distrito de USCIS por al menos <strong>3 meses</strong> antes de presentar; y</li>
+        <li>Demostrar buen carácter moral durante al menos <strong>3 años</strong> antes de presentar.</li>
+      </ol>
+      <p><strong>NOTA IMPORTANTE:</strong> No se requiere presentar evidencia de ciudadanía del cónyuge, del matrimonio, del divorcio ni de convivencia matrimonial.</p>
+      <p><strong>Nota sobre género:</strong> VAWA protege a personas de cualquier género, no solo a mujeres. Aplica a cónyuges, ex-cónyuges, cónyuges con intención de matrimonio, e hijos/as.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <strong>Comparación clave de requisitos VAWA vs. General (1-A):</strong>
+    Residencia continua: <strong>3 años</strong> (no 5) · Presencia física: <strong>18 meses</strong> (no 30) · Sin requisito de convivencia matrimonial · Sin evidencia de ciudadanía del cónyuge requerida.<br>
+    VAWA vs. General (1-A) key requirement comparison: Continuous residence: <strong>3 years</strong> (not 5) · Physical presence: <strong>18 months</strong> (not 30) · No marital union requirement · No spousal citizenship evidence required.
+  </div>
+</div>
+
+
+<!-- ===================== CATEGORY D ===================== -->
+<h2>Casilla 1-D <span class="es">· Spouse of U.S. Citizen in Qualified Employment Outside the U.S. / Cónyuge de Ciudadano en Empleo Calificado en el Extranjero</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">D</div>
+    <div class="card-title">
+      Spouse of U.S. Citizen in Qualified Employment Outside the United States
+      <span class="es-title">Cónyuge de Ciudadano/a en Empleo Calificado Fuera de EE.UU.</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <blockquote>Select this box if you seek to naturalize based on your U.S. citizen spouse working for a qualified employer outside the United States (INA section 319(b)).</blockquote>
+      <p>You must meet <strong>all six</strong> of these requirements:</p>
+      <ol style="padding-left:1.2rem;margin:.4rem 0;font-size:.86rem;line-height:1.6;">
+        <li>Be legally married to a U.S. citizen working outside the U.S. for a <strong>qualified employer</strong>;</li>
+        <li>The spouse's employment must be scheduled to last at least <strong>1 year after</strong> you file Form N-400;</li>
+        <li>Be a <strong>lawful permanent resident</strong> when you file;</li>
+        <li>Declare in good faith an intent to <strong>reside in the U.S.</strong> immediately after the spouse's employment ends;</li>
+        <li>Be <strong>present in the United States</strong> when you take the Oath of Allegiance; and</li>
+        <li>Establish that you will <strong>join your spouse within 30–45 days</strong> after naturalization.</li>
+      </ol>
+      <p><strong>Key distinction:</strong> If you meet these requirements, <strong>no prior U.S. residence or physical presence is required</strong>. You must be present in the U.S. at your interview and naturalization.</p>
+      <p style="font-size:.82rem;color:#555;margin-top:.4rem;"><strong>Qualifying employers include:</strong> U.S. Government; American research institutions; public international organizations; American firms engaged in U.S. foreign trade; religious denominations/missions.</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <blockquote>Seleccione esta casilla si desea naturalizarse basándose en que su cónyuge ciudadano/a trabaja para un empleador calificado fuera de EE.UU. (sección 319(b) de la INA).</blockquote>
+      <p>Debe cumplir los <strong>seis</strong> requisitos siguientes:</p>
+      <ol style="padding-left:1.2rem;margin:.4rem 0;font-size:.86rem;line-height:1.6;">
+        <li>Estar legalmente casado/a con un/a ciudadano/a estadounidense que trabaja fuera de EE.UU. para un <strong>empleador calificado</strong>;</li>
+        <li>El empleo del cónyuge debe estar programado para durar al menos <strong>1 año después</strong> de presentar el N-400;</li>
+        <li>Ser <strong>residente permanente legal</strong> al presentar la solicitud;</li>
+        <li>Declarar de buena fe la intención de <strong>residir en EE.UU.</strong> inmediatamente después de que termine el empleo del cónyuge;</li>
+        <li>Estar <strong>presente en EE.UU.</strong> al tomar el Juramento de Lealtad; y</li>
+        <li>Demostrar que se unirá a su cónyuge dentro de los <strong>30 a 45 días</strong> después de naturalizarse.</li>
+      </ol>
+      <p><strong>Distinción clave:</strong> Si cumple estos requisitos, <strong>no se requiere residencia previa ni presencia física en EE.UU.</strong> Solo debe estar presente en EE.UU. para la entrevista y la naturalización.</p>
+      <p style="font-size:.82rem;color:#555;margin-top:.4rem;"><strong>Empleadores calificados incluyen:</strong> Gobierno de EE.UU.; instituciones de investigación americanas; organizaciones internacionales públicas; empresas americanas en comercio exterior; denominaciones religiosas/misiones.</p>
+    </div>
+  </div>
+  <div class="card-footer">
+    <strong>Caso inusual pero importante:</strong> Es la única categoría que no requiere historial de residencia o presencia física en EE.UU. Sin embargo, aplica a muy pocos solicitantes del perfil típico de estudiante adulto de inglés. · Unusual but important: The only category requiring no prior U.S. residence or physical presence history. However, it applies to very few typical adult ESL student applicants.
+  </div>
+</div>
+
+
+<!-- ===================== CATEGORY E ===================== -->
+<h2>Casilla 1-E <span class="es">· Military Service During Period of Hostilities / Servicio Militar Durante Período de Hostilidades</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">E</div>
+    <div class="card-title">
+      Military Service During Period of Hostilities
+      <span class="es-title">Servicio Militar Durante Período de Hostilidades Designado</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <blockquote>Select this box if you seek to naturalize based on honorable service in active duty or in the Selected Reserve of the Ready Reserve of the U.S. armed forces during a designated period of hostilities. If you were in the United States or certain other specified areas at the time of enlistment, reenlistment, extension of enlistment, or induction, you may apply for naturalization without LPR status.</blockquote>
+      <p>See <em>Eligibility and Evidence for Current and Former Members of the U.S. Armed Forces</em> in Specific Instructions by Item Number, Part 9., Item Numbers 23.–29.</p>
+      <p><span class="note new">NUEVO</span> The explicit provision allowing naturalization without LPR status was not explained in the 2019 Spanish instructions.</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <blockquote>Seleccione esta casilla si desea naturalizarse basándose en servicio honroso en servicio activo o en la Reserva Seleccionada de la Reserva Lista de las fuerzas armadas de EE.UU. durante un período de hostilidades designado. Si usted se encontraba en EE.UU. o en ciertas áreas especificadas al momento de alistarse, realistarse, extender el servicio o incorporarse, puede solicitar la naturalización <strong>sin necesidad de ser RPL</strong>.</blockquote>
+      <p>Consulte las instrucciones específicas, Parte 9, ítems 23–29.</p>
+      <p><strong>Requisitos clave (de la herramienta de elegibilidad USCIS):</strong></p>
+      <ul style="margin-top:.3rem;padding-left:1.2rem;font-size:.85rem;">
+        <li>Debe ser RPL al momento de la entrevista, <em>o</em> haber estado físicamente presente al alistarse/incorporarse.</li>
+        <li>Debe demostrar buen carácter moral.</li>
+        <li>Debe cumplir los requisitos de inglés y educación cívica.</li>
+      </ul>
+      <div class="tree-ref">📋 Ver árbol de decisión separado: <em>Elegibilidad por Servicio Militar (Menor de 18 años)</em> — aplica también a mayores de 18 en esta categoría.</div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <strong>Diferencia con 1-F:</strong> 1-E requiere servicio durante hostilidades <em>designadas</em> específicamente por el gobierno. 1-F permite servicio honorable en cualquier momento. · Difference from 1-F: 1-E requires service during specifically <em>designated</em> hostilities. 1-F allows honorable service at any time.
+  </div>
+</div>
+
+
+<!-- ===================== CATEGORY F ===================== -->
+<h2>Casilla 1-F <span class="es">· At Least One Year of Honorable Military Service / Al Menos Un Año de Servicio Militar Honroso</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">F</div>
+    <div class="card-title">
+      At Least One Year of Honorable Military Service at Any Time
+      <span class="es-title">Al Menos Un Año de Servicio Militar Honroso en Cualquier Momento</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <blockquote>Select this box if you seek to naturalize based on at least 1 year of honorable service in the U.S. armed forces at any time.</blockquote>
+      <p>See <em>Eligibility and Evidence for Current and Former Members of the U.S. Armed Forces</em> in Specific Instructions by Item Number, Part 9., Item Numbers 23.–29.</p>
+      <p><span class="note detail">DETALLE</span> Unlike 1-E, this path does not require service during a designated period of hostilities, but does require LPR status at time of interview.</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <blockquote>Seleccione esta casilla si desea naturalizarse basándose en al menos 1 año de servicio honroso en las fuerzas armadas de EE.UU. en cualquier momento.</blockquote>
+      <p><strong>Requisitos clave (de la herramienta de elegibilidad USCIS):</strong></p>
+      <ul style="margin-top:.3rem;padding-left:1.2rem;font-size:.85rem;">
+        <li>Debe ser <strong>residente permanente legal</strong> al momento de la entrevista con USCIS.</li>
+        <li>Debe demostrar buen carácter moral.</li>
+        <li>Debe cumplir los requisitos de inglés y educación cívica.</li>
+      </ul>
+      <div class="tree-ref">📋 Ver árbol de decisión separado: <em>Elegibilidad por Servicio Militar (Menor de 18 años)</em> — aplica también a mayores de 18 en esta categoría.</div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <strong>Nota:</strong> A diferencia de 1-A, no se requieren 5 años como RPL ni 30 meses de presencia física; pero sí se necesita ser RPL al momento de la entrevista. · Unlike 1-A, 5 years as LPR and 30 months physical presence are not required; but LPR status at interview time is required.
+  </div>
+</div>
+
+
+<!-- ===================== CATEGORY G ===================== -->
+<h2>Casilla 1-G <span class="es">· Other Reason / Otra Razón</span></h2>
+
+<div class="category-card">
+  <div class="card-header">
+    <div class="box-label">G</div>
+    <div class="card-title">
+      Other Reason for Filing Not Listed Above
+      <span class="es-title">Otra Razón para Presentar la Solicitud No Indicada Arriba</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="lang-panel en">
+      <div class="lang-label">English · Fuente oficial 2025</div>
+      <p>The form provides a text field for applicants who have an eligibility basis not covered by categories A–F. The 2025 instructions do not elaborate further on this category in the Part 1 section; applicants checking this box should consult an immigration attorney or accredited representative.</p>
+    </div>
+    <div class="lang-panel es">
+      <div class="lang-label">Español · Traducción orientativa</div>
+      <p>El formulario tiene un campo de texto para solicitantes cuya base de elegibilidad no está cubierta por las categorías A–F. Las instrucciones de 2025 no elaboran más sobre esta categoría en la Parte 1. Los solicitantes que marquen esta casilla deben consultar con un abogado de inmigración o representante acreditado.</p>
+      <p><strong>Recomendación para maestros:</strong> Si un estudiante indica que cree que su situación no encaja en ninguna categoría A–F, esto es una señal de que necesita asesoría legal especializada antes de presentar el N-400.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================== COMPARISON TABLE ===================== -->
+<h2>Tabla Comparativa de Categorías <span class="es">· Category Comparison Table</span></h2>
+
+<p style="font-size:.85rem;margin-bottom:.8rem;color:var(--muted);">Resumen rápido para maestros de los requisitos clave por categoría. · Quick teacher reference for key requirements by category.</p>
+
+<div style="overflow-x:auto;margin-bottom:2rem;">
+<table class="req-table" style="font-size:.82rem;min-width:700px;">
+  <tr>
+    <th class="en" style="width:3.5rem;">Casilla</th>
+    <th class="en">Situación / Situation</th>
+    <th class="en">Años RPL / LPR Years</th>
+    <th class="en">Residencia Continua</th>
+    <th class="en">Presencia Física</th>
+    <th class="en">Condición especial</th>
+  </tr>
+  <tr>
+    <td><strong>1-A</strong></td>
+    <td>Disposición general · General provision</td>
+    <td>≥ 5 años</td>
+    <td>5 años</td>
+    <td>30 meses (913 días)</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td><strong>1-B</strong></td>
+    <td>Cónyuge de ciudadano/a · Spouse of U.S. citizen</td>
+    <td>≥ 3 años</td>
+    <td>3 años</td>
+    <td>18 meses (en 3 años)</td>
+    <td>Matrimonio vigente hasta el juramento; cónyuge ciudadano/a ≥ 3 años; convivencia ≥ 3 años</td>
+  </tr>
+  <tr style="background:#fff8e6;">
+    <td><strong>1-C</strong></td>
+    <td>VAWA — víctima de maltrato · Abuse victim</td>
+    <td>RPL por VAWA</td>
+    <td>3 años</td>
+    <td><strong>18 meses</strong> (en 3 años)</td>
+    <td>Sin evidencia de matrimonio/convivencia requerida; LPR obtenido por vía VAWA</td>
+  </tr>
+  <tr>
+    <td><strong>1-D</strong></td>
+    <td>Cónyuge en empleo calificado exterior · Spouse abroad</td>
+    <td>RPL al presentar</td>
+    <td><strong>No requerida</strong></td>
+    <td><strong>No requerida</strong></td>
+    <td>Empleo calificado ≥ 1 año futuro; presente en EE.UU. para juramento; unirse al cónyuge en 30–45 días</td>
+  </tr>
+  <tr>
+    <td><strong>1-E</strong></td>
+    <td>Servicio militar · hostilidades designadas</td>
+    <td>RPL en entrevista <em>o</em> presente al alistarse</td>
+    <td>—</td>
+    <td>—</td>
+    <td>Servicio honroso durante período de hostilidades designado</td>
+  </tr>
+  <tr>
+    <td><strong>1-F</strong></td>
+    <td>Servicio militar ≥ 1 año · honorable</td>
+    <td>RPL en entrevista</td>
+    <td>—</td>
+    <td>—</td>
+    <td>Al menos 1 año de servicio honroso en cualquier momento</td>
+  </tr>
+  <tr>
+    <td><strong>1-G</strong></td>
+    <td>Otra razón · Other reason</td>
+    <td colspan="4" style="color:var(--muted);font-style:italic;">Consultar abogado de inmigración · Consult immigration attorney</td>
+  </tr>
+</table>
+</div>
+
+<p style="font-size:.78rem;color:var(--muted);margin-bottom:2rem;font-style:italic;">Nota: Todas las categorías requieren buen carácter moral, conocimiento de inglés e historia/gobierno de EE.UU. (a menos que aplique una excepción), y disposición a tomar el Juramento de Lealtad. · Note: All categories require good moral character, English and civics knowledge (unless an exception applies), and willingness to take the Oath of Allegiance.</p>
+
+
+<!-- ===================== SUMMARY OF KEY CHANGES ===================== -->
+<h2>Resumen de Cambios desde 2019 <span class="es">· Summary of Key Changes Since 2019</span></h2>
+
+<div class="intro-note">
+  <p><strong>Cambios que afectan la información en español disponible para sus estudiantes:</strong></p>
+  <p><strong>1. Números específicos ahora en la sección general.</strong> Los requisitos generales en el español 2019 no especificaban números concretos. El inglés 2025 los especifica directamente: <strong>5 años de RPL, residencia continua de 5 años, presencia física de 30 meses (913 días).</strong></p>
+  <p><strong>2. Nuevo elemento en el juramento (Requisito 9).</strong> El 2025 añade "well disposed to the good order and happiness of the United States" — disposición al orden y bienestar de EE.UU. — ausente en 2019.</p>
+  <p><strong>3. Definiciones de casillas 1-A a 1-G ahora explícitas.</strong> Las instrucciones 2025 definen qué significa cada casilla con sus condiciones específicas. Las instrucciones 2019 (páginas disponibles) no lo hacían, remitiendo al solicitante a buscar las instrucciones de cada provisión por separado.</p>
+  <p><strong>4. Casilla 1-E: naturalización sin RPL es posible.</strong> Las instrucciones 2025 explicitan que quien estaba en EE.UU. al alistarse puede naturalizarse <em>sin ser RPL</em> — información nueva y significativa ausente en el español 2019.</p>
+  <p><strong>5. VAWA (1-C): requisitos propios y más favorables.</strong> La versión 2019 no explicaba los requisitos VAWA por separado. El 2025 los detalla: solo 3 años de residencia continua, solo 18 meses de presencia física (no 30), y sin necesidad de presentar evidencia de matrimonio o convivencia.</p>
+  <p><strong>6. Casilla 1-D: no se requiere historial de residencia/presencia.</strong> El 2025 especifica que esta categoría es la única que no requiere ningún historial de residencia continua ni presencia física previa en EE.UU. — solo RPL al presentar y presencia para el juramento.</p>
+  <p><strong>7. El formulario pasó de 18 partes (2019) a 16 partes (2025).</strong> Los números de parte ya no corresponden entre versiones. Cualquier referencia a números de parte en materiales de clase basados en el 2019 debe verificarse.</p>
+</div>
+
+<footer>
+  Formulario N-400 Instructions 01/20/25 · OMB No. 1615-0052 · Expires 02/28/2027 · 
+  Documento de referencia educativa — no constituye asesoría legal · 
+  Educational reference document — does not constitute legal advice
+</footer>
+
+</div>
+</body>
+</html>

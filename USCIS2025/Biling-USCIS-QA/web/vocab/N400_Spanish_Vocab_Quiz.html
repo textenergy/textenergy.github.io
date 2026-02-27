@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-400 Vocabulary Quiz: Spanish Translations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #003366;
+            text-align: center;
+            font-size: 1.3em;
+        }
+        .instructions {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .option {
+            margin: 6px 0;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+        .option label {
+            cursor: pointer;
+            padding-left: 5px;
+        }
+        .question.correct-answer {
+            border: 2px solid #4caf50;
+            background-color: #f1fff1;
+        }
+        .question.correct-answer .question-text::before {
+            content: "✓ ";
+            color: #4caf50;
+            font-size: 1.1em;
+        }
+        .question.incorrect-answer {
+            border: 2px solid #f44336;
+            background-color: #fff3cd;
+        }
+        .question.incorrect-answer .question-text::before {
+            content: "✗ ";
+            color: #f44336;
+            font-size: 1.1em;
+        }
+        .correct-label {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .wrong-label {
+            color: #f44336;
+            text-decoration: line-through;
+        }
+        .buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        button {
+            background-color: #003366;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #004488;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+        .result.show { display: block; }
+        .result.correct-score {
+            background-color: #e8f5e9;
+            border: 2px solid #4caf50;
+            color: #2e7d32;
+        }
+        .result.incorrect-score {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            color: #c62828;
+        }
+        .score-detail {
+            font-size: 0.9em;
+            margin-top: 8px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>N-400 Vocabulary Quiz: Spanish Translations</h1>
+    <div class="instructions">
+        For each English word or phrase from Form N-400, choose the correct Spanish translation.
+    </div>
+
+    <form id="quizForm">
+
+        <div class="question" data-correct="b">
+            <div class="question-text">1. first name</div>
+            <div class="option"><input type="radio" name="q1" value="a" id="q1a"><label for="q1a">a. apellido</label></div>
+            <div class="option"><input type="radio" name="q1" value="b" id="q1b"><label for="q1b">b. primer nombre</label></div>
+            <div class="option"><input type="radio" name="q1" value="c" id="q1c"><label for="q1c">c. segundo nombre</label></div>
+            <div class="option"><input type="radio" name="q1" value="d" id="q1d"><label for="q1d">d. fecha de nacimiento</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">2. middle name</div>
+            <div class="option"><input type="radio" name="q2" value="a" id="q2a"><label for="q2a">a. primer nombre</label></div>
+            <div class="option"><input type="radio" name="q2" value="b" id="q2b"><label for="q2b">b. apellido</label></div>
+            <div class="option"><input type="radio" name="q2" value="c" id="q2c"><label for="q2c">c. segundo nombre</label></div>
+            <div class="option"><input type="radio" name="q2" value="d" id="q2d"><label for="q2d">d. apodo</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">3. family name</div>
+            <div class="option"><input type="radio" name="q3" value="a" id="q3a"><label for="q3a">a. apellido</label></div>
+            <div class="option"><input type="radio" name="q3" value="b" id="q3b"><label for="q3b">b. primer nombre</label></div>
+            <div class="option"><input type="radio" name="q3" value="c" id="q3c"><label for="q3c">c. segundo nombre</label></div>
+            <div class="option"><input type="radio" name="q3" value="d" id="q3d"><label for="q3d">d. estado civil</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">4. country of birth</div>
+            <div class="option"><input type="radio" name="q4" value="a" id="q4a"><label for="q4a">a. cumpleanos</label></div>
+            <div class="option"><input type="radio" name="q4" value="b" id="q4b"><label for="q4b">b. fecha de nacimiento</label></div>
+            <div class="option"><input type="radio" name="q4" value="c" id="q4c"><label for="q4c">c. dirección anterior</label></div>
+            <div class="option"><input type="radio" name="q4" value="d" id="q4d"><label for="q4d">d. país de nacimiento</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">5. current residence</div>
+            <div class="option"><input type="radio" name="q5" value="a" id="q5a"><label for="q5a">a. dirección anterior</label></div>
+            <div class="option"><input type="radio" name="q5" value="b" id="q5b"><label for="q5b">b. residencia legal</label></div>
+            <div class="option"><input type="radio" name="q5" value="c" id="q5c"><label for="q5c">c. dirección física actual</label></div>
+            <div class="option"><input type="radio" name="q5" value="d" id="q5d"><label for="q5d">d. país de nacimiento</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">6. city</div>
+            <div class="option"><input type="radio" name="q6" value="a" id="q6a"><label for="q6a">a. estado</label></div>
+            <div class="option"><input type="radio" name="q6" value="b" id="q6b"><label for="q6b">b. código postal</label></div>
+            <div class="option"><input type="radio" name="q6" value="c" id="q6c"><label for="q6c">c. ciudad</label></div>
+            <div class="option"><input type="radio" name="q6" value="d" id="q6d"><label for="q6d">d. dirección (calle y número)</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">7. state</div>
+            <div class="option"><input type="radio" name="q7" value="a" id="q7a"><label for="q7a">a. estado</label></div>
+            <div class="option"><input type="radio" name="q7" value="b" id="q7b"><label for="q7b">b. ciudad</label></div>
+            <div class="option"><input type="radio" name="q7" value="c" id="q7c"><label for="q7c">c. número de apartamento</label></div>
+            <div class="option"><input type="radio" name="q7" value="d" id="q7d"><label for="q7d">d. código postal</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">8. street address</div>
+            <div class="option"><input type="radio" name="q8" value="a" id="q8a"><label for="q8a">a. número de apartamento</label></div>
+            <div class="option"><input type="radio" name="q8" value="b" id="q8b"><label for="q8b">b. código postal</label></div>
+            <div class="option"><input type="radio" name="q8" value="c" id="q8c"><label for="q8c">c. dirección anterior</label></div>
+            <div class="option"><input type="radio" name="q8" value="d" id="q8d"><label for="q8d">d. dirección (calle y número)</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">9. apartment number</div>
+            <div class="option"><input type="radio" name="q9" value="a" id="q9a"><label for="q9a">a. código postal</label></div>
+            <div class="option"><input type="radio" name="q9" value="b" id="q9b"><label for="q9b">b. número de apartamento</label></div>
+            <div class="option"><input type="radio" name="q9" value="c" id="q9c"><label for="q9c">c. dirección (calle y número)</label></div>
+            <div class="option"><input type="radio" name="q9" value="d" id="q9d"><label for="q9d">d. estado</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">10. zip code</div>
+            <div class="option"><input type="radio" name="q10" value="a" id="q10a"><label for="q10a">a. número de apartamento</label></div>
+            <div class="option"><input type="radio" name="q10" value="b" id="q10b"><label for="q10b">b. ciudad</label></div>
+            <div class="option"><input type="radio" name="q10" value="c" id="q10c"><label for="q10c">c. código postal</label></div>
+            <div class="option"><input type="radio" name="q10" value="d" id="q10d"><label for="q10d">d. estado</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">11. employer</div>
+            <div class="option"><input type="radio" name="q11" value="a" id="q11a"><label for="q11a">a. empleador</label></div>
+            <div class="option"><input type="radio" name="q11" value="b" id="q11b"><label for="q11b">b. ocupación</label></div>
+            <div class="option"><input type="radio" name="q11" value="c" id="q11c"><label for="q11c">c. miembro</label></div>
+            <div class="option"><input type="radio" name="q11" value="d" id="q11d"><label for="q11d">d. residente</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">12. occupation</div>
+            <div class="option"><input type="radio" name="q12" value="a" id="q12a"><label for="q12a">a. empleador</label></div>
+            <div class="option"><input type="radio" name="q12" value="b" id="q12b"><label for="q12b">b. número de hijos</label></div>
+            <div class="option"><input type="radio" name="q12" value="c" id="q12c"><label for="q12c">c. dependientes</label></div>
+            <div class="option"><input type="radio" name="q12" value="d" id="q12d"><label for="q12d">d. ocupación</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">13. number of children</div>
+            <div class="option"><input type="radio" name="q13" value="a" id="q13a"><label for="q13a">a. dependientes</label></div>
+            <div class="option"><input type="radio" name="q13" value="b" id="q13b"><label for="q13b">b. número de hijos</label></div>
+            <div class="option"><input type="radio" name="q13" value="c" id="q13c"><label for="q13c">c. edad</label></div>
+            <div class="option"><input type="radio" name="q13" value="d" id="q13d"><label for="q13d">d. estado civil</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">14. marital status</div>
+            <div class="option"><input type="radio" name="q14" value="a" id="q14a"><label for="q14a">a. número de hijos</label></div>
+            <div class="option"><input type="radio" name="q14" value="b" id="q14b"><label for="q14b">b. cónyuge</label></div>
+            <div class="option"><input type="radio" name="q14" value="c" id="q14c"><label for="q14c">c. estado civil</label></div>
+            <div class="option"><input type="radio" name="q14" value="d" id="q14d"><label for="q14d">d. residente</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">15. previous address</div>
+            <div class="option"><input type="radio" name="q15" value="a" id="q15a"><label for="q15a">a. dirección anterior</label></div>
+            <div class="option"><input type="radio" name="q15" value="b" id="q15b"><label for="q15b">b. residencia actual</label></div>
+            <div class="option"><input type="radio" name="q15" value="c" id="q15c"><label for="q15c">c. dirección actual del domicilio</label></div>
+            <div class="option"><input type="radio" name="q15" value="d" id="q15d"><label for="q15d">d. dirección (calle y número)</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">16. trip</div>
+            <div class="option"><input type="radio" name="q16" value="a" id="q16a"><label for="q16a">a. cuánto tiempo fuera</label></div>
+            <div class="option"><input type="radio" name="q16" value="b" id="q16b"><label for="q16b">b. cuántos viajes fuera</label></div>
+            <div class="option"><input type="radio" name="q16" value="c" id="q16c"><label for="q16c">c. qué países</label></div>
+            <div class="option"><input type="radio" name="q16" value="d" id="q16d"><label for="q16d">d. viaje</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">17. what countries</div>
+            <div class="option"><input type="radio" name="q17" value="a" id="q17a"><label for="q17a">a. cuántos viajes fuera</label></div>
+            <div class="option"><input type="radio" name="q17" value="b" id="q17b"><label for="q17b">b. qué países</label></div>
+            <div class="option"><input type="radio" name="q17" value="c" id="q17c"><label for="q17c">c. cuánto tiempo fuera</label></div>
+            <div class="option"><input type="radio" name="q17" value="d" id="q17d"><label for="q17d">d. viaje</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">18. how much time outside</div>
+            <div class="option"><input type="radio" name="q18" value="a" id="q18a"><label for="q18a">a. qué países</label></div>
+            <div class="option"><input type="radio" name="q18" value="b" id="q18b"><label for="q18b">b. cuántos viajes fuera</label></div>
+            <div class="option"><input type="radio" name="q18" value="c" id="q18c"><label for="q18c">c. cuánto tiempo fuera</label></div>
+            <div class="option"><input type="radio" name="q18" value="d" id="q18d"><label for="q18d">d. viaje</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">19. how many trips outside</div>
+            <div class="option"><input type="radio" name="q19" value="a" id="q19a"><label for="q19a">a. cuántos viajes fuera</label></div>
+            <div class="option"><input type="radio" name="q19" value="b" id="q19b"><label for="q19b">b. cuánto tiempo fuera</label></div>
+            <div class="option"><input type="radio" name="q19" value="c" id="q19c"><label for="q19c">c. viaje</label></div>
+            <div class="option"><input type="radio" name="q19" value="d" id="q19d"><label for="q19d">d. qué países</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">20. age</div>
+            <div class="option"><input type="radio" name="q20" value="a" id="q20a"><label for="q20a">a. estatura</label></div>
+            <div class="option"><input type="radio" name="q20" value="b" id="q20b"><label for="q20b">b. fecha de nacimiento</label></div>
+            <div class="option"><input type="radio" name="q20" value="c" id="q20c"><label for="q20c">c. número de hijos</label></div>
+            <div class="option"><input type="radio" name="q20" value="d" id="q20d"><label for="q20d">d. edad</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">21. height</div>
+            <div class="option"><input type="radio" name="q21" value="a" id="q21a"><label for="q21a">a. edad</label></div>
+            <div class="option"><input type="radio" name="q21" value="b" id="q21b"><label for="q21b">b. estatura</label></div>
+            <div class="option"><input type="radio" name="q21" value="c" id="q21c"><label for="q21c">c. discapacidad</label></div>
+            <div class="option"><input type="radio" name="q21" value="d" id="q21d"><label for="q21d">d. número de hijos</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">22. habitually</div>
+            <div class="option"><input type="radio" name="q22" value="a" id="q22a"><label for="q22a">a. anteriormente</label></div>
+            <div class="option"><input type="radio" name="q22" value="b" id="q22b"><label for="q22b">b. pendiente</label></div>
+            <div class="option"><input type="radio" name="q22" value="c" id="q22c"><label for="q22c">c. habitualmente</label></div>
+            <div class="option"><input type="radio" name="q22" value="d" id="q22d"><label for="q22d">d. siempre</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">23. verify</div>
+            <div class="option"><input type="radio" name="q23" value="a" id="q23a"><label for="q23a">a. verificar</label></div>
+            <div class="option"><input type="radio" name="q23" value="b" id="q23b"><label for="q23b">b. jurar</label></div>
+            <div class="option"><input type="radio" name="q23" value="c" id="q23c"><label for="q23c">c. solicitar</label></div>
+            <div class="option"><input type="radio" name="q23" value="d" id="q23d"><label for="q23d">d. registrarse</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">24. swear</div>
+            <div class="option"><input type="radio" name="q24" value="a" id="q24a"><label for="q24a">a. verificar</label></div>
+            <div class="option"><input type="radio" name="q24" value="b" id="q24b"><label for="q24b">b. apoyar</label></div>
+            <div class="option"><input type="radio" name="q24" value="c" id="q24c"><label for="q24c">c. solicitar</label></div>
+            <div class="option"><input type="radio" name="q24" value="d" id="q24d"><label for="q24d">d. jurar</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">25. registered (Selective Service)</div>
+            <div class="option"><input type="radio" name="q25" value="a" id="q25a"><label for="q25a">a. solicitado</label></div>
+            <div class="option"><input type="radio" name="q25" value="b" id="q25b"><label for="q25b">b. inscrito</label></div>
+            <div class="option"><input type="radio" name="q25" value="c" id="q25c"><label for="q25c">c. apoyado</label></div>
+            <div class="option"><input type="radio" name="q25" value="d" id="q25d"><label for="q25d">d. pendiente</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">26. spouse</div>
+            <div class="option"><input type="radio" name="q26" value="a" id="q26a"><label for="q26a">a. residente</label></div>
+            <div class="option"><input type="radio" name="q26" value="b" id="q26b"><label for="q26b">b. miembro</label></div>
+            <div class="option"><input type="radio" name="q26" value="c" id="q26c"><label for="q26c">c. cónyuge</label></div>
+            <div class="option"><input type="radio" name="q26" value="d" id="q26d"><label for="q26d">d. dependientes</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">27. current home address</div>
+            <div class="option"><input type="radio" name="q27" value="a" id="q27a"><label for="q27a">a. dirección actual del domicilio</label></div>
+            <div class="option"><input type="radio" name="q27" value="b" id="q27b"><label for="q27b">b. dirección anterior</label></div>
+            <div class="option"><input type="radio" name="q27" value="c" id="q27c"><label for="q27c">c. residencia actual</label></div>
+            <div class="option"><input type="radio" name="q27" value="d" id="q27d"><label for="q27d">d. dirección (calle y número)</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">28. date of birth</div>
+            <div class="option"><input type="radio" name="q28" value="a" id="q28a"><label for="q28a">a. país de nacimiento</label></div>
+            <div class="option"><input type="radio" name="q28" value="b" id="q28b"><label for="q28b">b. edad</label></div>
+            <div class="option"><input type="radio" name="q28" value="c" id="q28c"><label for="q28c">c. estado civil</label></div>
+            <div class="option"><input type="radio" name="q28" value="d" id="q28d"><label for="q28d">d. fecha de nacimiento</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">29. advocated (overthrowing the government)</div>
+            <div class="option"><input type="radio" name="q29" value="a" id="q29a"><label for="q29a">a. inscrito</label></div>
+            <div class="option"><input type="radio" name="q29" value="b" id="q29b"><label for="q29b">b. apoyado</label></div>
+            <div class="option"><input type="radio" name="q29" value="c" id="q29c"><label for="q29c">c. solicitado</label></div>
+            <div class="option"><input type="radio" name="q29" value="d" id="q29d"><label for="q29d">d. jurado</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">30. failed to (pay taxes)</div>
+            <div class="option"><input type="radio" name="q30" value="a" id="q30a"><label for="q30a">a. no se completó</label></div>
+            <div class="option"><input type="radio" name="q30" value="b" id="q30b"><label for="q30b">b. se cayó</label></div>
+            <div class="option"><input type="radio" name="q30" value="c" id="q30c"><label for="q30c">c. dejado de</label></div>
+            <div class="option"><input type="radio" name="q30" value="d" id="q30d"><label for="q30d">d. pendiente</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">31. federal</div>
+            <div class="option"><input type="radio" name="q31" value="a" id="q31a"><label for="q31a">a. federal</label></div>
+            <div class="option"><input type="radio" name="q31" value="b" id="q31b"><label for="q31b">b. anterior</label></div>
+            <div class="option"><input type="radio" name="q31" value="c" id="q31c"><label for="q31c">c. exento</label></div>
+            <div class="option"><input type="radio" name="q31" value="d" id="q31d"><label for="q31d">d. pendiente</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">32. exempt</div>
+            <div class="option"><input type="radio" name="q32" value="a" id="q32a"><label for="q32a">a. federal</label></div>
+            <div class="option"><input type="radio" name="q32" value="b" id="q32b"><label for="q32b">b. pendiente</label></div>
+            <div class="option"><input type="radio" name="q32" value="c" id="q32c"><label for="q32c">c. anterior</label></div>
+            <div class="option"><input type="radio" name="q32" value="d" id="q32d"><label for="q32d">d. exento</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">33. prior</div>
+            <div class="option"><input type="radio" name="q33" value="a" id="q33a"><label for="q33a">a. exento</label></div>
+            <div class="option"><input type="radio" name="q33" value="b" id="q33b"><label for="q33b">b. anterior</label></div>
+            <div class="option"><input type="radio" name="q33" value="c" id="q33c"><label for="q33c">c. federal</label></div>
+            <div class="option"><input type="radio" name="q33" value="d" id="q33d"><label for="q33d">d. pendiente</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">34. pending</div>
+            <div class="option"><input type="radio" name="q34" value="a" id="q34a"><label for="q34a">a. anterior</label></div>
+            <div class="option"><input type="radio" name="q34" value="b" id="q34b"><label for="q34b">b. exento</label></div>
+            <div class="option"><input type="radio" name="q34" value="c" id="q34c"><label for="q34c">c. pendiente</label></div>
+            <div class="option"><input type="radio" name="q34" value="d" id="q34d"><label for="q34d">d. federal</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">35. have [you] ever</div>
+            <div class="option"><input type="radio" name="q35" value="a" id="q35a"><label for="q35a">a. ¿alguna vez ha...?</label></div>
+            <div class="option"><input type="radio" name="q35" value="b" id="q35b"><label for="q35b">b. ¿nunca ha...?</label></div>
+            <div class="option"><input type="radio" name="q35" value="c" id="q35c"><label for="q35c">c. ¿muchas veces ha...?</label></div>
+            <div class="option"><input type="radio" name="q35" value="d" id="q35d"><label for="q35d">d. ¿simepre ha...?</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">36. member</div>
+            <div class="option"><input type="radio" name="q36" value="a" id="q36a"><label for="q36a">a. residente</label></div>
+            <div class="option"><input type="radio" name="q36" value="b" id="q36b"><label for="q36b">b. cónyuge</label></div>
+            <div class="option"><input type="radio" name="q36" value="c" id="q36c"><label for="q36c">c. dependientes</label></div>
+            <div class="option"><input type="radio" name="q36" value="d" id="q36d"><label for="q36d">d. miembro</label></div>
+        </div>
+
+        <div class="question" data-correct="b">
+            <div class="question-text">37. resident</div>
+            <div class="option"><input type="radio" name="q37" value="a" id="q37a"><label for="q37a">a. miembro</label></div>
+            <div class="option"><input type="radio" name="q37" value="b" id="q37b"><label for="q37b">b. residente</label></div>
+            <div class="option"><input type="radio" name="q37" value="c" id="q37c"><label for="q37c">c. empleador</label></div>
+            <div class="option"><input type="radio" name="q37" value="d" id="q37d"><label for="q37d">d. cónyuge</label></div>
+        </div>
+
+        <div class="question" data-correct="c">
+            <div class="question-text">38. requested</div>
+            <div class="option"><input type="radio" name="q38" value="a" id="q38a"><label for="q38a">a. inscrito</label></div>
+            <div class="option"><input type="radio" name="q38" value="b" id="q38b"><label for="q38b">b. apoyado</label></div>
+            <div class="option"><input type="radio" name="q38" value="c" id="q38c"><label for="q38c">c. solicitado</label></div>
+            <div class="option"><input type="radio" name="q38" value="d" id="q38d"><label for="q38d">d. verificado</label></div>
+        </div>
+
+        <div class="question" data-correct="a">
+            <div class="question-text">39. disability</div>
+            <div class="option"><input type="radio" name="q39" value="a" id="q39a"><label for="q39a">a. discapacidad</label></div>
+            <div class="option"><input type="radio" name="q39" value="b" id="q39b"><label for="q39b">b. dependientes</label></div>
+            <div class="option"><input type="radio" name="q39" value="c" id="q39c"><label for="q39c">c. exento</label></div>
+            <div class="option"><input type="radio" name="q39" value="d" id="q39d"><label for="q39d">d. estatura</label></div>
+        </div>
+
+        <div class="question" data-correct="d">
+            <div class="question-text">40. dependents</div>
+            <div class="option"><input type="radio" name="q40" value="a" id="q40a"><label for="q40a">a. miembro</label></div>
+            <div class="option"><input type="radio" name="q40" value="b" id="q40b"><label for="q40b">b. discapacidad</label></div>
+            <div class="option"><input type="radio" name="q40" value="c" id="q40c"><label for="q40c">c. residente</label></div>
+            <div class="option"><input type="radio" name="q40" value="d" id="q40d"><label for="q40d">d. dependientes</label></div>
+        </div>
+
+        <div class="buttons">
+            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+            <button type="button" id="retryBtn" onclick="retryQuiz()" style="display:none;">Try Again</button>
+        </div>
+    </form>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    function submitQuiz() {
+        const questions = document.querySelectorAll('.question[data-correct]');
+        let score = 0;
+        let unanswered = 0;
+
+        questions.forEach((q, i) => {
+            const name = 'q' + (i + 1);
+            const selected = document.querySelector(`input[name="${name}"]:checked`);
+            const correct = q.dataset.correct;
+
+            if (!selected) {
+                unanswered++;
+                return;
+            }
+
+            const labels = q.querySelectorAll('label');
+            const options = ['a','b','c','d'];
+
+            if (selected.value === correct) {
+                score++;
+                q.classList.add('correct-answer');
+                labels.forEach((lbl, idx) => {
+                    if (options[idx] === correct) lbl.classList.add('correct-label');
+                });
+            } else {
+                q.classList.add('incorrect-answer');
+                labels.forEach((lbl, idx) => {
+                    if (options[idx] === selected.value) lbl.classList.add('wrong-label');
+                    if (options[idx] === correct) lbl.classList.add('correct-label');
+                });
+            }
+        });
+
+        if (unanswered > 0) {
+            alert(`Please answer all questions. ${unanswered} question(s) still unanswered.`);
+            return;
+        }
+
+        const total = questions.length;
+        const pct = Math.round((score / total) * 100);
+        const resultDiv = document.getElementById('result');
+        resultDiv.className = 'result show ' + (pct >= 70 ? 'correct-score' : 'incorrect-score');
+        resultDiv.innerHTML = `Score: ${score} / ${total} (${pct}%)<div class="score-detail">${pct >= 70 ? 'Good work!' : 'Keep studying — review the highlighted questions.'}</div>`;
+
+        document.querySelector('button[onclick="submitQuiz()"]').style.display = 'none';
+        document.getElementById('retryBtn').style.display = 'inline-block';
+        document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+    }
+
+    function retryQuiz() {
+        document.getElementById('quizForm').reset();
+        document.querySelectorAll('.question').forEach(q => {
+            q.classList.remove('correct-answer','incorrect-answer');
+            q.querySelectorAll('label').forEach(l => l.className = '');
+        });
+        document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = false);
+        const resultDiv = document.getElementById('result');
+        resultDiv.className = 'result';
+        resultDiv.innerHTML = '';
+        document.querySelector('button[onclick="submitQuiz()"]').style.display = 'inline-block';
+        document.getElementById('retryBtn').style.display = 'none';
+        window.scrollTo(0, 0);
+    }
+</script>
+</body>
+</html>
