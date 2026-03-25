@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 9 — Item 15: Criminal History | N-400</title>
+  <link rel="stylesheet" href="Biling-USCIS-QA.css"/>
+  <link rel="stylesheet" href="part9.css"/>
+</head>
+<body>
+
+<h1>Understanding Part 9 of the N-400
+  <span class="subtitle">Item 15: Criminal History</span>
+</h1>
+
+<nav class="nav-bar" aria-label="Part 9 sections">
+  <span class="nav-label">Part 9:</span>
+  <a href="part9-index.html">Overview</a>
+  <a href="part9-p1-citizenship-voting.html">1–2 Citizenship &amp; Voting</a>
+  <a href="part9-p2-taxes.html">3–4 Taxes</a>
+  <a href="part9-p3-affiliations.html">5–14 Affiliations &amp; Conduct</a>
+  <a href="part9-p4-criminal.html" class="current">15 Criminal History</a>
+  <a href="part9-p5-conduct.html">16–21 Conduct &amp; Deportation</a>
+  <a href="part9-p6-selective-service.html">22–25 Selective Service</a>
+  <a href="part9-p7-military-service.html">26–29 Military Service</a>
+  <a href="part9-p8-oath.html">30–37 Oath Questions</a>
+</nav>
+
+<!-- Instructions block -->
+<div class="q-block">
+  <div class="img-ref">
+    <img src="Part9_15-instruct.png"
+         alt="Part 9, Item 15 instructions: disclose all crimes even if records are sealed or expunged"/>
+  </div>
+
+  <!-- Instruction stem -->
+  <div class="q-warning" id="instr-15-stem">
+    <strong>If you answer "Yes" to any part of Item Number 15. below, complete the table below
+    with each crime or offense even if your records have been sealed, expunged, or otherwise
+    cleared.</strong> You must disclose this information even if someone, including a judge, law
+    enforcement officer, or attorney, told you that it is no longer on your record, or told you
+    that you do not have to disclose the information. If you need extra space, use the space
+    provided in <strong>Part 14. Additional Information</strong>. Submit evidence to support
+    your answers with your Form N-400.
+  </div>
+  <div id="speak-instr-15-stem"></div>
+
+  <p style="margin:10px 0 4px 0;">Include all the crimes and offenses in the United States or
+  <strong>anywhere in the world</strong> (including domestic violence, driving under the influence
+  of drugs or alcohol, and crimes and offenses while you were under 18 years of age) which you
+  <strong>EVER</strong>:</p>
+  <div id="speak-instr-15-intro"></div>
+
+  <!-- Each bullet as its own speak row -->
+  <div class="subitem-row">
+    <div id="speak-15-b1"></div>
+    <div class="subitem-text">Committed, agreed to commit, or asked someone else to commit;</div>
+  </div>
+  <div class="subitem-row">
+    <div id="speak-15-b2"></div>
+    <div class="subitem-text">Were arrested, cited, detained, or confined by any law enforcement
+      officer, military official (in the U.S. or elsewhere), or immigration official;</div>
+  </div>
+  <div class="subitem-row">
+    <div id="speak-15-b3"></div>
+    <div class="subitem-text">Were charged with committing, helping commit, or trying to commit;</div>
+  </div>
+  <div class="subitem-row">
+    <div id="speak-15-b4"></div>
+    <div class="subitem-text">Pled guilty to;</div>
+  </div>
+  <div class="subitem-row">
+    <div id="speak-15-b5"></div>
+    <div class="subitem-text">Were convicted of;</div>
+  </div>
+  <div class="subitem-row">
+    <div id="speak-15-b6"></div>
+    <div class="subitem-text">Were placed in alternative sentencing or a rehabilitative program for
+      (for example, diversion, deferred prosecution, withheld adjudication, or deferred
+      adjudication); or</div>
+  </div>
+  <div class="subitem-row">
+    <div id="speak-15-b7"></div>
+    <div class="subitem-text">Received a suspended sentence, clemency, amnesty, or pardon for,
+      or were placed on probation or paroled for.</div>
+  </div>
+</div><!-- instruction block -->
+
+<!-- 15a and 15b questions + table -->
+<div class="q-block">
+  <div class="img-ref">
+    <img src="Part9_15-priors.png"
+         alt="Part 9, Items 15a–15b: crimes committed and arrests"/>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q15a"></div>
+      <div class="q-text">
+        <span class="q-number">15.a.</span>
+        Have you <strong>EVER</strong> committed, agreed to commit, asked someone else to commit,
+        helped commit, or tried to commit a crime or offense for which you were
+        <strong>NOT arrested</strong>?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q15b"></div>
+      <div class="q-text">
+        <span class="q-number">15.b.</span>
+        Have you <strong>EVER</strong> been arrested, cited, detained or confined by any law
+        enforcement officer, military official (in the U.S. or elsewhere), or immigration official
+        for any reason, or been charged with a crime or offense?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <table class="criminal-table">
+    <tr>
+      <th>What was the crime or offense?<br/><small>(If convicted, provide crime of conviction. If not convicted, provide crime or offense listed in arrest, citation, charging document, or crime committed.)</small></th>
+      <th>Date of the Crime or Offense<br/><small>(mm/dd/yyyy)</small></th>
+      <th>Date of your conviction or guilty plea (if applicable)<br/><small>(mm/dd/yyyy)</small></th>
+      <th>Place of Crime or Offense<br/><small>(City or Town, State, Country)</small></th>
+      <th>What was the result or disposition?<br/><small>(no charges filed, convicted, charges dismissed, detention, jail, probation, etc.)</small></th>
+      <th>What was your sentence (if applicable)?<br/><small>(For example, 90 days in jail, 90 days on probation)</small></th>
+    </tr>
+    <tr>
+      <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+      <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+    </tr>
+  </table>
+</div>
+
+<div class="page-nav">
+  <a href="part9-p3-affiliations.html">&#x276E; Items 5–14 Affiliations &amp; Conduct</a>
+  <a href="part9-p5-conduct.html">Next: Items 16–21 Conduct &amp; Deportation &#x276F;</a>
+</div>
+
+<script src="part9-speak.js"></script>
+<script>
+(function(){
+  var S = window.Part9Speak.makeSpeakBtn;
+
+  document.getElementById('speak-instr-15-stem').appendChild(
+    S('If you answer Yes to any part of Item Number 15, complete the table with each crime or ' +
+      'offense even if your records have been sealed, expunged, or otherwise cleared. You must ' +
+      'disclose this information even if someone, including a judge, law enforcement officer, or ' +
+      'attorney, told you that it is no longer on your record, or told you that you do not have ' +
+      'to disclose the information.', '🔊 Listen to disclosure requirement')
+  );
+
+  document.getElementById('speak-instr-15-intro').appendChild(
+    S('Include all crimes and offenses in the United States or anywhere in the world — including ' +
+      'domestic violence, driving under the influence of drugs or alcohol, and crimes and offenses ' +
+      'while you were under 18 years of age — which you EVER:', '🔊 Listen to scope')
+  );
+
+  document.getElementById('speak-15-b1').appendChild(S('Committed, agreed to commit, or asked someone else to commit.'));
+  document.getElementById('speak-15-b2').appendChild(
+    S('Were arrested, cited, detained, or confined by any law enforcement officer, military official ' +
+      'in the U.S. or elsewhere, or immigration official.')
+  );
+  document.getElementById('speak-15-b3').appendChild(S('Were charged with committing, helping commit, or trying to commit.'));
+  document.getElementById('speak-15-b4').appendChild(S('Pled guilty to.'));
+  document.getElementById('speak-15-b5').appendChild(S('Were convicted of.'));
+  document.getElementById('speak-15-b6').appendChild(
+    S('Were placed in alternative sentencing or a rehabilitative program for — for example, diversion, ' +
+      'deferred prosecution, withheld adjudication, or deferred adjudication.')
+  );
+  document.getElementById('speak-15-b7').appendChild(
+    S('Received a suspended sentence, clemency, amnesty, or pardon for, or were placed on probation ' +
+      'or paroled for.')
+  );
+
+  document.getElementById('speak-q15a').appendChild(
+    S('15-a. Have you EVER committed, agreed to commit, asked someone else to commit, helped commit, ' +
+      'or tried to commit a crime or offense for which you were NOT arrested? Yes or No.')
+  );
+
+  document.getElementById('speak-q15b').appendChild(
+    S('15-b. Have you EVER been arrested, cited, detained, or confined by any law enforcement officer, ' +
+      'military official in the U.S. or elsewhere, or immigration official for any reason, or been ' +
+      'charged with a crime or offense? Yes or No.')
+  );
+})();
+</script>
+
+</body>
+</html>

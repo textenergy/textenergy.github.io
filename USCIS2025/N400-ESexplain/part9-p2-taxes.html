@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 9 — Items 3–4: Taxes | N-400</title>
+  <link rel="stylesheet" href="Biling-USCIS-QA.css"/>
+  <link rel="stylesheet" href="part9.css"/>
+</head>
+<body>
+
+<h1>Understanding Part 9 of the N-400
+  <span class="subtitle">Items 3–4: Taxes</span>
+</h1>
+
+<nav class="nav-bar" aria-label="Part 9 sections">
+  <span class="nav-label">Part 9:</span>
+  <a href="part9-index.html">Overview</a>
+  <a href="part9-p1-citizenship-voting.html">1–2 Citizenship &amp; Voting</a>
+  <a href="part9-p2-taxes.html" class="current">3–4 Taxes</a>
+  <a href="part9-p3-affiliations.html">5–14 Affiliations &amp; Conduct</a>
+  <a href="part9-p4-criminal.html">15 Criminal History</a>
+  <a href="part9-p5-conduct.html">16–21 Conduct &amp; Deportation</a>
+  <a href="part9-p6-selective-service.html">22–25 Selective Service</a>
+  <a href="part9-p7-military-service.html">26–29 Military Service</a>
+  <a href="part9-p8-oath.html">30–37 Oath Questions</a>
+</nav>
+
+<div class="q-block">
+
+  <!-- Item 3 -->
+  <div class="img-ref">
+    <img src="Part9_3overdue-taxes.png"
+         alt="Part 9, Item 3: overdue taxes"/>
+  </div>
+
+  <div class="q-item" id="q3">
+    <div class="speak-row">
+      <div id="speak-q3"></div>
+      <div class="q-text">
+        <span class="q-number">3.</span>
+        Do you currently owe any overdue Federal, state, or local taxes in the United States?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="q-block">
+
+  <!-- Item 4 -->
+  <div class="img-ref">
+    <img src="Part9_4nonres-alien.png"
+         alt="Part 9, Item 4: nonresident alien tax status"/>
+  </div>
+
+  <div class="q-item" id="q4">
+    <div class="speak-row">
+      <div id="speak-q4"></div>
+      <div class="q-text">
+        <span class="q-number">4.</span>
+        Since you became a lawful permanent resident, have you called yourself a
+        <strong>"nonresident alien"</strong> on a Federal, state, or local tax return or
+        decided not to file a tax return because you considered yourself to be a nonresident?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-nav">
+  <a href="part9-p1-citizenship-voting.html">&#x276E; Items 1–2 Citizenship &amp; Voting</a>
+  <a href="part9-p3-affiliations.html">Next: Items 5–14 Affiliations &amp; Conduct &#x276F;</a>
+</div>
+
+<script src="part9-speak.js"></script>
+<script>
+(function(){
+  var S = window.Part9Speak.makeSpeakBtn;
+
+  document.getElementById('speak-q3').appendChild(
+    S('Question 3. Do you currently owe any overdue Federal, state, or local taxes ' +
+      'in the United States? Yes or No.')
+  );
+
+  document.getElementById('speak-q4').appendChild(
+    S('Question 4. Since you became a lawful permanent resident, have you called yourself ' +
+      'a nonresident alien on a Federal, state, or local tax return, or decided not to file ' +
+      'a tax return because you considered yourself to be a nonresident? Yes or No.')
+  );
+})();
+</script>
+
+</body>
+</html>

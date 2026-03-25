@@ -1,0 +1,245 @@
+/* part9.css — extends Biling-USCIS-QA.css for Part 9 N-400 pages */
+
+/* ── Page chrome ─────────────────────────────────────────────── */
+body {
+  font-family: Arial, sans-serif;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  color: #111;
+}
+
+h1 {
+  font-size: 1.4em;
+  color: #003366;
+  border-bottom: 3px solid #cc0000;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+
+h1 .subtitle {
+  display: block;
+  font-size: 0.72em;
+  font-weight: normal;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* ── Top navigation bar ──────────────────────────────────────── */
+.nav-bar {
+  background-color: #003366;
+  padding: 6px 8px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-bar .nav-label {
+  color: #aac4e8;
+  font-size: 0.75em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.nav-bar a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 4px 9px;
+  border-radius: 3px;
+  font-size: 0.82em;
+  background-color: rgba(255,255,255,0.12);
+  white-space: nowrap;
+}
+
+.nav-bar a:hover { background-color: #0055aa; }
+.nav-bar a.current { background-color: #cc0000; font-weight: bold; }
+
+/* Prev / Next links below content */
+.page-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
+  padding-top: 12px;
+  border-top: 1px solid #ccc;
+}
+
+.page-nav a {
+  color: #003366;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9em;
+  padding: 6px 12px;
+  border: 1px solid #003366;
+  border-radius: 4px;
+}
+
+.page-nav a:hover { background-color: #003366; color: #fff; }
+.page-nav .spacer { flex: 1; }
+
+/* ── Question block ──────────────────────────────────────────── */
+.q-block {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+
+/* Source image reference */
+.q-block .img-ref {
+  margin-bottom: 14px;
+}
+
+.q-block .img-ref img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  display: block;
+}
+
+/* Instruction paragraph preceding a question group */
+.q-instruction {
+  background-color: #f0f4f8;
+  border-left: 4px solid #003366;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 0.96em;
+  line-height: 1.5;
+}
+
+/* Warning / note block (yellow) */
+.q-warning {
+  background-color: #fff8dc;
+  border-left: 4px solid #e6a817;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  font-size: 0.96em;
+  line-height: 1.5;
+}
+
+/* Individual question row */
+.q-item {
+  margin: 10px 0 6px 0;
+}
+
+.q-item .q-number {
+  font-weight: bold;
+  color: #003366;
+  margin-right: 4px;
+}
+
+.q-item .q-text {
+  font-size: 1.02em;
+  line-height: 1.55;
+}
+
+.q-item .q-text strong {
+  color: #990000;  /* highlight EVER and key terms */
+}
+
+/* Bullet sub-list within a question */
+.q-subitems {
+  margin: 6px 0 6px 20px;
+  padding: 0;
+  list-style: disc;
+}
+
+.q-subitems li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+  font-size: 0.97em;
+}
+
+/* Yes / No answer prompt */
+.yn {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: bold;
+  color: #336600;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+/* ── Read-aloud button ───────────────────────────────────────── */
+.speak-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid #0066cc;
+  color: #0066cc;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 0.8em;
+  cursor: pointer;
+  margin: 6px 0 2px 0;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.speak-btn:hover { background-color: #0066cc; color: #fff; }
+.speak-btn.speaking { background-color: #cc0000; border-color: #cc0000; color: #fff; }
+
+.speak-btn svg {
+  width: 14px; height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Row grouping a speak button with its text */
+.speak-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.speak-row .speak-btn { margin-top: 2px; flex-shrink: 0; }
+
+/* Sub-item with its own speak button */
+.subitem-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 5px 0 5px 20px;
+}
+
+.subitem-row .speak-btn { margin-top: 2px; flex-shrink: 0; }
+
+.subitem-row .subitem-text {
+  font-size: 0.97em;
+  line-height: 1.5;
+}
+
+/* ── Criminal history table ──────────────────────────────────── */
+table.criminal-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: 0.88em;
+}
+
+table.criminal-table th,
+table.criminal-table td {
+  border: 1px solid #999;
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.criminal-table th { background-color: #dce6f0; font-weight: bold; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  body { padding: 12px; }
+  .nav-bar { gap: 4px; }
+  .nav-bar a { font-size: 0.75em; padding: 3px 6px; }
+  .q-block { padding: 12px 14px; }
+}

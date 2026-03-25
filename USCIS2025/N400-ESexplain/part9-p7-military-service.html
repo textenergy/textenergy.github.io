@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 9 — Items 26–29: Military Service | N-400</title>
+  <link rel="stylesheet" href="Biling-USCIS-QA.css"/>
+  <link rel="stylesheet" href="part9.css"/>
+</head>
+<body>
+
+<h1>Understanding Part 9 of the N-400
+  <span class="subtitle">Items 26–29: Current &amp; Former U.S. Military Service</span>
+</h1>
+
+<nav class="nav-bar" aria-label="Part 9 sections">
+  <span class="nav-label">Part 9:</span>
+  <a href="part9-index.html">Overview</a>
+  <a href="part9-p1-citizenship-voting.html">1–2 Citizenship &amp; Voting</a>
+  <a href="part9-p2-taxes.html">3–4 Taxes</a>
+  <a href="part9-p3-affiliations.html">5–14 Affiliations &amp; Conduct</a>
+  <a href="part9-p4-criminal.html">15 Criminal History</a>
+  <a href="part9-p5-conduct.html">16–21 Conduct &amp; Deportation</a>
+  <a href="part9-p6-selective-service.html">22–25 Selective Service</a>
+  <a href="part9-p7-military-service.html" class="current">26–29 Military Service</a>
+  <a href="part9-p8-oath.html">30–37 Oath Questions</a>
+</nav>
+
+<!-- Items 26a–26d -->
+<div class="q-block">
+  <div class="img-ref">
+    <img src="Part9_26a-26d-currserve.png"
+         alt="Part 9, Items 26a–26d: current military status, deployment, and residency"/>
+  </div>
+
+  <div class="q-instruction" id="instr-26">
+    If you answered "No" to <strong>Item Number 25.</strong>, go to
+    <strong>Item Number 30.a.</strong>
+  </div>
+  <div id="speak-instr-26"></div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q26a"></div>
+      <div class="q-text">
+        <span class="q-number">26.a.</span>
+        Are you currently a member of the U.S. armed forces?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q26b"></div>
+      <div class="q-text">
+        <span class="q-number">26.b.</span>
+        If you answered "Yes" to <strong>Item Number 26.a.</strong>, are you scheduled to deploy
+        outside the United States, including to a vessel, within the next 3 months? (Call the
+        Military Help Line at 877-247-4645 if you transfer to a new duty station after you file
+        your Form N-400, including if you are deployed outside the United States or to a vessel.)
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q26c"></div>
+      <div class="q-text">
+        <span class="q-number">26.c.</span>
+        If you answered "Yes" to <strong>Item Number 26.a.</strong>, are you currently
+        <strong>stationed</strong> outside the United States?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q26d"></div>
+      <div class="q-text">
+        <span class="q-number">26.d.</span>
+        If you answered "No" to <strong>Item Number 26.a.</strong>, are you a former U.S. military
+        service member who is currently residing outside of the U.S.?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Items 27–29 -->
+<div class="q-block">
+  <div class="img-ref">
+    <img src="Part9_27-29-disserve.png"
+         alt="Part 9, Items 27–29: dishonorable discharge, discharge as alien, desertion"/>
+  </div>
+
+  <div class="q-instruction" id="instr-27-29">
+    If you answer "Yes" to <strong>Item Numbers 27.–29.</strong>, provide an explanation in the
+    space provided in <strong>Part 14. Additional Information</strong>.
+  </div>
+  <div id="speak-instr-27-29"></div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q27"></div>
+      <div class="q-text">
+        <span class="q-number">27.</span>
+        Have you <strong>EVER</strong> been court-martialed or have you received a discharge
+        characterized as other than honorable, bad conduct, or dishonorable, while in the
+        U.S. armed forces?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q28"></div>
+      <div class="q-text">
+        <span class="q-number">28.</span>
+        Have you <strong>EVER</strong> been discharged from training or service in the U.S. armed
+        forces because you were an alien?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-item">
+    <div class="speak-row">
+      <div id="speak-q29"></div>
+      <div class="q-text">
+        <span class="q-number">29.</span>
+        Have you <strong>EVER</strong> deserted from the U.S. armed forces?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-nav">
+  <a href="part9-p6-selective-service.html">&#x276E; Items 22–25 Selective Service</a>
+  <a href="part9-p8-oath.html">Next: Items 30–37 Oath Questions &#x276F;</a>
+</div>
+
+<script src="part9-speak.js"></script>
+<script>
+(function(){
+  var S = window.Part9Speak.makeSpeakBtn;
+
+  document.getElementById('speak-instr-26').appendChild(
+    S('If you answered No to Item Number 25, go to Item Number 30-a.',
+      '🔊 Listen to instruction')
+  );
+
+  document.getElementById('speak-q26a').appendChild(
+    S('26-a. Are you currently a member of the U.S. armed forces? Yes or No.')
+  );
+  document.getElementById('speak-q26b').appendChild(
+    S('26-b. If you answered Yes to Item Number 26-a, are you scheduled to deploy outside the ' +
+      'United States, including to a vessel, within the next 3 months? Yes or No.')
+  );
+  document.getElementById('speak-q26c').appendChild(
+    S('26-c. If you answered Yes to Item Number 26-a, are you currently stationed outside the ' +
+      'United States? Yes or No.')
+  );
+  document.getElementById('speak-q26d').appendChild(
+    S('26-d. If you answered No to Item Number 26-a, are you a former U.S. military service member ' +
+      'who is currently residing outside of the U.S.? Yes or No.')
+  );
+
+  document.getElementById('speak-instr-27-29').appendChild(
+    S('If you answer Yes to Item Numbers 27 through 29, provide an explanation in Part 14, ' +
+      'Additional Information.', '🔊 Listen to instruction')
+  );
+
+  document.getElementById('speak-q27').appendChild(
+    S('Question 27. Have you EVER been court-martialed or have you received a discharge ' +
+      'characterized as other than honorable, bad conduct, or dishonorable, while in the ' +
+      'U.S. armed forces? Yes or No.')
+  );
+  document.getElementById('speak-q28').appendChild(
+    S('Question 28. Have you EVER been discharged from training or service in the U.S. armed ' +
+      'forces because you were an alien? Yes or No.')
+  );
+  document.getElementById('speak-q29').appendChild(
+    S('Question 29. Have you EVER deserted from the U.S. armed forces? Yes or No.')
+  );
+})();
+</script>
+
+</body>
+</html>

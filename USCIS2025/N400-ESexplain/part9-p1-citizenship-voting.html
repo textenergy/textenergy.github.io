@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Part 9 — Items 1–2: Citizenship &amp; Voting | N-400</title>
+  <link rel="stylesheet" href="Biling-USCIS-QA.css"/>
+  <link rel="stylesheet" href="part9.css"/>
+</head>
+<body>
+
+<h1>Understanding Part 9 of the N-400
+  <span class="subtitle">Items 1–2: Claim of Citizenship &amp; Voting</span>
+</h1>
+
+<nav class="nav-bar" aria-label="Part 9 sections">
+  <span class="nav-label">Part 9:</span>
+  <a href="part9-index.html">Overview</a>
+  <a href="part9-p1-citizenship-voting.html" class="current">1–2 Citizenship &amp; Voting</a>
+  <a href="part9-p2-taxes.html">3–4 Taxes</a>
+  <a href="part9-p3-affiliations.html">5–14 Affiliations &amp; Conduct</a>
+  <a href="part9-p4-criminal.html">15 Criminal History</a>
+  <a href="part9-p5-conduct.html">16–21 Conduct &amp; Deportation</a>
+  <a href="part9-p6-selective-service.html">22–25 Selective Service</a>
+  <a href="part9-p7-military-service.html">26–29 Military Service</a>
+  <a href="part9-p8-oath.html">30–37 Oath Questions</a>
+</nav>
+
+<!-- Source form image -->
+<div class="q-block">
+  <div class="img-ref">
+    <img src="Part9_1-2claim-citizen.png"
+         alt="Part 9, Items 1–2: claim of citizenship or voting"/>
+  </div>
+
+  <!-- Section intro instruction -->
+  <div class="q-instruction" id="instr-part9-intro">
+    <p><strong>Part 9. Additional Information About You</strong></p>
+    <p>When a question includes the word <strong>"EVER,"</strong> you must provide information about
+    any of your actions or conduct that occurred <strong>anywhere in the world</strong> at any time,
+    unless the question specifies otherwise. If you answer <strong>"Yes"</strong> to any of the
+    questions in <strong>Item Numbers 1.–14.</strong>, provide explanations and any additional
+    information in the space provided in <strong>Part 14. Additional Information</strong>.</p>
+  </div>
+  <div id="speak-instr-part9-intro"></div>
+
+  <!-- Item 1 -->
+  <div class="q-item" id="q1">
+    <div class="speak-row">
+      <div id="speak-q1"></div>
+      <div class="q-text">
+        <span class="q-number">1.</span>
+        Have you <strong>EVER</strong> claimed to be a U.S. citizen (in writing or any other way)?
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item 2 -->
+  <div class="q-item" id="q2">
+    <div class="speak-row">
+      <div id="speak-q2"></div>
+      <div class="q-text">
+        <span class="q-number">2.</span>
+        Have you <strong>EVER</strong> registered to vote or voted in any Federal, state, or local
+        election in the United States? If you lawfully voted only in a local election where aliens
+        are eligible to vote, you may answer "No."
+        <span class="yn">Yes &nbsp; No</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .q-block -->
+
+<div class="page-nav">
+  <a href="part9-index.html">&#x276E; Overview</a>
+  <a href="part9-p2-taxes.html">Next: Items 3–4 Taxes &#x276F;</a>
+</div>
+
+<script src="part9-speak.js"></script>
+<script>
+(function(){
+  var S = window.Part9Speak.makeSpeakBtn;
+
+  /* Instruction block */
+  document.getElementById('speak-instr-part9-intro').appendChild(
+    S('Part 9. Additional Information About You. ' +
+      'When a question includes the word EVER, you must provide information about any of your ' +
+      'actions or conduct that occurred anywhere in the world at any time, unless the question ' +
+      'specifies otherwise. If you answer Yes to any of the questions in Item Numbers 1 through 14, ' +
+      'provide explanations and any additional information in Part 14, Additional Information.',
+      '🔊 Listen to introduction')
+  );
+
+  /* Item 1 */
+  document.getElementById('speak-q1').appendChild(
+    S('Question 1. Have you EVER claimed to be a United States citizen, ' +
+      'in writing or any other way? Yes or No.')
+  );
+
+  /* Item 2 */
+  document.getElementById('speak-q2').appendChild(
+    S('Question 2. Have you EVER registered to vote or voted in any Federal, state, ' +
+      'or local election in the United States? ' +
+      'If you lawfully voted only in a local election where aliens are eligible to vote, ' +
+      'you may answer No. Yes or No.')
+  );
+})();
+</script>
+
+</body>
+</html>
