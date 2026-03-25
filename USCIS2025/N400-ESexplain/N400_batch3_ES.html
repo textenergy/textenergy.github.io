@@ -70,6 +70,27 @@
       vertical-align: top;
     }
     th { background-color: #dce6f0; font-weight: bold; }
+.screenshot-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  text-align: center;  /* centers on desktop */
+}
+
+.screenshot-wrap img {
+  display: inline-block;
+  max-width: 100%;
+  cursor: zoom-in;
+  transition: max-width 0.2s ease;
+}
+
+.screenshot-wrap img.expanded {
+  max-width: none;
+  width: 700px;
+  cursor: zoom-out;
+  display: block;      /* block so horizontal scroll works cleanly */
+  text-align: left;    /* no effect on img itself but signals intent */
+}
   </style>
 </head>
   <body>  
@@ -90,7 +111,7 @@
      Introductory instruction: NEW translation following established register.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_20-21-deportremove.png--><img src="Part9_20-21-deportremove.png" alt="Part9_20-21-deportremove.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_20-21-deportremove.png--><img src="Part9_20-21-deportremove.png" alt="Part9_20-21-deportremove.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- Instruction paragraph: NEW translation following established register. -->
   <p>Si responde "Sí" a los <strong>Números de Artículo 20. - 21.</strong> a continuación, provea una explicación en el espacio provisto en <strong>Parte 14. Información Adicional</strong> y consulte las <strong>Instrucciones Específicas por Número de Artículo, Parte 9. Información Adicional Acerca de Usted</strong> de las Instrucciones para obtener más información.</p>
@@ -110,7 +131,7 @@
      Item 22.a nonimmigrant carve-out clause: NEW translation following established register.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_22a-22c-selectiveservice.png--><img src="Part9_22a-22c-selectiveservice.png" alt="Part9_22a-22c-selectiveservice.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_22a-22c-selectiveservice.png--><img src="Part9_22a-22c-selectiveservice.png" alt="Part9_22a-22c-selectiveservice.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.16, Item 44 preamble (adapted) -->
   <p>La ley federal requiere que casi todas las personas nacidas como hombres que son ciudadanos de los EE.UU. o inmigrantes, de 18 a 25 años de edad, se registren con el Servicio Selectivo. Consulte <u>www.sss.gov</u>.</p>
@@ -128,7 +149,7 @@
      SOURCE: ILRC/KGD reference p.16, Item 44C (adapted for 2025 numbering).
      Cross-reference to Instructions updated. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_22b-instruct.png--><img src="Part9_22b-instruct.png" alt="Part9_22b-instruct.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_22b-instruct.png--><img src="Part9_22b-instruct.png" alt="Part9_22b-instruct.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.16, Item 44C (adapted) -->
   <p>Si respondió "No" al <strong>Número de Artículo 22.b.</strong>, consulte las <strong>Instrucciones Específicas por Número de Artículo, Parte 9. Información Adicional Acerca de Usted</strong> de las Instrucciones para obtener más información.</p>
@@ -141,7 +162,7 @@
      "exención del servicio militar" — SOURCE ref. p.15, Item 42.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_23-24-nonservice.png--><img src="Part9_23-24-nonservice.png" alt="Part9_23-24-nonservice.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_23-24-nonservice.png--><img src="Part9_23-24-nonservice.png" alt="Part9_23-24-nonservice.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- Instruction paragraph: NEW translation following established register. -->
   <p>Si responde "Sí" a los <strong>Números de Artículo 23. - 24.</strong>, provea una explicación en el espacio provisto en <strong>Parte 14. Información Adicional</strong>.</p>
@@ -158,7 +179,7 @@
      SOURCE: ILRC/KGD reference p.15, Item 37.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_25-everserve.png--><img src="Part9_25-everserve.png" alt="Part9_25-everserve.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_25-everserve.png--><img src="Part9_25-everserve.png" alt="Part9_25-everserve.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="25">
     <!-- SOURCE: ILRC/KGD reference p.15, Item 37 -->
@@ -174,7 +195,7 @@
      "destacado" rendered in bold per source.
      Item 26.d (former member residing outside U.S.): NEW in 2025, fresh translation following established register. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_26a-26d-currserve.png--><img src="Part9_26a-26d-currserve.png" alt="Part9_26a-26d-currserve.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_26a-26d-currserve.png--><img src="Part9_26a-26d-currserve.png" alt="Part9_26a-26d-currserve.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.15, Item 38A cross-reference -->
   <p>Si respondió "No" al <strong>Número de Artículo 25.</strong>, pase al <strong>Número de Artículo 30.a.</strong></p>
@@ -199,7 +220,7 @@
      "desertado de las Fuerzas Armadas" — SOURCE ref. p.15, Item 43.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_27-29-disserve.png--><img src="Part9_27-29-disserve.png" alt="Part9_27-29-disserve.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_27-29-disserve.png--><img src="Part9_27-29-disserve.png" alt="Part9_27-29-disserve.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- Instruction paragraph: NEW translation following established register. -->
   <p>Si responde "Sí" a los <strong>Números de Artículo 27. - 29.</strong>, provea una explicación en el espacio provisto en <strong>Parte 14. Información Adicional</strong>.</p>
@@ -222,7 +243,7 @@
      Instruction/cross-reference paragraph: NEW translation following established register.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_30a-30b-foreigntitle.png--><img src="Part9_30a-30b-foreigntitle.png" alt="Part9_30a-30b-foreigntitle.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_30a-30b-foreigntitle.png--><img src="Part9_30a-30b-foreigntitle.png" alt="Part9_30a-30b-foreigntitle.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- Instruction paragraph: NEW translation following established register. -->
   <p>Para los <strong>Números de Artículo 30.a. - 37.</strong>, consulte las <strong>Instrucciones Específicas por Número de Artículo, Parte 9. Información Adicional Acerca de Usted</strong>. Si responde "Sí" al <strong>Número de Artículo 30.a.</strong>, provea una explicación en el espacio provisto en <strong>Parte 14. Información Adicional</strong>.</p>
@@ -243,7 +264,7 @@
      Highlight-review callout items: SOURCE ref. p.16 (adapted for 2025 Item 33 structure).
      Parenthetical plain-language glosses on Items 35–37 translated per rule 3. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_31-37oathreq.png--><img src="Part9_31-37oathreq.png" alt="Part9_31-37oathreq.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_31-37oathreq.png--><img src="Part9_31-37oathreq.png" alt="Part9_31-37oathreq.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.16, note before Item 45 (adapted for 2025 Item 33 exception) -->
   <div class="highlight-review">Si responde "No" a cualquier pregunta excepto el <strong>Número de Artículo 33.</strong>, consulte la sección <em>Juramento de Lealtad</em> de las Instrucciones para obtener más información.</div>
@@ -273,7 +294,7 @@
      "Pautas Federales de Pobreza" is standard Spanish for Federal Poverty Guidelines.
      "G-1055" form name retained in English per reference convention for form numbers. -->
 <div class="image-section">
-  <div class="image-id"><!--Part10-feereduct.png--><img src="Part10-feereduct.png" alt="Part10-feereduct.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part10-feereduct.png--><img src="Part10-feereduct.png" alt="Part10-feereduct.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- NEW translation following established register -->
   <p><span class="form-part-heading">Parte 10. Solicitud de Reducción de la Tarifa</span> &nbsp; A-</p>
@@ -300,7 +321,7 @@
      Certification text: SOURCE ref. p.16–17, Part 13 (substantially adapted for 2025 language).
      "Parte 12." cross-reference: refers to 2025 Part 12 (Interpreter); updated numbering. -->
 <div class="image-section">
-  <div class="image-id"><!--Part11-contact.png--><img src="Part11-contact.png" alt="Part11-contact.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part11-contact.png--><img src="Part11-contact.png" alt="Part11-contact.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- Part title: NEW translation following established register -->
   <p><span class="form-part-heading">Parte 11. Información de Contacto, Certificación y Firma del Solicitante</span></p>
@@ -325,7 +346,7 @@
      Item 4 signature label: SOURCE ref. p.17, "Firma del Solicitante".
      "tutor legal, sustituto o representante designado" — NEW translation following established register. -->
 <div class="image-section">
-  <div class="image-id"><!--Part11-4-signature.png--><img src="Part11-4-signature.png" alt="Part11-4-signature.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part11-4-signature.png--><img src="Part11-4-signature.png" alt="Part11-4-signature.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.16–17, Part 13 certification -->
   <p><strong><em>Certificación y Firma del Solicitante</em></strong></p>
@@ -346,7 +367,7 @@
      with established register for cross-reference terminology used throughout.
      Field labels Apellido/Nombre: SOURCE ref. p.1 and p.17. -->
 <div class="image-section">
-  <div class="image-id"><!--Part14-supplinfo.png--><img src="Part14-supplinfo.png" alt="Part14-supplinfo.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part14-supplinfo.png--><img src="Part14-supplinfo.png" alt="Part14-supplinfo.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.17, Part 13 supplemental sheet instructions (adapted) -->
   <p><span class="form-part-heading">Parte 14. Información Adicional</span> &nbsp; A-</p>
@@ -368,7 +389,7 @@
   <div><p style="color:red"><strong>NOTE: Part 15 SHOULD NOT BE FILLED IN OR SIGNED BEFORE THE IN-PERSON CITIZENSHIP INTERVIEW.<br/>
     <em>NOTA: La Parte 15 NO DEBE completarse ni firmarse antes de la entrevista de ciudadanía en persona.</em></strong></p></div>
 <div class="image-section">
-  <div class="image-id"><!--Part15-interviewsig.png--><img src="Part15-interviewsig.png" alt="Part15-interviewsig.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part15-interviewsig.png--><img src="Part15-interviewsig.png" alt="Part15-interviewsig.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.19, Part 16 heading (part number updated to 15) -->
   <p><span class="form-part-heading">Parte 15. Firma en la Entrevista</span> &nbsp; A-</p>
@@ -390,7 +411,7 @@
   <div><p style="color:red"><strong>NOTE: Part 16 SHOULD NOT BE SIGNED BEFORE THE IN-PERSON CITIZENSHIP INTERVIEW. You must understand the complete oath before you agree and sign.<br/>
     <em>NOTA: La Parte 16 NO DEBE firmarse antes de la entrevista de ciudadanía en persona. Debe comprender el juramento completo antes de aceptar y firmar.</em></strong></p></div>
 <div class="image-section">
-  <div class="image-id"><!--Part16-oathsig.png--><img src="Part16-oathsig.png" alt="Part16-oathsig.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part16-oathsig.png--><img src="Part16-oathsig.png" alt="Part16-oathsig.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.20, Part 18 heading (part number updated to 16) -->
   <p><span class="form-part-heading">Parte 16. Juramento de Lealtad</span></p>
@@ -407,6 +428,12 @@
   <!-- SOURCE: ILRC/KGD reference p.20, signature fields — verbatim -->
   <p>Firma del Solicitante &nbsp;&nbsp;&nbsp; Fecha de la Firma (mm/dd/aaaa)</p>
 </div>
-
+    <script>
+document.querySelectorAll('.screenshot-wrap img').forEach(function(img) {
+  img.addEventListener('click', function() {
+    this.classList.toggle('expanded');
+  });
+});
+</script>
 </body>
 </html>

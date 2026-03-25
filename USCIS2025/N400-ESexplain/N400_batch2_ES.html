@@ -65,6 +65,27 @@
       font-style: italic;
       font-size: 0.9em;
     }
+    .screenshot-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  text-align: center;  /* centers on desktop */
+}
+
+.screenshot-wrap img {
+  display: inline-block;
+  max-width: 100%;
+  cursor: zoom-in;
+  transition: max-width 0.2s ease;
+}
+
+.screenshot-wrap img.expanded {
+  max-width: none;
+  width: 700px;
+  cursor: zoom-out;
+  display: block;      /* block so horizontal scroll works cleanly */
+  text-align: left;    /* no effect on img itself but signals intent */
+}
   </style>
 </head>
 <body>  
@@ -86,7 +107,7 @@
      Detailed instruction text (6-month trips, Part 14 cross-ref): NEW translation following established register.
      "day trips" parenthetical: NEW translation following established register. -->
 <div class="image-section">
-  <div class="image-id"><!--Part8_1travel.png--><img src="Part8_1travel.png" alt="Part8_1travel.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part8_1travel.png--><img src="Part8_1travel.png" alt="Part8_1travel.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.7, Part 9 heading -->
   <p><span class="form-part-heading">Parte 8. Tiempo Fuera de los Estados Unidos</span> &nbsp; A-</p>
@@ -114,7 +135,7 @@
      "ALGUNA VEZ" in bold per reference convention (ref. p.11–12).
      Items 1–2: SOURCE ref. p.11, Items 1–3 (restructured). -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_1-2claim-citizen.png--><img src="Part9_1-2claim-citizen.png" alt="Part9_1-2claim-citizen.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_1-2claim-citizen.png--><img src="Part9_1-2claim-citizen.png" alt="Part9_1-2claim-citizen.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- Part title: NEW translation following established register -->
   <p><span class="form-part-heading">Parte 9. Información Adicional Acerca de Usted</span></p>
@@ -135,7 +156,7 @@
      SOURCE: ILRC/KGD reference p.12, Item 6 (taxes owed).
      2025 restructures old items 6–8 into items 3–4. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_3overdue-taxes.png--><img src="Part9_3overdue-taxes.png" alt="Part9_3overdue-taxes.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_3overdue-taxes.png--><img src="Part9_3overdue-taxes.png" alt="Part9_3overdue-taxes.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="3">
     <!-- SOURCE: ILRC/KGD reference p.12, Item 6 -->
@@ -148,7 +169,7 @@
      SOURCE: ILRC/KGD reference p.12, Items 7–8 (consolidated in 2025).
      "no-residente" — SOURCE ref. p.12 items 7B and 8. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_4nonres-alien.png--><img src="Part9_4nonres-alien.png" alt="Part9_4nonres-alien.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_4nonres-alien.png--><img src="Part9_4nonres-alien.png" alt="Part9_4nonres-alien.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="4">
     <!-- SOURCE: ILRC/KGD reference p.12, Items 7A and 8 (consolidated) -->
@@ -162,7 +183,7 @@
      "partido comunista" / "partido totalitario" — SOURCE ref. p.12 items 10A–B.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_5a-communist.png--><img src="Part9_5a-communist.png" alt="Part9_5a-communist.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_5a-communist.png--><img src="Part9_5a-communist.png" alt="Part9_5a-communist.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.12, Item 10 preamble and items 10A–B -->
   <p>¿Ha <strong>ALGUNA VEZ</strong>:</p>
@@ -176,7 +197,7 @@
      following established register, anchored to reference item 11 core language.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_5b-advocate.png--><img src="Part9_5b-advocate.png" alt="Part9_5b-advocate.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_5b-advocate.png--><img src="Part9_5b-advocate.png" alt="Part9_5b-advocate.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.12, Item 11 (adapted); sub-list items NEW translation
        following established register. -->
@@ -198,7 +219,7 @@
      Parenthetical glosses retained per translation rule 3.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_6b-6c-terrorist.png--><img src="Part9_6b-6c-terrorist.png" alt="Part9_6b-6c-terrorist.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_6b-6c-terrorist.png--><img src="Part9_6b-6c-terrorist.png" alt="Part9_6b-6c-terrorist.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.12, Item 10C (expanded); sub-items NEW translation
        following established register, with parenthetical glosses translated. -->
@@ -217,7 +238,7 @@
      for "did not consent (did not agree)" / "unable to consent (could not agree)" translated.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_7a-7g-geneva-violations.png--><img src="Part9_7a-7g-geneva-violations.png" alt="Part9_7a-7g-geneva-violations.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_7a-7g-geneva-violations.png--><img src="Part9_7a-7g-geneva-violations.png" alt="Part9_7a-7g-geneva-violations.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.13, Item 14 preamble -->
   <p>¿Ha ordenado, incitado, convocado, cometido, asistido, ayudado, o de alguna otra manera participado <strong>ALGUNA VEZ</strong> en cualquiera de los siguientes:</p>
@@ -243,7 +264,7 @@
      Parenthetical glosses for "paramilitary unit" etc. translated per rule 3.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_8a-8b-military.png--><img src="Part9_8a-8b-military.png" alt="Part9_8a-8b-military.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_8a-8b-military.png--><img src="Part9_8a-8b-military.png" alt="Part9_8a-8b-military.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.13, Items 15A–H (restructured) -->
   <p>8.a. &nbsp; ¿Ha servido en, sido miembro de, asistido (ayudado), o participado <strong>ALGUNA VEZ</strong> en alguna unidad militar o policial? &nbsp; Sí &nbsp; No</p>
@@ -261,7 +282,7 @@
      Parenthetical gloss "a camp where prisoners of war or political prisoners are kept" translated per rule 3.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_9-detain.png--><img src="Part9_9-detain.png" alt="Part9_9-detain.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_9-detain.png--><img src="Part9_9-detain.png" alt="Part9_9-detain.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="9">
     <!-- SOURCE: ILRC/KGD reference p.13, Items 16A–E (restructured); parenthetical gloss translated. -->
@@ -273,7 +294,7 @@
 <!-- Duplicate section — image-id Part9_10a-10c-.png contains identical text to Part9_9-detain.png.
      Preserved as duplicate per source file; duplicate-note class retained. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_10a-10c-.png--><img src="Part9_10a-10c-.png" alt="Part9_10a-10c-.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_10a-10c-.png--><img src="Part9_10a-10c-.png" alt="Part9_10a-10c-.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <p class="duplicate-note">[Esta imagen parece ser un duplicado de Part9_9-detain.png — texto idéntico para el artículo 9. No se extrajo contenido nuevo.]</p>
   <!-- SOURCE: same as Part9_9-detain.png above -->
@@ -288,7 +309,7 @@
      "amenazó" (threaten) in bold per source.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_10a-10c-weaponthreat.png--><img src="Part9_10a-10c-weaponthreat.png" alt="Part9_10a-10c-weaponthreat.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_10a-10c-weaponthreat.png--><img src="Part9_10a-10c-weaponthreat.png" alt="Part9_10a-10c-weaponthreat.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.13, Item 17 (restructured) -->
   <p>10.a. &nbsp; ¿Fue <strong>ALGUNA VEZ</strong> parte de algún grupo, o ayudó <strong>ALGUNA VEZ</strong> a algún grupo, unidad u organización que utilizó un arma en contra de alguna persona, o amenazó con hacerlo? &nbsp; Sí &nbsp; No</p>
@@ -302,7 +323,7 @@
      2025 restructures and simplifies: Items 11–12 replace old 18A–B and 19.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_11-12-weapontrain.png--><img src="Part9_11-12-weapontrain.png" alt="Part9_11-12-weapontrain.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_11-12-weapontrain.png--><img src="Part9_11-12-weapontrain.png" alt="Part9_11-12-weapontrain.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="11">
     <!-- SOURCE: ILRC/KGD reference p.14, Item 18 (restructured/simplified in 2025).
@@ -321,7 +342,7 @@
      NEW translation following established register, per rule 3.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_13-14-under15recruit.png--><img src="Part9_13-14-under15recruit.png" alt="Part9_13-14-under15recruit.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_13-14-under15recruit.png--><img src="Part9_13-14-under15recruit.png" alt="Part9_13-14-under15recruit.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="13">
     <!-- SOURCE: ILRC/KGD reference p.14, Item 20 -->
@@ -339,7 +360,7 @@
      "ALGUNA VEZ" in bold per reference convention.
      "violencia doméstica" / "manejar bajo la influencia" — NEW translation following established register. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_15-instruct.png--><img src="Part9_15-instruct.png" alt="Part9_15-instruct.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_15-instruct.png--><img src="Part9_15-instruct.png" alt="Part9_15-instruct.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <div class="note-block">
     <!-- SOURCE: ILRC/KGD reference p.14, preamble to criminal record items (adapted) -->
@@ -368,7 +389,7 @@
      Table column headers: SOURCE ref. p.14, Item 29 table (adapted for 2025 structure).
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_15-priors.png--><img src="Part9_15-priors.png" alt="Part9_15-priors.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_15-priors.png--><img src="Part9_15-priors.png" alt="Part9_15-priors.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.14, Item 22 -->
   <p>15.a. &nbsp; ¿Ha cometido, acordado cometer, pedido a otra persona que cometiera, ayudado a cometer, o intentado cometer <strong>ALGUNA VEZ</strong> un delito u ofensa por el cual NO fue arrestado(a)? &nbsp; Sí &nbsp; No</p>
@@ -394,7 +415,7 @@
      SOURCE: ILRC/KGD reference p.14, Item 27B (adapted).
      "sentencia suspendida" / "libertad provisional" / "libertad condicional" — SOURCE ref. p.14, Item 27. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_16-suspension.png--><img src="Part9_16-suspension.png" alt="Part9_16-suspension.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_16-suspension.png--><img src="Part9_16-suspension.png" alt="Part9_16-suspension.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="16">
     <!-- SOURCE: ILRC/KGD reference p.14, Item 27B -->
@@ -414,7 +435,7 @@
      17.b drug paraphernalia clause: NEW translation following established register.
      Preamble "Have you EVER" not present in source for this section — item lead-in format used. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_17a-17h-behavior.png--><img src="Part9_17a-17h-behavior.png" alt="Part9_17a-17h-behavior.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_17a-17h-behavior.png--><img src="Part9_17a-17h-behavior.png" alt="Part9_17a-17h-behavior.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <!-- SOURCE: ILRC/KGD reference p.15, Item 30B -->
   <p>17.a. &nbsp; ¿Ha ejercido la prostitución, intentado conseguir o importar prostitutas o personas con fines de prostitución, o recibido algún ingreso o dinero proveniente de la prostitución? &nbsp; Sí &nbsp; No</p>
@@ -440,7 +461,7 @@
      NEW translation following established register.
      Cross-reference numbering updated to 2025 scheme. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_17a-19-instruct.png--><img src="Part9_17a-19-instruct.png" alt="Part9_17a-19-instruct.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_17a-19-instruct.png--><img src="Part9_17a-19-instruct.png" alt="Part9_17a-19-instruct.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <p>Si responde "Sí" a cualquiera de las preguntas de los <strong>Números de Artículo 17.a. - 19.</strong>, provea una explicación en el espacio provisto en <strong>Parte 14. Información Adicional</strong>. Presente pruebas en apoyo de sus respuestas.</p>
 </div>
@@ -452,7 +473,7 @@
      "mentido a algún oficial del gobierno" — SOURCE ref. p.15, Item 32.
      "ALGUNA VEZ" in bold per reference convention. -->
 <div class="image-section">
-  <div class="image-id"><!--Part9_18-19-false.png--><img src="Part9_18-19-false.png" alt="Part9_18-19-false.png"/><br />
+  <div class="image-id screenshot-wrap"><!--Part9_18-19-false.png--><img src="Part9_18-19-false.png" alt="Part9_18-19-false.png"/><br />
     <div style="text-align:center;"><img src="awave.PNG" alt="awave.PNG" /></div></div>
   <ol start="18">
     <!-- SOURCE: ILRC/KGD reference p.15, Item 31 -->
@@ -461,6 +482,12 @@
     <li>¿Ha mentido <strong>ALGUNA VEZ</strong> a algún oficial del Gobierno de los EE.UU. para obtener entrada o admisión a los Estados Unidos o para obtener beneficios de inmigración en los Estados Unidos? &nbsp; Sí &nbsp; No</li>
   </ol>
 </div>
-
+  <script>
+document.querySelectorAll('.screenshot-wrap img').forEach(function(img) {
+  img.addEventListener('click', function() {
+    this.classList.toggle('expanded');
+  });
+});
+</script>
 </body>
 </html>
