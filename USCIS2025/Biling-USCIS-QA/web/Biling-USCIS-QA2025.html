@@ -61,6 +61,40 @@
         <a class="symbols" href="Q119-128/Biling-USCIS-QA119-128.html">119-128</a>
     </nav>
     <main>
+        <div class="question-lookup" id="question-lookup">
+            <h2>Go to a Question / Ir a una Pregunta</h2>
+            <p class="lookup-instructions">Enter a question number from 1 to 128 for a link and audio.<br>
+            <em>Entre el número de una pregunta número del 1 al 128 para obtener un enlace y el audio.</em></p>
+            <div class="lookup-input-row">
+                <label for="q-number">Question # / Pregunta No.:</label>
+                <input type="number" id="q-number" min="1" max="128" placeholder="1–128"
+                       inputmode="numeric" pattern="[0-9]*">
+                <button onclick="lookupQuestion()">Go / Ir</button>
+            </div>
+            <div class="lookup-error" id="lookup-error">
+                Please enter a whole number from 1 to 128. / Por favor ingrese un número entero del 1 al 128.
+            </div>
+            <div class="lookup-result" id="lookup-result">
+                <div class="lookup-result-link" id="lookup-result-link"></div>
+                <div class="lookup-audio-pair">
+                    <div class="lookup-audio-block english-audio">
+                        <div class="lookup-audio-label" id="lookup-en-label"></div>
+                        <audio id="lookup-en-audio" controls>
+                            <source id="lookup-en-src" src="" type="audio/mpeg">
+                            Your browser does not support audio playback.
+                        </audio>
+                    </div>
+                    <div class="lookup-audio-block spanish-audio">
+                        <div class="lookup-audio-label" id="lookup-es-label"></div>
+                        <audio id="lookup-es-audio" controls>
+                            <source id="lookup-es-src" src="" type="audio/mpeg">
+                            Su navegador no admite la reproducción de audio.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="bilingual-container">
             <div class="lang-column english-column">
                 <h2>English</h2>
@@ -114,5 +148,76 @@ Ejercicio de Correspondencia</a></p></li>
         <p>Home | 2025 US Citizenship Test</p>
         <p>* = Questions for 65+ age consideration</p>
     </footer>
+    <script>
+        // Maps each question number to its page folder and zero-padded file suffix
+        function getQuestionData(n) {
+            var folder, page;
+            if      (n >= 1   && n <= 15)  { folder = 'Q01-15';   page = 'Biling-USCIS-QA01-15.html'; }
+            else if (n >= 16  && n <= 30)  { folder = 'Q16-30';   page = 'Biling-USCIS-QA16-30.html'; }
+            else if (n >= 31  && n <= 45)  { folder = 'Q31-45';   page = 'Biling-USCIS-QA31-45.html'; }
+            else if (n >= 46  && n <= 62)  { folder = 'Q46-62';   page = 'Biling-USCIS-QA46-62.html'; }
+            else if (n >= 63  && n <= 72)  { folder = 'Q63-72';   page = 'Biling-USCIS-QA63-72.html'; }
+            else if (n >= 73  && n <= 89)  { folder = 'Q73-89';   page = 'Biling-USCIS-QA73-89.html'; }
+            else if (n >= 90  && n <= 99)  { folder = 'Q90-99';   page = 'Biling-USCIS-QA90-99.html'; }
+            else if (n >= 100 && n <= 118) { folder = 'Q100-118'; page = 'Biling-USCIS-QA100-118.html'; }
+            else if (n >= 119 && n <= 128) { folder = 'Q119-128'; page = 'Biling-USCIS-QA119-128.html'; }
+            else { return null; }
+
+            // Zero-pad only 1–9
+            var padded = (n < 10) ? '0' + n : '' + n;
+            var anchor = 'question-' + padded;
+            var enMp3  = folder + '/audio/EN_2025Q' + padded + '.mp3';
+            var esMp3  = folder + '/audio/ES_2025Q' + padded + '.mp3';
+            var href   = folder + '/' + page + '#' + anchor;
+
+            return { href: href, enMp3: enMp3, esMp3: esMp3 };
+        }
+
+        function lookupQuestion() {
+            var input = document.getElementById('q-number');
+            var error = document.getElementById('lookup-error');
+            var result = document.getElementById('lookup-result');
+            var n = parseInt(input.value, 10);
+
+            error.style.display = 'none';
+            result.style.display = 'none';
+
+            if (isNaN(n) || n < 1 || n > 128) {
+                error.style.display = 'block';
+                return;
+            }
+
+            var data = getQuestionData(n);
+            if (!data) {
+                error.style.display = 'block';
+                return;
+            }
+
+            // Link
+            document.getElementById('lookup-result-link').innerHTML =
+                '<a href="' + data.href + '">Read question ' + n + ' and its answer / Lee la pregunta ' + n + ' y su respuesta</a>';
+
+            // English audio
+            document.getElementById('lookup-en-label').textContent =
+                'Listen to Question ' + n + ' and its answer';
+            var enAudio = document.getElementById('lookup-en-audio');
+            document.getElementById('lookup-en-src').src = data.enMp3;
+            enAudio.load();
+
+            // Spanish audio
+            document.getElementById('lookup-es-label').textContent =
+                'Escucha la pregunta ' + n + ' y su respuesta';
+            var esAudio = document.getElementById('lookup-es-audio');
+            document.getElementById('lookup-es-src').src = data.esMp3;
+            esAudio.load();
+
+            result.style.display = 'block';
+        }
+
+        // Allow Enter key to trigger lookup
+        document.getElementById('q-number').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { lookupQuestion(); }
+        });
+    </script>
 </body>
 </html>

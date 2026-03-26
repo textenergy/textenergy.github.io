@@ -173,3 +173,123 @@ body {
 .spanish-content.hidden {
     display: none;
 }
+
+/* Question lookup widget */
+.question-lookup {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px 30px 24px;
+    margin-bottom: 24px;
+}
+
+.question-lookup h2 {
+    color: #003366;
+    font-size: 1.1em;
+    margin: 0 0 12px 0;
+    border-bottom: 2px solid #003366;
+    padding-bottom: 8px;
+}
+
+.lookup-instructions {
+    font-size: 0.95em;
+    color: #333;
+    margin: 0 0 12px 0;
+    line-height: 1.6;
+}
+
+.lookup-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.lookup-input-row label {
+    font-size: 0.95em;
+    color: #333;
+}
+
+.lookup-input-row input[type="number"] {
+    width: 70px;
+    padding: 6px 8px;
+    font-size: 1em;
+    border: 2px solid #003366;
+    border-radius: 4px;
+}
+
+.lookup-input-row button {
+    padding: 6px 16px;
+    min-height: 44px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95em;
+    cursor: pointer;
+}
+
+.lookup-input-row button:hover {
+    background-color: #0066cc;
+}
+
+.lookup-error {
+    color: #cc0000;
+    font-size: 0.9em;
+    margin-top: 8px;
+    display: none;
+}
+
+.lookup-result {
+    margin-top: 16px;
+    display: none;
+}
+
+.lookup-result-link {
+    margin-bottom: 12px;
+}
+
+.lookup-result-link a {
+    color: #003366;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.lookup-audio-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.lookup-audio-block {
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.lookup-audio-block.english-audio {
+    background-color: #e8f4f8;
+    border-left: 4px solid #0066cc;
+}
+
+.lookup-audio-block.spanish-audio {
+    background-color: #fff8e8;
+    border-left: 4px solid #cc6600;
+}
+
+.lookup-audio-label {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.lookup-audio-block audio {
+    width: 100%;
+    height: 30px;
+}
+
+@media (max-width: 600px) {
+    .lookup-audio-pair {
+        grid-template-columns: 1fr;
+    }
+}
