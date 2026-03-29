@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dairy Farm Vocabulary Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
+  :root {
+    --green-dark:   #1a5c1a;
+    --green-mid:    #2e7d32;
+    --green-light:  #e8f5e9;
+    --green-border: #a5d6a7;
+    --yellow-bg:    #fff8e1;
+    --yellow-bd:    #ffe082;
+    --correct:      #2e7d32;
+    --correct-bg:   #e8f5e9;
+    --wrong:        #c62828;
+    --wrong-bg:     #ffebee;
+    --neutral:      #f5f5f5;
+    --text:         #1a1a1a;
+    --subtext:      #555;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #f0f4f0;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--green-dark);
+    margin-bottom: 4px;
+  }
+  header p {
+    font-size: 0.9rem;
+    color: var(--subtext);
+  }
+
+  /* ── SCENARIO SELECTOR ── */
+  .scenario-selector {
+    max-width: 700px;
+    margin: 0 auto 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .scenario-btn {
+    padding: 7px 16px;
+    border: 2px solid var(--green-border);
+    border-radius: 20px;
+    background: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .scenario-btn:hover {
+    background: var(--green-light);
+  }
+  .scenario-btn.active {
+    background: var(--green-light);
+    color: #1a1a1a;
+    font-weight: 900;
+    border-color: var(--green-mid);
+  }
+
+  /* ── NARRATIVE ── */
+  .narrative {
+    max-width: 700px;
+    margin: 0 auto 18px;
+    background: var(--yellow-bg);
+    border: 1.5px solid var(--yellow-bd);
+    border-radius: 10px;
+    padding: 13px 18px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .narrative-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green-dark);
+    margin-bottom: 5px;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar-wrap {
+    max-width: 700px;
+    margin: 0 auto 8px;
+    background: #ddd;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--green-mid);
+    border-radius: 6px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    max-width: 700px;
+    margin: 0 auto 16px;
+    font-size: 0.82rem;
+    color: var(--subtext);
+    text-align: right;
+  }
+
+  /* ── CARD ── */
+  .card {
+    max-width: 700px;
+    margin: 0 auto 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1.5px solid var(--green-border);
+  }
+  .card-header {
+    background: #e8f4fd;
+    color: #1a1a1a;
+    padding: 12px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 1.5px solid #b3d7f0;
+  }
+  .q-number {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    background: rgba(46,125,50,0.1);
+    border-radius: 4px;
+    padding: 2px 8px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  /* The full sentence shown in the card header */
+  .eng-prompt {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    flex: 1;
+    color: #1a1a1a;
+  }
+  /* The underlined keyword within the sentence */
+  .eng-prompt u {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--green-dark);
+  }
+  .audio-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    line-height: 1;
+    transition: transform 0.1s;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .audio-btn:hover { transform: scale(1.2); }
+  .audio-btn.playing {
+    animation: pulse 0.6s ease-in-out infinite alternate;
+  }
+  @keyframes pulse { from { opacity:1; } to { opacity:0.4; } }
+
+  /* ── OPTIONS ── */
+  .options {
+    padding: 14px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: var(--neutral);
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--green-mid);
+    background: var(--green-light);
+  }
+  .option-btn .letter {
+    font-weight: 900;
+    font-size: 0.85rem;
+    color: var(--subtext);
+    min-width: 20px;
+  }
+  .option-btn.correct {
+    border-color: var(--correct);
+    background: var(--correct-bg);
+    color: var(--correct);
+    font-weight: 700;
+  }
+  .option-btn.wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-bg);
+    color: var(--wrong);
+    text-decoration: line-through;
+  }
+  .option-btn:disabled { cursor: default; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    max-width: 700px;
+    margin: 0 auto 14px;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--correct-bg); color: var(--correct); border: 1.5px solid var(--green-border); }
+  .feedback.wrong   { background: var(--wrong-bg);   color: var(--wrong);   border: 1.5px solid #ef9a9a; }
+
+  /* ── NAV ── */
+  .nav-row {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .nav-btn {
+    padding: 11px 28px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-align: center;
+    line-height: 1.4;
+  }
+  #btn-prev { background: #e0e0e0; color: #555; }
+  #btn-prev:hover { background: #ccc; }
+  #btn-next { background: var(--green-mid); color: #fff; margin-left: auto; }
+  #btn-next:hover { background: var(--green-dark); }
+  #btn-next:disabled { background: #aaa; cursor: default; }
+
+  /* ── END SCREEN ── */
+  .end-screen {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    border: 1.5px solid var(--green-border);
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: none;
+  }
+  .end-screen h2 { font-size: 1.4rem; font-weight: 900; color: var(--green-dark); margin-bottom: 10px; }
+  .end-screen p  { font-size: 1rem; color: var(--subtext); margin-bottom: 22px; }
+  .restart-btn {
+    background: var(--green-mid);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 30px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin: 0 6px;
+  }
+  .restart-btn:hover { background: var(--green-dark); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🐄 Dairy Farm — Vocabulary Quiz<br><em>Vocabulario de la granja lechera</em></h1>
+  <p>Click 🔊 to hear the English sentence. Choose the correct Spanish word or phrase.<br><em>Haga clic en 🔊 para escuchar la oración en inglés. Elija la palabra o frase correcta en español.</em></p>
+</header>
+
+<!-- Scenario selector -->
+<div class="scenario-selector" id="scenario-selector">
+  <button class="scenario-btn active" onclick="loadScenario(0)">1 · Clean the Barn<br><em>Limpiar el establo</em></button>
+  <button class="scenario-btn" onclick="loadScenario(1)">2 · Feed the Herd<br><em>Alimentar el ganado</em></button>
+  <button class="scenario-btn" onclick="loadScenario(2)">3 · Fence Repair<br><em>Reparar la cerca</em></button>
+  <button class="scenario-btn" onclick="loadScenario(3)">4 · Field &amp; Equipment<br><em>Campo y equipo</em></button>
+  <button class="scenario-btn" onclick="loadScenario(4)">5 · Sick Cow / Hospital<br><em>Vaca enferma / Hospital</em></button>
+</div>
+
+<!-- Narrative -->
+<div class="narrative" id="narrative-box">
+  <span class="narrative-label">Scenario / El escenario</span>
+  <span id="narrative-text"></span>
+</div>
+
+<!-- Progress -->
+<div class="progress-bar-wrap" id="progress-bar-wrap">
+  <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+</div>
+<div class="progress-label" id="progress-label">Question 1 of 1</div>
+
+<!-- Card -->
+<div class="card" id="quiz-card">
+  <div class="card-header">
+    <span class="q-number" id="q-number">1 / 1</span>
+    <span class="eng-prompt" id="eng-prompt"></span>
+    <!-- audio button injected by JS -->
+  </div>
+  <div class="options" id="options-container"></div>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="nav-row">
+  <button class="nav-btn" id="btn-prev">← Back<br><em>Atrás</em></button>
+  <button class="nav-btn" id="btn-next" disabled>Next →<br><em>Siguiente</em></button>
+</div>
+
+<div class="end-screen" id="end-screen">
+  <h2>¡Bien hecho! / Well done!</h2>
+  <p id="end-score"></p>
+  <button class="restart-btn" onclick="restartScenario()">Try Again<br><em>Intentar de nuevo</em></button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA
+// Each question:
+//   sentence  : full English sentence, keyword wrapped in <u>...</u>
+//   keyword   : plain English keyword (for feedback label)
+//   correct   : correct Spanish word / short phrase
+//   wrong     : array of 2 wrong Spanish words / short phrases
+//
+// Sentences repeat across questions within the same scenario — only the
+// underlined keyword changes. This is the core reuse pattern.
+// ═══════════════════════════════════════════════════════════════════════════
+
+const scenarios = [
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SCENARIO 1 — Clean the Barn
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    title: "Clean the Barn",
+    narrative: "Milking is done. Now you need to run the alley scraper, wash the aisles, connect the hose, and take out the trash before the next shift.<br><em>El ordeño ha terminado. Ahora tiene que poner en marcha el raspador de pasillos, lavar los pasillos, conectar la manguera y tirar la basura antes del siguiente turno.</em>",
+    questions: [
+      // S1 — alley scraper sentence × 5 keywords
+      { sentence: '<u>Run</u> the alley scraper to clean manure from the aisles.',
+        keyword: 'run', correct: 'poner en marcha', wrong: ['correr', 'subir'] },
+      { sentence: 'Run the <u>alley scraper</u> to clean manure from the aisles.',
+        keyword: 'alley scraper', correct: 'raspador de pasillos', wrong: ['empacadora', 'cargadora'] },
+      { sentence: 'Run the alley scraper to <u>clean</u> manure from the aisles.',
+        keyword: 'clean', correct: 'limpiar', wrong: ['lavar', 'arreglar'] },
+      { sentence: 'Run the alley scraper to clean <u>manure</u> from the aisles.',
+        keyword: 'manure', correct: 'estiércol', wrong: ['heno', 'arena'] },
+      { sentence: 'Run the alley scraper to clean manure from the <u>aisles</u>.',
+        keyword: 'aisles', correct: 'pasillos', wrong: ['corrales', 'establos'] },
+      // S2 — hose / faucet / nozzle
+      { sentence: '<u>Connect</u> the hose to the faucet and the nozzle to the hose.',
+        keyword: 'connect', correct: 'conectar', wrong: ['fijar', 'encender'] },
+      { sentence: 'Connect the <u>hose</u> to the faucet and the nozzle to the hose.',
+        keyword: 'hose', correct: 'manguera', wrong: ['cubeta', 'boquilla'] },
+      { sentence: 'Connect the hose to the <u>faucet</u> and the nozzle to the hose.',
+        keyword: 'faucet', correct: 'grifo', wrong: ['pasillo', 'basurero'] },
+      { sentence: 'Connect the hose to the faucet and the <u>nozzle</u> to the hose.',
+        keyword: 'nozzle', correct: 'boquilla', wrong: ['manguera', 'cuerda'] },
+      // S3 — wash down the aisle
+      { sentence: '<u>Wash down</u> the aisle after milking.',
+        keyword: 'wash down', correct: 'lavar', wrong: ['limpiar', 'rociar'] },
+      { sentence: 'Wash down the <u>aisle</u> after milking.',
+        keyword: 'aisle', correct: 'pasillo', wrong: ['corral', 'establo'] },
+      { sentence: 'Wash down the aisle after <u>milking</u>.',
+        keyword: 'milking', correct: 'el ordeño', wrong: ['la cosecha', 'el turno'] },
+      // S4 — trash
+      { sentence: '<u>Throw out</u> the trash — put the trash bags in the trashcan.',
+        keyword: 'throw out', correct: 'tirar', wrong: ['limpiar', 'poner'] },
+      { sentence: 'Throw out the trash — put the <u>trash bags</u> in the trashcan.',
+        keyword: 'trash bags', correct: 'bolsas de basura', wrong: ['cubetas', 'mangueras'] },
+      { sentence: 'Throw out the trash — put the trash bags in the <u>trashcan</u>.',
+        keyword: 'trashcan', correct: 'basurero', wrong: ['corral', 'establo'] },
+      // S5 — bucket / milk spill
+      { sentence: 'Use the <u>bucket</u> to clean up the milk spill in the aisle.',
+        keyword: 'bucket', correct: 'cubeta', wrong: ['pala', 'manguera'] },
+      { sentence: 'Use the bucket to <u>clean up</u> the milk spill in the aisle.',
+        keyword: 'clean up', correct: 'limpiar', wrong: ['lavar', 'raspar'] },
+      { sentence: 'Use the bucket to clean up the <u>milk</u> spill in the aisle.',
+        keyword: 'milk', correct: 'leche', wrong: ['agua', 'estiércol'] },
+    ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SCENARIO 2 — Feed the Herd
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    title: "Feed the Herd",
+    narrative: "It's feeding time. You need to start the mixer, prepare the ration, load hay bales, fill the troughs, and make sure the cows have water.<br><em>Es hora de alimentar. Tiene que encender la mezcladora, preparar la ración, cargar las pacas de heno, llenar los comederos y asegurarse de que las vacas tengan agua.</em>",
+    questions: [
+      // S6 — start the mixer
+      { sentence: '<u>Start</u> the mixer to prepare the total mixed ration.',
+        keyword: 'start', correct: 'encender', wrong: ['poner en marcha', 'conectar'] },
+      { sentence: 'Start the <u>mixer</u> to prepare the total mixed ration.',
+        keyword: 'mixer', correct: 'mezcladora', wrong: ['cargadora', 'picadora'] },
+      // S7 — cut the string on the bale
+      { sentence: '<u>Cut</u> the string on the bale before putting it in the mixer.',
+        keyword: 'cut', correct: 'cortar', wrong: ['doblar', 'apretar'] },
+      { sentence: 'Cut the <u>string</u> on the bale before putting it in the mixer.',
+        keyword: 'string', correct: 'cuerda', wrong: ['alambre', 'cadena'] },
+      { sentence: 'Cut the string on the <u>bale</u> before putting it in the mixer.',
+        keyword: 'bale', correct: 'paca', wrong: ['comedero', 'remolque'] },
+      { sentence: 'Cut the string on the bale before <u>putting</u> it in the mixer.',
+        keyword: 'putting', correct: 'poner', wrong: ['lavar', 'arreglar'] },
+      // S8 — feed / trough
+      { sentence: 'Put the <u>feed</u> in the trough before the cows come in.',
+        keyword: 'feed', correct: 'alimento', wrong: ['agua', 'ensilaje'] },
+      { sentence: 'Put the feed in the <u>trough</u> before the cows come in.',
+        keyword: 'trough', correct: 'comedero', wrong: ['pasillo', 'establo'] },
+      // S9 — give water
+      { sentence: '<u>Give</u> the cows water in the troughs.',
+        keyword: 'give', correct: 'dar', wrong: ['poner', 'subir'] },
+      { sentence: 'Give the cows <u>water</u> in the troughs.',
+        keyword: 'water', correct: 'agua', wrong: ['leche', 'alimento'] },
+      // S10 — truck / haul / barn
+      { sentence: 'Use the <u>truck</u> to haul the feed to the far barn.',
+        keyword: 'truck', correct: 'camión de carga', wrong: ['tractor', 'remolque'] },
+      { sentence: 'Use the truck to <u>haul</u> the feed to the far barn.',
+        keyword: 'haul', correct: 'transportar', wrong: ['limpiar', 'poner'] },
+      { sentence: 'Use the truck to haul the feed to the far <u>barn</u>.',
+        keyword: 'barn', correct: 'establo', wrong: ['corral', 'laguna'] },
+      // S11 — load hay bales onto wagon
+      { sentence: '<u>Load</u> the hay bales onto the wagon before the rain.',
+        keyword: 'load', correct: 'cargar', wrong: ['sacar', 'mover'] },
+      { sentence: 'Load the <u>hay</u> bales onto the wagon before the rain.',
+        keyword: 'hay', correct: 'heno', wrong: ['maíz', 'ensilaje'] },
+      { sentence: 'Load the hay <u>bales</u> onto the wagon before the rain.',
+        keyword: 'bales', correct: 'pacas', wrong: ['cubetas', 'llantas'] },
+      { sentence: 'Load the hay bales onto the <u>wagon</u> before the rain.',
+        keyword: 'wagon', correct: 'remolque', wrong: ['cargadora', 'tractor'] },
+    ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SCENARIO 3 — Fence and Corral Repair
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    title: "Fence & Corral Repair",
+    narrative: "The storm damaged a section of fence and a corral gate. You need to replace some boards, reattach the hinge, and close the gap in the wire.<br><em>La tormenta dañó una sección de la cerca y la puerta del corral. Tiene que reemplazar unas tablas, volver a fijar la bisagra y cerrar el hueco en el alambre.</em>",
+    questions: [
+      // S12 — hammer / gate / post
+      { sentence: 'Use the <u>hammer</u> to fix the broken gate post.',
+        keyword: 'hammer', correct: 'martillo', wrong: ['taladro', 'desarmador'] },
+      { sentence: 'Use the hammer to <u>fix</u> the broken gate post.',
+        keyword: 'fix (repair)', correct: 'arreglar', wrong: ['limpiar', 'doblar'] },
+      { sentence: 'Use the hammer to fix the broken <u>gate</u> post.',
+        keyword: 'gate', correct: 'puerta', wrong: ['cerca', 'establo'] },
+      { sentence: 'Use the hammer to fix the broken gate <u>post</u>.',
+        keyword: 'post', correct: 'poste', wrong: ['bisagra', 'pestillo'] },
+      // S13 — screwdriver / screw / hinge
+      { sentence: 'Use the <u>screwdriver</u> to tighten the loose screw on the gate hinge.',
+        keyword: 'screwdriver', correct: 'desarmador', wrong: ['martillo', 'llave'] },
+      { sentence: 'Use the screwdriver to <u>tighten</u> the loose screw on the gate hinge.',
+        keyword: 'tighten', correct: 'apretar', wrong: ['doblar', 'fijar'] },
+      { sentence: 'Use the screwdriver to tighten the loose <u>screw</u> on the gate hinge.',
+        keyword: 'screw', correct: 'tornillo', wrong: ['clavo', 'tuerca'] },
+      { sentence: 'Use the screwdriver to tighten the loose screw on the gate <u>hinge</u>.',
+        keyword: 'hinge', correct: 'bisagra', wrong: ['pestillo', 'poste'] },
+      // S14 — nail gun / boards / fence frame
+      { sentence: 'Use the <u>nail gun</u> to attach the boards to the fence frame.',
+        keyword: 'nail gun', correct: 'clavadora', wrong: ['taladro', 'martillo'] },
+      { sentence: 'Use the nail gun to <u>attach</u> the boards to the fence frame.',
+        keyword: 'attach', correct: 'fijar', wrong: ['limpiar', 'apretar'] },
+      { sentence: 'Use the nail gun to attach the <u>boards</u> to the fence frame.',
+        keyword: 'boards', correct: 'tablas', wrong: ['postes', 'grapas'] },
+      { sentence: 'Use the nail gun to attach the boards to the <u>fence frame</u>.',
+        keyword: 'fence frame', correct: 'marco de la cerca', wrong: ['pasillo', 'poste'] },
+      // S15 — staples / wire / posts
+      { sentence: 'Use the <u>staples</u> to attach the wire to the fence posts.',
+        keyword: 'staples', correct: 'grapas', wrong: ['tornillos', 'cadena'] },
+      { sentence: 'Use the staples to attach the <u>wire</u> to the fence posts.',
+        keyword: 'wire', correct: 'alambre', wrong: ['cadena', 'cuerda'] },
+      // S16 — chain / latch
+      { sentence: '<u>Tie</u> the gate with the chain until we get a new latch.',
+        keyword: 'tie', correct: 'amarrar', wrong: ['fijar', 'conectar'] },
+      { sentence: 'Tie the gate with the <u>chain</u> until we get a new latch.',
+        keyword: 'chain', correct: 'cadena', wrong: ['alambre', 'cuerda'] },
+      { sentence: 'Tie the gate with the chain until we get a new <u>latch</u>.',
+        keyword: 'latch', correct: 'pestillo', wrong: ['poste', 'bisagra'] },
+      // S17 — wire / close / fence
+      { sentence: 'Use the wire to <u>close</u> the gap in the fence.',
+        keyword: 'close', correct: 'cerrar', wrong: ['fijar', 'amarrar'] },
+    ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SCENARIO 4 — Field and Equipment Day
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    title: "Field & Equipment",
+    narrative: "Today you are working in the field. You need to run the chopper, fill the bunker with silage, and do some maintenance checks on the equipment.<br><em>Hoy está trabajando en el campo. Tiene que poner en marcha la picadora, llenar la pila con ensilaje y verificar el equipo.</em>",
+    questions: [
+      // S18 — chopper / corn / silage
+      { sentence: '<u>Run</u> the chopper to cut the corn for silage.',
+        keyword: 'run (machine)', correct: 'poner en marcha', wrong: ['encender', 'conectar'] },
+      { sentence: 'Run the <u>chopper</u> to cut the corn for silage.',
+        keyword: 'chopper', correct: 'picadora', wrong: ['cosechadora', 'mezcladora'] },
+      { sentence: 'Run the chopper to <u>cut</u> the corn for silage.',
+        keyword: 'cut', correct: 'cortar', wrong: ['compactar', 'limpiar'] },
+      { sentence: 'Run the chopper to cut the <u>corn</u> for silage.',
+        keyword: 'corn', correct: 'maíz', wrong: ['heno', 'ensilaje'] },
+      { sentence: 'Run the chopper to cut the corn for <u>silage</u>.',
+        keyword: 'silage', correct: 'ensilaje', wrong: ['alimento', 'heno'] },
+      // S19 — drive / tractor / compact / bunker
+      { sentence: '<u>Drive</u> the tractor to compact the silage in the bunker.',
+        keyword: 'drive', correct: 'manejar', wrong: ['encender', 'cargar'] },
+      { sentence: 'Drive the <u>tractor</u> to compact the silage in the bunker.',
+        keyword: 'tractor', correct: 'tractor', wrong: ['cargadora', 'remolque'] },
+      { sentence: 'Drive the tractor to <u>compact</u> the silage in the bunker.',
+        keyword: 'compact', correct: 'compactar', wrong: ['limpiar', 'cortar'] },
+      { sentence: 'Drive the tractor to compact the silage in the <u>bunker</u>.',
+        keyword: 'bunker', correct: 'la pila', wrong: ['establo', 'laguna'] },
+      // S20 — tires / tarp
+      { sentence: 'Put the <u>tires</u> on the tarp over the bunker.',
+        keyword: 'tires', correct: 'llantas', wrong: ['pacas', 'tablas'] },
+      { sentence: 'Put the tires on the <u>tarp</u> over the bunker.',
+        keyword: 'tarp', correct: 'la loma', wrong: ['la laguna', 'la pila'] },
+      // S21 — check / grease / axle / oil
+      { sentence: '<u>Check</u> the grease on the combine axle and the tractor oil.',
+        keyword: 'check', correct: 'verificar', wrong: ['arreglar', 'encender'] },
+      { sentence: 'Check the <u>grease</u> on the combine axle and the tractor oil.',
+        keyword: 'grease', correct: 'grasa', wrong: ['aceite', 'cinta'] },
+      { sentence: 'Check the grease on the <u>combine</u> axle and the tractor oil.',
+        keyword: 'combine', correct: 'cosechadora', wrong: ['empacadora', 'mezcladora'] },
+      { sentence: 'Check the grease on the combine <u>axle</u> and the tractor oil.',
+        keyword: 'axle', correct: 'eje', wrong: ['llanta', 'tuerca'] },
+      { sentence: 'Check the grease on the combine axle and the tractor <u>oil</u>.',
+        keyword: 'oil', correct: 'aceite', wrong: ['grasa', 'agua'] },
+      // S22 — fix / cable / reel / alley scraper
+      { sentence: '<u>Fix</u> the cable on the reel of the alley scraper.',
+        keyword: 'fix (repair)', correct: 'arreglar', wrong: ['encender', 'verificar'] },
+      { sentence: 'Fix the <u>cable</u> on the reel of the alley scraper.',
+        keyword: 'cable', correct: 'cable', wrong: ['cuerda', 'manguera'] },
+      { sentence: 'Fix the cable on the <u>reel</u> of the alley scraper.',
+        keyword: 'reel', correct: 'carrete', wrong: ['eje', 'poste'] },
+      // S23 — backhoe / dig / ditch
+      { sentence: 'Use the <u>backhoe</u> to dig the drainage ditch.',
+        keyword: 'backhoe', correct: 'excavadora', wrong: ['minicargadora', 'tractor'] },
+      { sentence: 'Use the backhoe to <u>dig</u> the drainage ditch.',
+        keyword: 'dig', correct: 'cavar', wrong: ['limpiar', 'compactar'] },
+      { sentence: 'Use the backhoe to dig the drainage <u>ditch</u>.',
+        keyword: 'ditch', correct: 'zanja', wrong: ['pasillo', 'laguna'] },
+    ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SCENARIO 5 — Sick Cow / Hospital
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    title: "Sick Cow / Hospital",
+    narrative: "A cow is down in her stall. You need to move her to the hospital area, give her medication, and make sure she has feed and water within reach.<br><em>Una vaca está caída en su corral. Tiene que moverla al área del hospital, darle medicamento y asegurarse de que tenga alimento y agua a su alcance.</em>",
+    questions: [
+      // S24 — move / stall / hospital
+      { sentence: '<u>Move</u> the sick cow from her stall to the hospital.',
+        keyword: 'move', correct: 'mover', wrong: ['amarrar', 'limpiar'] },
+      { sentence: 'Move the sick cow from her <u>stall</u> to the hospital.',
+        keyword: 'stall', correct: 'corral', wrong: ['pasillo', 'establo'] },
+      { sentence: 'Move the sick cow from her stall to the <u>hospital</u>.',
+        keyword: 'hospital', correct: 'hospital', wrong: ['laguna', 'establo'] },
+      // S25 — skid steer / lift
+      { sentence: 'Use the <u>skid steer</u> to lift and move the cow slowly to the hospital area.',
+        keyword: 'skid steer', correct: 'minicargadora', wrong: ['excavadora', 'cargadora'] },
+      { sentence: 'Use the skid steer to <u>lift</u> and move the cow slowly to the hospital area.',
+        keyword: 'lift', correct: 'subir', wrong: ['mover', 'lavar'] },
+      { sentence: 'Use the skid steer to lift and move the cow <u>slowly</u> to the hospital area.',
+        keyword: 'slowly', correct: 'despacio', wrong: ['rápido', 'fuerte'] },
+      // S26 — give / injection / medication
+      { sentence: '<u>Give</u> the cow the injection and medication for mastitis.',
+        keyword: 'give', correct: 'dar', wrong: ['poner', 'verificar'] },
+      { sentence: 'Give the cow the <u>injection</u> and medication for mastitis.',
+        keyword: 'injection', correct: 'inyección', wrong: ['medicamento', 'agua'] },
+      { sentence: 'Give the cow the injection and <u>medication</u> for mastitis.',
+        keyword: 'medication', correct: 'medicamento', wrong: ['inyección', 'agua'] },
+      { sentence: 'Give the cow the injection and medication for <u>mastitis</u>.',
+        keyword: 'mastitis', correct: 'mastitis', wrong: ['el ordeño', 'la cosecha'] },
+      // S28 — give / feed / water
+      { sentence: 'Give the cow <u>feed</u> and water within reach of her head.',
+        keyword: 'feed', correct: 'alimento', wrong: ['agua', 'medicamento'] },
+      { sentence: 'Give the cow feed and <u>water</u> within reach of her head.',
+        keyword: 'water', correct: 'agua', wrong: ['leche', 'alimento'] },
+    ]
+  }
+
+]; // end scenarios
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// QUIZ ENGINE  (direct adaptation of tools_quiz.html pattern)
+// ═══════════════════════════════════════════════════════════════════════════
+
+let currentScenarioIdx = 0;
+let quizData   = [];
+let answered   = [];
+let current    = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuizData(scenarioIdx) {
+  return shuffle(
+    scenarios[scenarioIdx].questions.map(q => {
+      const options = shuffle([q.correct, ...q.wrong]);
+      return {
+        sentence:     q.sentence,
+        keyword:      q.keyword,
+        options,
+        correctIndex: options.indexOf(q.correct)
+      };
+    })
+  );
+}
+
+function loadScenario(idx) {
+  currentScenarioIdx = idx;
+
+  // Update selector buttons
+  document.querySelectorAll('.scenario-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+
+  // Set narrative
+  document.getElementById('narrative-text').innerHTML =
+    scenarios[idx].narrative;
+
+  // Build data and reset state
+  quizData = buildQuizData(idx);
+  answered = new Array(quizData.length).fill(null);
+  current  = 0;
+
+  // Show quiz, hide end screen
+  document.getElementById('quiz-card').style.display     = '';
+  document.querySelector('.nav-row').style.display        = '';
+  document.getElementById('progress-bar-wrap').style.display = '';
+  document.getElementById('progress-label').style.display    = '';
+  document.getElementById('end-screen').style.display    = 'none';
+
+  render();
+}
+
+function render() {
+  const q     = quizData[current];
+  const total = quizData.length;
+
+  // Progress
+  document.getElementById('q-number').textContent = `${current + 1} / ${total}`;
+  document.getElementById('progress-label').textContent =
+    `Question ${current + 1} of ${total} — Pregunta ${current + 1} de ${total}`;
+  document.getElementById('progress-fill').style.width =
+    `${(current / total) * 100}%`;
+
+  // Sentence with underlined keyword
+  document.getElementById('eng-prompt').innerHTML = q.sentence;
+
+  // Audio button
+  const header   = document.querySelector('.card-header');
+  let   audioBtn = document.getElementById('audio-btn');
+  if (!audioBtn) {
+    audioBtn          = document.createElement('button');
+    audioBtn.id       = 'audio-btn';
+    audioBtn.className= 'audio-btn';
+    audioBtn.title    = 'Listen';
+    header.appendChild(audioBtn);
+  }
+  audioBtn.textContent = '🔊';
+  audioBtn.onclick = () => speakSentence(q.sentence);
+
+  // Options — short words/phrases only
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C'];
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="letter">${letters[i]}</span> ${opt}`;
+    btn.onclick   = () => selectAnswer(i);
+
+    if (answered[current] !== null) {
+      btn.disabled = true;
+      if (i === q.correctIndex)          btn.classList.add('correct');
+      else if (i === answered[current])  btn.classList.add('wrong');
+    }
+    container.appendChild(btn);
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedback');
+  if (answered[current] !== null) {
+    const isCorrect = answered[current] === q.correctIndex;
+    fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+    fb.textContent = isCorrect
+      ? `✓ Correct! / ¡Correcto! — "${q.keyword}" = ${q.options[q.correctIndex]}`
+      : `✗ ${q.options[answered[current]]} → "${q.keyword}" = ${q.options[q.correctIndex]}`;
+  } else {
+    fb.className   = 'feedback';
+    fb.textContent = '';
+  }
+
+  // Nav
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = answered[current] === null;
+  document.getElementById('btn-next').innerHTML =
+    current === total - 1 ? 'Finish<br><em>Terminar</em>' : 'Next →<br><em>Siguiente</em>';
+}
+
+function selectAnswer(idx) {
+  if (answered[current] !== null) return;
+  answered[current] = idx;
+  render();
+}
+
+document.getElementById('btn-next').onclick = () => {
+  if (current < quizData.length - 1) {
+    current++;
+    render();
+  } else {
+    // Show end screen
+    const score = answered.filter((a, i) => a === quizData[i].correctIndex).length;
+    document.getElementById('end-score').innerHTML =
+      `You got ${score} of ${quizData.length} correct.<br><em>Obtuviste ${score} de ${quizData.length} correctas.</em>`;
+    document.getElementById('quiz-card').style.display      = 'none';
+    document.querySelector('.nav-row').style.display         = 'none';
+    document.getElementById('progress-bar-wrap').style.display = 'none';
+    document.getElementById('progress-label').style.display     = 'none';
+    document.getElementById('end-screen').style.display     = 'block';
+    document.getElementById('progress-fill').style.width    = '100%';
+  }
+};
+
+document.getElementById('btn-prev').onclick = () => {
+  if (current > 0) { current--; render(); }
+};
+
+function restartScenario() {
+  loadScenario(currentScenarioIdx);
+}
+
+function speakSentence(htmlText) {
+  if (!window.speechSynthesis) return;
+  const plain = htmlText.replace(/<[^>]+>/g, '');
+  window.speechSynthesis.cancel();
+  const utt  = new SpeechSynthesisUtterance(plain);
+  utt.lang   = 'en-US';
+  utt.rate   = 0.85;
+  const btn  = document.getElementById('audio-btn');
+  if (btn) {
+    btn.classList.add('playing');
+    utt.onend  = () => btn.classList.remove('playing');
+    utt.onerror= () => btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utt);
+}
+
+// Boot
+loadScenario(0);
+</script>
+</body>
+</html>

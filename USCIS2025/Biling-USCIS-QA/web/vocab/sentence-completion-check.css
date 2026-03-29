@@ -36,7 +36,8 @@ h1 {
 
 .spanish-text {
     display: none;
-    color: #555;
+    color: black;
+    background-color: #e8f0fb;
     font-size: 0.93em;
     margin-top: 2px;
 }
