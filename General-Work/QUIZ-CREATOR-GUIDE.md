@@ -12,6 +12,15 @@ The workflow has three layers:
 
 Answer option order is **fixed at generation time** — the script shuffles correct and distractor options once when the HTML is built, so the quiz is static and consistent for all learners. To re-randomize, regenerate the HTML.
 
+_Tips:_ 
+* In place of scenarios, shorter questions sets can be linked by a table of contents HTML 
+and by adding navigation inside each quiz in the set. This functionality is not
+built into the quiz generation Python script. 
+* Best practices include using only  UTF-8-compliant text characters in translations.
+* Quizzes can be developed for any language sets. 
+* Images can be incorporated in place of, or in addition to, the key terms being taught.
+* If subfolders are used, the relative paths to the  quiz.css and the quiz.js will need to be adjusted accordingly.
+
 ---
 
 ## File Structure
