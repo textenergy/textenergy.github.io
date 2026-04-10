@@ -37,26 +37,28 @@ Index page for all 128 bilingual civics questions, with navigation to question s
 ### [2025 US Citizenship Study Guide Hub](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/Biling2025StudyGuide.html) (EN/ES)
 
 Index page for the 12-chapter bilingual study guide (marked "Under Development"). Each English paragraph is clickable to reveal unofficial Spanish translation below it.
+A self-test has been added for each chapter, to enable review of the comprehension of quesiotns directly linked to the chapter.
+A floating navigation menu lets users jump around in chapters and self-tests.
 
 #### Chapter Subpages
 
 | Page | Content |
 |------|---------|
-| [Chapter 1](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter01_bilingual.html) (EN/ES) | The U.S. Constitution |
-| [Chapter 2](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter02_bilingual.html) (EN/ES) | The Legislative Branch |
-| [Chapter 3](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter03_bilingual.html) (EN/ES) | The Executive Branch |
-| [Chapter 4](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter04_bilingual.html) (EN/ES) | The Judicial Branch |
-| [Chapter 5](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter05_bilingual.html) (EN/ES) | Rights and Responsibilities |
-| [Chapter 6](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter06_bilingual.html) (EN/ES) | U.S. Geography |
-| [Chapter 7](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter07_bilingual.html) (EN/ES) | Early American History |
-| [Chapter 8](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter08_bilingual.html) (EN/ES) | The Revolutionary War and Declaration of Independence |
-| [Chapter 9](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter09_bilingual.html) (EN/ES) | A New Government and an Expanding Nation |
-| [Chapter 10](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter10_bilingual.html) (EN/ES) | The Civil War |
-| [Addendum A](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumA_bilingual.html) (EN/ES) | Important Women Defenders of Rights in the 19th Century (unofficial supplement) |
-| [Chapter 11](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter11_bilingual.html) (EN/ES) | American History 1900–2001 |
-| [Addendum B](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumB_bilingual.html) (EN/ES) | Additional U.S. Wars 1950s–2020s (unofficial supplement) |
-| [Addendum C](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumC_bilingual.html) (EN/ES) | Innovation in the United States (unofficial supplement) |
-| [Chapter 12](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter12_bilingual.html) (EN/ES) | American Symbols and Holidays |
+| [Chapter 1](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter01_bilingual.html) (EN/ES) [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter01-self-test.html) | The U.S. Constitution |
+| [Chapter 2](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter02_bilingual.html) (EN/ES) [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter02-self-test.html) | The Legislative Branch |
+| [Chapter 3](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter03_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter03-self-test.html)| The Executive Branch |
+| [Chapter 4](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter04_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter04-self-test.html)| The Judicial Branch |
+| [Chapter 5](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter05_bilingual.html) (EN/ES) [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter05-self-test.html) | Rights and Responsibilities |
+| [Chapter 6](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter06_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter06-self-test.html)| U.S. Geography |
+| [Chapter 7](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter07_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter07-self-test.html)| Early American History |
+| [Chapter 8](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter08_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter08-self-test.html)| The Revolutionary War and Declaration of Independence |
+| [Chapter 9](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter09_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter09-self-test.html)| A New Government and an Expanding Nation |
+| [Chapter 10](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter10_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter10-self-test.html)| The Civil War |
+| [Addendum A](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumA_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumA-self-test.html)| Important Women Defenders of Rights in the 19th Century (unofficial supplement) |
+| [Chapter 11](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter11_bilingual.html) (EN/ES) [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter11-self-test.html) | American History 1900–2001 |
+| [Addendum B](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumB_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumB-self-test.html) | Additional U.S. Wars 1950s–2020s (unofficial supplement) |
+| [Addendum C](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumC_bilingual.html) (EN/ES)   [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/addendumC-self-test.html)| Innovation in the United States (unofficial supplement) |
+| [Chapter 12](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter12_bilingual.html) (EN/ES)  [Self-test](https://textenergy.github.io/USCIS2025/Biling-USCIS-QA/web/chapter12-self-test.html)| American Symbols and Holidays |
 
 ---
 
