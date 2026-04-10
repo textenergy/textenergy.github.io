@@ -1,0 +1,334 @@
+/* self-test.css — shared styles for USCIS 2025 civics self-test pages */
+
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.page-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+header {
+    background: #003366;
+    color: #fff;
+    padding: 14px 16px;
+}
+header h1 { font-size: 1.1rem; font-weight: bold; }
+header p  { font-size: 0.85rem; margin-top: 4px; opacity: 0.85; }
+
+/* ── Screens ─────────────────────────────────────────────── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Start screen ────────────────────────────────────────── */
+#screen-start { padding-top: 20px; }
+#screen-start h2 { color: #003366; font-size: 1.15rem; margin-bottom: 8px; }
+#screen-start p  { margin-bottom: 10px; }
+
+.info-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 16px;
+}
+.info-box h3 { font-size: 0.95rem; color: #003366; margin-bottom: 6px; }
+.info-box ul { padding-left: 20px; font-size: 0.9rem; }
+.info-box ul li { margin-bottom: 4px; }
+
+.note-incognito {
+    font-size: 0.8rem;
+    color: #666;
+    border-left: 3px solid #ccc;
+    padding-left: 8px;
+    margin-bottom: 16px;
+}
+
+/* ── Quiz card ───────────────────────────────────────────── */
+#screen-quiz { padding-top: 16px; }
+
+.progress-bar-wrap {
+    background: #ddd;
+    border-radius: 4px;
+    height: 8px;
+    margin-bottom: 12px;
+}
+.progress-bar-fill {
+    background: #003366;
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+
+.progress-label {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.review-heading {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #7b4f00;
+    margin-bottom: 12px;
+}
+
+/* ── Phase badge — selector was missing in previous version ── */
+.phase-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.phase-badge.chapter { background: #003366; color: #fff; }
+.phase-badge.review  { background: #7b4f00; color: #fff; }
+
+.card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 14px;
+}
+
+.question-num {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.question-text-en {
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 6px;
+}
+
+.question-text-es {
+    font-size: 0.9rem;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+.starred-note {
+    font-size: 0.78rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+/* Spanish toggle */
+.toggle-es-btn {
+    font-size: 0.8rem;
+    background: none;
+    border: 1px solid #999;
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    color: #444;
+    margin-bottom: 10px;
+    min-height: 44px;
+}
+.toggle-es-btn:hover { background: #eee; }
+.es-section { display: none; }
+.es-section.visible { display: block; }
+
+/* Reveal button */
+.reveal-btn {
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 12px;
+    min-height: 44px;
+}
+.reveal-btn:hover { background: #004a99; }
+
+/* Answer reveal panel */
+.answer-panel { display: none; margin-bottom: 14px; }
+.answer-panel.visible { display: block; }
+
+.answers-heading {
+    font-size: 0.82rem;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 4px;
+}
+.answer-list {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 0.92rem;
+    margin-bottom: 10px;
+}
+.answer-list li { margin-bottom: 3px; }
+
+.answer-list-es {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 0.88rem;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+.answer-list-es li { margin-bottom: 3px; }
+
+.variable-note {
+    font-size: 0.88rem;
+    background: #fff8e1;
+    border-left: 3px solid #f0a500;
+    padding: 8px 10px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 10px;
+}
+
+.multi-note {
+    font-size: 0.8rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+/* TTS button for variable-answer questions */
+.tts-btn {
+    background: #e8f0fb;
+    color: #003366;
+    border: 1px solid #003366;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 0.92rem;
+    cursor: pointer;
+    margin-bottom: 12px;
+    min-height: 44px;
+}
+.tts-btn:hover { background: #d0e2f7; }
+
+/* Audio */
+.audio-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+.audio-label {
+    font-size: 0.78rem;
+    color: #555;
+    margin-bottom: 2px;
+}
+audio { width: 100%; max-width: 260px; height: 36px; }
+
+/* Self-rating */
+.rating-prompt {
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+.rating-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.rating-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px 6px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    font-weight: bold;
+    min-height: 44px;
+}
+.rating-btn.got-it     { background: #d4edda; color: #155724; }
+.rating-btn.needs-work { background: #fff3cd; color: #856404; }
+.rating-btn:hover { filter: brightness(0.93); }
+
+/* ── Results screen ──────────────────────────────────────── */
+#screen-results { padding-top: 20px; }
+#screen-results h2 { color: #003366; font-size: 1.15rem; margin-bottom: 12px; }
+
+.result-summary {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+.result-summary p { margin-bottom: 6px; font-size: 0.95rem; }
+.result-summary .big-num {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #003366;
+    line-height: 1;
+}
+
+.needs-work-list h3 {
+    font-size: 0.95rem;
+    color: #856404;
+    margin-bottom: 8px;
+}
+.needs-work-list ul {
+    list-style: none;
+    padding: 0;
+}
+.needs-work-list ul li {
+    background: #fff3cd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    font-size: 0.88rem;
+}
+.needs-work-list ul li a {
+    color: #003366;
+    font-size: 0.8rem;
+    margin-left: 8px;
+}
+
+.restart-btn {
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 16px;
+    width: 100%;
+    min-height: 44px;
+}
+.restart-btn:hover { background: #004a99; }
+
+/* ── Utility ─────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+.btn-primary {
+    background: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    min-height: 44px;
+}
+.btn-primary:hover { background: #004a99; }

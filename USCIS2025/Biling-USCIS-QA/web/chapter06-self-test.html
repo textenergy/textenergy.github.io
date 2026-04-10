@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Test: Chapter 6 — U.S. Geography</title>
+    <link rel="stylesheet" href="self-test.css">
+<link rel="stylesheet" href="float-nav-menu.css"/></head>
+<body>
+
+<header>
+    <h1>2025 Civics Self-Test — Chapter 6: U.S. Geography</h1>
+    <p>Examen de práctica — Capítulo 6: Geografía de los Estados Unidos</p>
+</header>
+
+<div class="page-wrap">
+
+    <!-- ══ START SCREEN ══════════════════════════════════════════ -->
+    <div id="screen-start" class="screen active">
+        <h2>How this self-test works / Cómo funciona este examen</h2>
+        <p>Each question appears one at a time. <strong>Say your answer out loud</strong> before revealing the accepted answers.</p>
+        <p>Cada pregunta aparece una a la vez. <strong>Diga su respuesta en voz alta</strong> antes de ver las respuestas aceptadas.</p>
+
+        <div class="info-box">
+            <h3>This session / Esta sesión</h3>
+            <ul>
+                <li><strong>Chapter 6 questions:</strong> <span id="ch-count"></span> questions on U.S. Geography</li>
+                <li><strong>Quick Review:</strong> up to <span id="review-count"></span> questions from chapters you have already completed</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>Your ratings are saved / Sus calificaciones se guardan</h3>
+            <ul>
+                <li>✓ <em>Got it</em> — marks the question as learned</li>
+                <li>~ <em>Need practice</em> — flagged for review in future sessions</li>
+            </ul>
+        </div>
+
+        <p class="note-incognito">Note: ratings are saved in your browser. They will not carry over if you use private/incognito mode.<br>
+        <em>Nota: las calificaciones se guardan en su navegador. No se conservarán si usa el modo privado/incógnito.</em></p>
+
+        <button class="btn-primary" id="start-btn">Begin / Comenzar</button>
+    </div>
+
+    <!-- ══ QUIZ SCREEN ════════════════════════════════════════════ -->
+    <div id="screen-quiz" class="screen">
+
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="progress-label"></div>
+
+        <span class="phase-badge chapter" id="phase-badge">Chapter 6</span>
+
+        <div id="review-heading" class="review-heading hidden">
+            Review questions from earlier chapters / Preguntas de repaso de capítulos anteriores
+        </div>
+
+        <div class="card">
+            <div class="question-num" id="q-num"></div>
+            <div class="question-text-en" id="q-text-en"></div>
+
+            <button class="toggle-es-btn" id="toggle-es-btn">Mostrar español / Show Spanish</button>
+            <div class="es-section" id="es-section">
+                <div class="question-text-es" id="q-text-es"></div>
+            </div>
+
+            <div class="starred-note hidden" id="starred-note">★ This is a frequently tested question. / Esta pregunta se evalúa con frecuencia.</div>
+
+            <button class="reveal-btn" id="reveal-btn">Show accepted answers / Ver respuestas aceptadas</button>
+
+            <div class="answer-panel" id="answer-panel">
+                <div class="multi-note hidden" id="multi-note"></div>
+
+                <div class="answers-heading">Accepted answers (English):</div>
+                <ul class="answer-list" id="answer-list-en"></ul>
+
+                <div class="es-section" id="es-answers-section">
+                    <div class="answers-heading">Respuestas aceptadas (español):</div>
+                    <ul class="answer-list-es" id="answer-list-es"></ul>
+                </div>
+
+                <div class="variable-note hidden" id="variable-note"></div>
+
+                <div class="audio-row hidden" id="audio-row">
+                    <div>
+                        <div class="audio-label">English audio:</div>
+                        <audio id="audio-en" controls></audio>
+                    </div>
+                </div>
+
+                <div id="tts-row" class="hidden">
+                    <button class="tts-btn" id="tts-btn">&#9654; Hear the question / Escuchar la pregunta</button>
+                </div>
+
+                <div class="rating-prompt">How did you do? / ¿Cómo le fue?</div>
+                <div class="rating-buttons">
+                    <button class="rating-btn got-it" id="btn-got-it">✓ Got it / Lo sé</button>
+                    <button class="rating-btn needs-work" id="btn-needs-work">~ Need practice / Necesito practicar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ══ RESULTS SCREEN ════════════════════════════════════════ -->
+    <div id="screen-results" class="screen">
+        <h2>Session complete / Sesión completa</h2>
+
+        <div class="result-summary">
+            <p>Chapter 6 questions:</p>
+            <p id="res-chapter-line"><span class="big-num" id="res-got-it">0</span> ✓ Got it</p>
+            <div id="res-review-row" style="display:none">
+                <p>Quick Review:</p>
+                <p id="res-review-line"><span class="big-num" id="res-review-got-it">0</span> ✓ Got it</p>
+            </div>
+        </div>
+
+        <div class="needs-work-list" id="needs-work-section" style="display:none">
+            <h3>Questions to review / Preguntas para repasar:</h3>
+            <ul id="needs-work-ul"></ul>
+        </div>
+
+        <button class="restart-btn" id="restart-btn">Start again / Comenzar de nuevo</button>
+    </div>
+
+</div><!-- /page-wrap -->
+
+<!-- Chapter configuration — update these three lines for each chapter -->
+<script>
+    const CURRENT_CHAPTER = 6;
+    const CHAPTER_LABEL   = "6";
+    const CHAPTER_TITLE   = "U.S. Geography";
+</script>
+
+<!-- Shared data and logic -->
+<script src="civics-quiz-data.js"></script>
+<script src="self-test.js"></script>
+
+<script src="float-nav-menu.js"></script></body>
+</html>
