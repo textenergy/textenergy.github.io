@@ -179,9 +179,8 @@
 .nav-row a.current-link {
     background: #bbb;
     cursor: default;
-    pointer-events: none;
 }
 /* Prevent horizontal overflow from displacing fixed-position elements on mobile */
-body {
-    overflow-x: hidden;
+.html {
+    overflow-x: clip;
 }

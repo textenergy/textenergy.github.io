@@ -170,7 +170,6 @@ li {
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     text-align: left;
     cursor: default;
-    pointer-events: none;
 }
 
 .popup.visible {
@@ -482,10 +481,4 @@ h3::after {
         max-height: 90vh;
     }
 }
-/* Prevent wide images from causing horizontal overflow on mobile */
-.english-column img,
-.spanish-column img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
+
