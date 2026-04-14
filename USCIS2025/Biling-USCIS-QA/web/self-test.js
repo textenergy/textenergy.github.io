@@ -11,6 +11,7 @@
 
 const STORAGE_RATINGS   = "civics_ratings";    // { "023": "got-it", "036": "needs-work", … }
 const STORAGE_COMPLETED = "civics_completed";  // { "1": true, "2": true, "A": true, … }
+const STORAGE_SESSION   = "civics_session";    // { chKey: { queue, index, sessionRatings } }
 
 // ── Review pool size ──────────────────────────────────────────────────────────
 // Grows modestly with chapter number so later sessions offer more review
@@ -87,6 +88,35 @@ function markChapterComplete(chKey) {
   c[String(chKey)] = true;
   try { localStorage.setItem(STORAGE_COMPLETED, JSON.stringify(c)); }
   catch (e) { /* incognito */ }
+}
+
+// ── Session save/restore ──────────────────────────────────────────────────────
+
+function saveSession() {
+  try {
+    const all = JSON.parse(localStorage.getItem(STORAGE_SESSION)) || {};
+    all[String(CURRENT_CHAPTER)] = {
+      queue:          queue,
+      index:          currentIndex,
+      sessionRatings: sessionRatings
+    };
+    localStorage.setItem(STORAGE_SESSION, JSON.stringify(all));
+  } catch (e) { /* incognito or storage full */ }
+}
+
+function loadSession() {
+  try {
+    const all = JSON.parse(localStorage.getItem(STORAGE_SESSION)) || {};
+    return all[String(CURRENT_CHAPTER)] || null;
+  } catch (e) { return null; }
+}
+
+function clearSession() {
+  try {
+    const all = JSON.parse(localStorage.getItem(STORAGE_SESSION)) || {};
+    delete all[String(CURRENT_CHAPTER)];
+    localStorage.setItem(STORAGE_SESSION, JSON.stringify(all));
+  } catch (e) { /* incognito */ }
 }
 
 // ── Review pool builder ───────────────────────────────────────────────────────
@@ -214,14 +244,140 @@ const restartBtn    = document.getElementById("restart-btn");
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-chCount.textContent     = CHAPTER_QUESTIONS[CURRENT_CHAPTER].length;
-reviewCountEl.textContent = reviewCount();
+const savedSession = loadSession();
 
-document.getElementById("start-btn").addEventListener("click", startQuiz);
+if (savedSession && savedSession.queue && savedSession.index < savedSession.queue.length) {
+  // Restore session state
+  queue          = savedSession.queue;
+  currentIndex   = savedSession.index;
+  sessionRatings = savedSession.sessionRatings || {};
+
+  const chapterQNums = CHAPTER_QUESTIONS[CURRENT_CHAPTER];
+  const answeredSet  = new Set(Object.keys(sessionRatings).map(Number));
+  const nextQ        = queue[currentIndex].qNum;
+  const inReview     = queue[currentIndex].phase === "review";
+
+  const startDiv = document.getElementById("screen-start");
+  startDiv.innerHTML = "";
+
+  const resumeMsg = document.createElement("p");
+  resumeMsg.className = "resume-message";
+  if (inReview) {
+    resumeMsg.innerHTML =
+      "All chapter questions complete — Quick Review remaining." +
+      "<br><em>Todas las preguntas del capítulo completadas — Repaso rápido pendiente.</em>";
+  } else {
+    resumeMsg.innerHTML =
+      "You left off at Question " + nextQ + "." +
+      "<br><em>Dejó de responder en la Pregunta " + nextQ + ".</em>";
+  }
+  startDiv.appendChild(resumeMsg);
+
+  // Question strip — always show for chapter questions
+  const strip = document.createElement("div");
+  strip.className = "q-strip";
+  chapterQNums.forEach(function(n) {
+    const chip = document.createElement("span");
+    chip.className = "q-chip";
+    chip.textContent = n;
+    if (answeredSet.has(n)) {
+      chip.classList.add("q-chip-done");
+      if (sessionRatings[n] === "needs-work") {
+        chip.classList.add("q-chip-needs-work");
+      }
+    } else if (!inReview && n === nextQ) {
+      chip.classList.add("q-chip-next");
+    }
+    strip.appendChild(chip);
+  });
+  startDiv.appendChild(strip);
+
+  if (inReview) {
+    const reviewNote = document.createElement("p");
+    reviewNote.className = "resume-review-note";
+    reviewNote.innerHTML =
+      "Quick Review questions from earlier chapters are also waiting." +
+      "<br><em>Las preguntas de repaso de capítulos anteriores también están pendientes.</em>";
+    startDiv.appendChild(reviewNote);
+  }
+
+  const btnRow = document.createElement("div");
+  btnRow.className = "resume-btn-row";
+
+  const resumeBtn = document.createElement("button");
+  resumeBtn.className = "btn-primary";
+  resumeBtn.textContent = "Resume / Continuar";
+  resumeBtn.addEventListener("click", resumeQuiz);
+
+  const restartFreshBtn = document.createElement("button");
+  restartFreshBtn.className = "btn-secondary";
+  restartFreshBtn.textContent = "Start over / Comenzar de nuevo";
+  restartFreshBtn.addEventListener("click", function() {
+    clearSession();
+    location.reload();
+  });
+
+  btnRow.appendChild(resumeBtn);
+  btnRow.appendChild(restartFreshBtn);
+  startDiv.appendChild(btnRow);
+
+  screenStart.classList.add("active");
+
+} else {
+  // Normal start
+  chCount.textContent       = CHAPTER_QUESTIONS[CURRENT_CHAPTER].length;
+  reviewCountEl.textContent = reviewCount();
+
+  // If chapter previously completed, show completion note and needs-work chip strip
+  const completed = getCompleted();
+  if (completed[String(CURRENT_CHAPTER)]) {
+    const ratings      = getRatings();
+    const chapterQNums = CHAPTER_QUESTIONS[CURRENT_CHAPTER];
+    const needsWorkNums = chapterQNums.filter(function(n) {
+      const key = String(n).padStart(3, "0");
+      return ratings[String(n)] === "needs-work" || ratings[key] === "needs-work";
+    });
+
+    const startDiv  = document.getElementById("screen-start");
+    const startBtn  = document.getElementById("start-btn");
+
+    const doneMsg = document.createElement("p");
+    doneMsg.className = "resume-message";
+    doneMsg.innerHTML =
+      "You have completed this chapter\u2019s self-test." +
+      "<br><em>Ha completado el examen de pr\u00e1ctica de este cap\u00edtulo.</em>";
+    startDiv.insertBefore(doneMsg, startDiv.firstChild);
+
+    if (needsWorkNums.length > 0) {
+      const strip = document.createElement("div");
+      strip.className = "q-strip";
+
+      const label = document.createElement("p");
+      label.className = "strip-label";
+      label.innerHTML =
+        "Questions needing practice:" +
+        "<br><em>Preguntas que necesitan pr\u00e1ctica:</em>";
+      startDiv.insertBefore(label, startBtn);
+
+      needsWorkNums.forEach(function(n) {
+        const chip = document.createElement("a");
+        chip.className = "q-chip q-chip-done q-chip-needs-work";
+        chip.textContent = n;
+        chip.href = qaPageLink(n);
+        chip.target = "_blank";
+        chip.title = "Review question " + n;
+        strip.appendChild(chip);
+      });
+      startDiv.insertBefore(strip, startBtn);
+    }
+  }
+
+  document.getElementById("start-btn").addEventListener("click", startQuiz);
+}
 revealBtn.addEventListener("click", revealAnswers);
 btnGotIt.addEventListener("click",     () => recordRating("got-it"));
 btnNeedsWork.addEventListener("click", () => recordRating("needs-work"));
-restartBtn.addEventListener("click", () => location.reload());
+restartBtn.addEventListener("click", () => { clearSession(); location.reload(); });
 
 ttsBtn.addEventListener("click", () => {
   const q = CIVICS_QUESTIONS[padKey(queue[currentIndex].qNum)];
@@ -261,9 +417,15 @@ function showScreen(id) {
 // ── Quiz flow ─────────────────────────────────────────────────────────────────
 
 function startQuiz() {
+  clearSession();
   queue          = buildQueue();
   currentIndex   = 0;
   sessionRatings = {};
+  showScreen("screen-quiz");
+  renderQuestion();
+}
+
+function resumeQuiz() {
   showScreen("screen-quiz");
   renderQuestion();
 }
@@ -373,9 +535,11 @@ function recordRating(rating) {
   sessionRatings[qNum] = rating;
   saveRating(qNum, rating);
   currentIndex++;
+  saveSession();
   if (currentIndex < queue.length) {
     renderQuestion();
   } else {
+    clearSession();
     markChapterComplete(CURRENT_CHAPTER);
     showResults();
   }
@@ -450,11 +614,7 @@ function showResults() {
     needsWorkSect.insertBefore(chapterLink, needsWorkUl);
 
     if (chapterNeedsWork.length > 0) {
-      const hdr = document.createElement("li");
-      hdr.style.cssText = "font-weight:bold; background:none; padding-top:4px;";
-      hdr.textContent   = "Chapter " + CHAPTER_LABEL + " — " + CHAPTER_TITLE;
-      needsWorkUl.appendChild(hdr);
-      chapterNeedsWork.forEach(num => appendNeedsWorkItem(num));
+      chapterNeedsWork.forEach(function(num) { appendNeedsWorkItem(num); });
     }
     if (reviewNeedsWork.length > 0) {
       const hdr = document.createElement("li");

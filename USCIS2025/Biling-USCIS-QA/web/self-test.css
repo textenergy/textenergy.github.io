@@ -43,6 +43,7 @@ header p  { font-size: 0.85rem; margin-top: 4px; opacity: 0.85; }
     margin-bottom: 16px;
 }
 .info-box h3 { font-size: 0.95rem; color: #003366; margin-bottom: 6px; }
+.info-box p {color:navy; font-size:0.8rem}
 .info-box ul { padding-left: 20px; font-size: 0.9rem; }
 .info-box ul li { margin-bottom: 4px; }
 
@@ -332,3 +333,103 @@ audio { width: 100%; max-width: 260px; height: 36px; }
     min-height: 44px;
 }
 .btn-primary:hover { background: #004a99; }
+
+/* ── Resume screen ───────────────────────────────────────── */
+.resume-message {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 16px;
+    padding-top: 20px;
+}
+
+.q-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.q-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: normal;
+    background: #e8e8e8;
+    color: #888;
+    border: 1px solid #ccc;
+}
+
+.q-chip-done {
+    background: #003366;
+    color: #fff;
+    font-weight: bold;
+    border-color: navy;
+}
+
+.q-chip-needs-work {
+    background: #856404;
+    color: #fff;
+    border-color: gold;
+}
+
+a.q-chip {
+    text-decoration: none;
+}
+a.q-chip:hover {
+    filter: brightness(1.15);
+}
+
+.q-chip-next {
+    background: #fff;
+    color: #003366;
+    font-weight: bold;
+    border: 3px solid #003366;
+    position: relative;
+}
+
+.resume-review-note {
+    font-size: 0.88rem;
+    color: #7b4f00;
+    border-left: 3px solid #7b4f00;
+    padding-left: 8px;
+    margin-bottom: 16px;
+}
+
+.strip-label {
+    font-size: 0.88rem;
+    color: #856404;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.resume-btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.resume-btn-row .btn-primary {
+    flex: 1;
+    min-width: 140px;
+}
+
+.btn-secondary {
+    flex: 1;
+    min-width: 140px;
+    background: #fff;
+    color: #003366;
+    border: 2px solid #003366;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    min-height: 44px;
+    font-weight: bold;
+}
+.btn-secondary:hover { background: #e8f0fb; }
