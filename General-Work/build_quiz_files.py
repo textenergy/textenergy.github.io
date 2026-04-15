@@ -39,7 +39,8 @@ COLUMNS = [
     ('option_b',                 40, 'Distractor B'),
     ('option_c',                 40, 'Distractor C'),
     ('option_d',                 40, 'Distractor D (leave blank for 3-option questions)'),
-    ('tts_lang',                 10, 'e.g. en-US (default) or es-US'),
+    ('tts_lang',                 10, 'ISO code for question TTS, e.g. en-US (default)'),
+    ('answer_lang',              12, 'ISO code for answer option TTS, e.g. es-US (default)'),
     ('notes',                    30, 'Author notes — not exported to HTML or CSV library'),
 ]
 
@@ -269,7 +270,7 @@ def build_xlsx(path, quiz_id, quiz_title, scenarios=None, flat_questions=None):
                     sc_id, sc_title, sc_en, sc_es,
                     q_id, sentence, keyword,
                     opts[0], opts[1], opts[2], opt_d,
-                    'en-US', ''
+                    'en-US', 'es-US', ''
                 ])
                 ws.row_dimensions[row].height = 20
                 row += 1
@@ -283,7 +284,7 @@ def build_xlsx(path, quiz_id, quiz_title, scenarios=None, flat_questions=None):
                 '', '', '', '',
                 q_id, sentence, keyword,
                 opts[0], opts[1], opts[2], opt_d,
-                'en-US', ''
+                'en-US', 'es-US', ''
             ])
             ws.row_dimensions[row].height = 20
             row += 1
@@ -311,7 +312,7 @@ CSV_FIELDS = [
     'scenario_id','scenario_title',
     'question_id','sentence_en','keyword',
     'correct','option_b','option_c','option_d',
-    'tts_lang'
+    'tts_lang','answer_lang'
 ]
 
 def build_csv():
@@ -320,8 +321,6 @@ def build_csv():
     for (sc_id, sc_title, _, _, questions) in DAIRY_SCENARIOS:
         for q in questions:
             q_id, sentence, keyword, correct, distractors = q
-            opts, _ = shuffle_options(correct, distractors)
-            opt_d = opts[3] if len(opts) > 3 else ''
             rows.append({
                 'quiz_id': 'DAIRY-001', 'quiz_title': 'Dairy Farm Vocabulary Quiz',
                 'topic_folder': 'Dairy',
@@ -331,7 +330,7 @@ def build_csv():
                 'option_b': distractors[0] if len(distractors) > 0 else '',
                 'option_c': distractors[1] if len(distractors) > 1 else '',
                 'option_d': distractors[2] if len(distractors) > 2 else '',
-                'tts_lang': 'en-US'
+                'tts_lang': 'en-US', 'answer_lang': 'es-US'
             })
     # Tools
     for q in TOOLS_QUESTIONS:
@@ -345,7 +344,7 @@ def build_csv():
             'option_b': distractors[0] if len(distractors) > 0 else '',
             'option_c': distractors[1] if len(distractors) > 1 else '',
             'option_d': distractors[2] if len(distractors) > 2 else '',
-            'tts_lang': 'en-US'
+            'tts_lang': 'en-US', 'answer_lang': 'es-US'
         })
 
     with open(f'{OUT}/quiz-library.csv', 'w', newline='', encoding='utf-8') as f:
@@ -371,7 +370,8 @@ def build_dairy_html():
             sentence_html = bracket_to_u(sentence)
             opt_strs = ',\n        '.join(f"'{o}'" for o in opts)
             qs_js.append(f"""      {{ sentence: '{sentence_html}',
-        keyword: '{keyword}', options: [{opt_strs}], correctIndex: {ci} }}""")
+        keyword: '{keyword}', options: [{opt_strs}], correctIndex: {ci},
+        tts_lang: 'en-US', answer_lang: 'es-US' }}""")
         scenarios_js.append(f"""  {{
     title: "{sc_title}",
     narrative: "{narrative}",
@@ -392,7 +392,8 @@ def build_tools_html():
         sentence_html = bracket_to_u(sentence)
         opt_strs = ',\n    '.join(f"'{o}'" for o in opts)
         qs_js.append(f"""  {{ eng: '{sentence_html}',
-    options: [{opt_strs}], correctIndex: {ci} }}""")
+    options: [{opt_strs}], correctIndex: {ci},
+    tts_lang: 'en-US', answer_lang: 'es-US' }}""")
     return 'const questions = [\n' + ',\n'.join(qs_js) + '\n]; // end questions'
 
 if __name__ == '__main__':

@@ -17,15 +17,20 @@
  *   FORMAT A — scenario-based (e.g. dairy_quiz):
  *     const scenarios = [
  *       { title, narrative,
- *         questions: [{ sentence, keyword, options[], correctIndex }] }
+ *         questions: [{ sentence, keyword, options[], correctIndex,
+ *                       tts_lang, answer_lang }] }
  *     ];
  *     QuizEngine.init({ scenarios });
  *
  *   FORMAT B — flat question list (e.g. tools_quiz):
  *     const questions = [
- *       { eng, options[], correctIndex }
+ *       { eng, options[], correctIndex, tts_lang, answer_lang }
  *     ];
  *     QuizEngine.init({ questions });
+ *
+ * TTS language fields use standard ISO language codes, e.g.:
+ *   tts_lang    — language of the question sentence  (default: 'en-US')
+ *   answer_lang — language of the answer options     (default: 'es-MX')
  *
  * ── FUTURE INTERACTION MODULES (STUBS) ──────────────────────────────────────
  * DragDrop    — drag-and-drop matching exercises
@@ -50,20 +55,23 @@ const QuizEngine = (() => {
 
   /*
    * Normalise a question into a common internal shape:
-   *   { prompt, keyword, options[], correctIndex }
+   *   { prompt, keyword, options[], correctIndex, ttsLang, answerLang }
    *
-   * Format A field names: sentence / keyword / options[] / correctIndex
-   * Format B field names: eng / options[] / correctIndex
+   * Format A field names: sentence / keyword / options[] / correctIndex / tts_lang / answer_lang
+   * Format B field names: eng / options[] / correctIndex / tts_lang / answer_lang
    *
-   * options[] and correctIndex are already set by the generation script;
-   * this function just unifies the field names.
+   * options[] and correctIndex are already set by the generation script.
+   * tts_lang and answer_lang default to 'en-US' and 'es-MX' respectively
+   * if not present in the data.
    */
   function normalise(q) {
     return {
-      prompt:       q.sentence || q.eng,
-      keyword:      q.keyword  || null,
+      prompt:       q.sentence   || q.eng,
+      keyword:      q.keyword    || null,
       options:      q.options,
-      correctIndex: q.correctIndex
+      correctIndex: q.correctIndex,
+      ttsLang:      q.tts_lang   || 'en-US',
+      answerLang:   q.answer_lang || 'es-MX'
     };
   }
 
@@ -77,21 +85,22 @@ const QuizEngine = (() => {
   }
 
   /* ── TEXT-TO-SPEECH ──
-   * Uses the browser's built-in SpeechSynthesis API (no external service).
-   * Falls back silently if the browser does not support it.
+   * Speaks text aloud using the browser's built-in SpeechSynthesis API.
+   * lang: ISO language code, e.g. 'en-US', 'es-MX', 'fr-FR'
+   * activateBtn: optional element to animate with .playing class while speaking
+   * Falls back silently if the browser does not support speech synthesis.
    */
-  function speakText(htmlText) {
+  function speakText(htmlText, lang, activateBtn) {
     if (!window.speechSynthesis) return;
     const plain = stripTags(htmlText);
     window.speechSynthesis.cancel();
-    const utt   = new SpeechSynthesisUtterance(plain);
-    utt.lang    = 'en-US';
-    utt.rate    = 0.85;
-    const btn   = document.getElementById('audio-btn');
-    if (btn) {
-      btn.classList.add('playing');
-      utt.onend  = () => btn.classList.remove('playing');
-      utt.onerror= () => btn.classList.remove('playing');
+    const utt  = new SpeechSynthesisUtterance(plain);
+    utt.lang   = lang || 'en-US';
+    utt.rate   = 0.85;
+    if (activateBtn) {
+      activateBtn.classList.add('playing');
+      utt.onend  = () => activateBtn.classList.remove('playing');
+      utt.onerror= () => activateBtn.classList.remove('playing');
     }
     window.speechSynthesis.speak(utt);
   }
@@ -101,35 +110,72 @@ const QuizEngine = (() => {
     const q     = _quizData[_current];
     const total = _quizData.length;
 
-    /* Progress */
-    document.getElementById('q-number').textContent = `${_current + 1} / ${total}`;
+    /* Progress bar and label (these elements are static in the HTML) */
     document.getElementById('progress-label').textContent =
       `Question ${_current + 1} of ${total} — Pregunta ${_current + 1} de ${total}`;
     document.getElementById('progress-fill').style.width =
       `${(_current / total) * 100}%`;
 
-    /* English prompt (may contain <u> tags) */
-    document.getElementById('eng-prompt').innerHTML = q.prompt;
+    /* ── CARD HEADER ──
+     * Layout: [ 🔊 ] [ Q-number ] [ sentence ]
+     * The audio button is placed first (leftmost) so the tap target
+     * appears before the text in both visual and DOM order.
+     */
+    const header = document.querySelector('.card-header');
 
-    /* Audio button — create once, update onclick each render */
-    const header   = document.querySelector('.card-header');
-    let   audioBtn = document.getElementById('audio-btn');
-    if (!audioBtn) {
-      audioBtn           = document.createElement('button');
-      audioBtn.id        = 'audio-btn';
-      audioBtn.className = 'audio-btn';
-      audioBtn.title     = 'Listen / Escuchar';
-      header.appendChild(audioBtn);
-    }
+    /* Clear and rebuild header contents each render so order is guaranteed */
+    header.innerHTML = '';
+
+    const audioBtn       = document.createElement('button');
+    audioBtn.id          = 'audio-btn';
+    audioBtn.className   = 'audio-btn';
+    audioBtn.title       = 'Listen / Escuchar';
     audioBtn.textContent = '🔊';
-    audioBtn.onclick     = () => speakText(q.prompt);
+    audioBtn.setAttribute('aria-label', 'Play question audio');
+    audioBtn.onclick     = () => speakText(q.prompt, q.ttsLang, audioBtn);
+    header.appendChild(audioBtn);
 
-    /* Answer options */
+    const qNum       = document.createElement('span');
+    qNum.id          = 'q-number';
+    qNum.className   = 'q-number';
+    qNum.textContent = `${_current + 1} / ${total}`;
+    header.appendChild(qNum);
+
+    const prompt     = document.createElement('span');
+    prompt.id        = 'eng-prompt';
+    prompt.className = 'eng-prompt';
+    prompt.innerHTML = q.prompt;
+    header.appendChild(prompt);
+
+    /* ── ANSWER OPTIONS ──
+     * Each option is an .option-row containing:
+     *   [ 🔊 option-audio-btn ] [ option-btn (letter + text) ]
+     * Tapping either element registers the answer selection.
+     * Tapping 🔊 additionally plays the option text in answer_lang.
+     */
     const container = document.getElementById('options-container');
     container.innerHTML = '';
     const letters   = ['A', 'B', 'C', 'D'];
 
     q.options.forEach((opt, i) => {
+      const row       = document.createElement('div');
+      row.className   = 'option-row';
+
+      /* Speaker button */
+      const spk           = document.createElement('button');
+      spk.className       = 'option-audio-btn';
+      spk.textContent     = '🔊';
+      spk.title           = 'Listen / Escuchar';
+      spk.setAttribute('aria-label', `Play option ${letters[i]}`);
+      /* Speaker button — always playable, even after an answer is selected.
+       * Only registers a selection if the question is still unanswered. */
+      spk.onclick = (e) => {
+        e.stopPropagation();
+        speakText(opt, q.answerLang, spk);
+        if (_answered[_current] === null) selectAnswer(i);
+      };
+
+      /* Answer button */
       const btn       = document.createElement('button');
       btn.className   = 'option-btn';
       btn.innerHTML   = `<span class="letter">${letters[i]}</span> ${opt}`;
@@ -137,13 +183,17 @@ const QuizEngine = (() => {
 
       if (_answered[_current] !== null) {
         btn.disabled = true;
+        /* spk remains enabled so the learner can replay any option after answering */
         if (i === q.correctIndex)             btn.classList.add('correct');
         else if (i === _answered[_current])   btn.classList.add('wrong');
       }
-      container.appendChild(btn);
+
+      row.appendChild(spk);
+      row.appendChild(btn);
+      container.appendChild(row);
     });
 
-    /* Feedback bar */
+    /* ── FEEDBACK BAR ── */
     const fb = document.getElementById('feedback');
     if (_answered[_current] !== null) {
       const isCorrect = _answered[_current] === q.correctIndex;
@@ -162,12 +212,12 @@ const QuizEngine = (() => {
       fb.textContent  = '';
     }
 
-    /* Nav buttons */
+    /* ── NAV BUTTONS ── */
     const btnNext = document.getElementById('btn-next');
     const btnPrev = document.getElementById('btn-prev');
-    btnPrev.disabled   = _current === 0;
-    btnNext.disabled   = _answered[_current] === null;
-    btnNext.innerHTML  = _current === total - 1
+    btnPrev.disabled  = _current === 0;
+    btnNext.disabled  = _answered[_current] === null;
+    btnNext.innerHTML = _current === total - 1
       ? 'Finish<br><em>Terminar</em>'
       : 'Next →<br><em>Siguiente</em>';
   }
@@ -219,16 +269,13 @@ const QuizEngine = (() => {
   function loadScenario(idx) {
     _currentScenario = idx;
 
-    /* Update selector button states */
     document.querySelectorAll('.scenario-btn').forEach((btn, i) => {
       btn.classList.toggle('active', i === idx);
     });
 
-    /* Set narrative text */
     document.getElementById('narrative-text').innerHTML =
       _scenarios[idx].narrative;
 
-    /* Load pre-baked question data and reset state */
     _quizData  = buildQuizData(_scenarios[idx].questions);
     _answered  = new Array(_quizData.length).fill(null);
     _current   = 0;
@@ -253,13 +300,6 @@ const QuizEngine = (() => {
   }
 
   /* ── PUBLIC API ── */
-
-  /*
-   * init(config)
-   *   config.scenarios  — array of scenario objects (Format A)
-   *   config.questions  — array of flat question objects (Format B)
-   * Exactly one of the two must be provided.
-   */
   function init(config) {
     if (config.scenarios) {
       _scenarios    = config.scenarios;
@@ -272,13 +312,11 @@ const QuizEngine = (() => {
       return;
     }
 
-    /* Wire nav buttons */
     document.getElementById('btn-next').onclick = goNext;
     document.getElementById('btn-prev').onclick = goPrev;
 
-    /* Expose restart and loadScenario for inline onclick attributes in HTML */
-    window.restartQuiz   = restart;
-    window.loadScenario  = loadScenario;
+    window.restartQuiz  = restart;
+    window.loadScenario = loadScenario;
 
     if (_hasScenarios) {
       loadScenario(0);
@@ -298,10 +336,6 @@ const QuizEngine = (() => {
 /* ══════════════════════════════════════════════════════════════════════════
  * STUB MODULES — fill in or replace with separate .js files as needed
  * ══════════════════════════════════════════════════════════════════════════
- *
- * Each stub is a self-contained IIFE that exposes a single init() method.
- * When developed, move to its own file (e.g. drag-drop.js) and load with
- * a separate <script src="..."> tag in the HTML pages that use it.
  */
 
 /* ── STUB: DragDrop ─────────────────────────────────────────────────────── */
@@ -309,9 +343,6 @@ const QuizEngine = (() => {
 const DragDrop = (() => {
   function init(config) {
     // config.pairs: array of { term, translation } objects
-    // TODO: render draggable term tiles and drop-target zones,
-    //       handle dragstart / dragover / drop events,
-    //       show correct/wrong state on drop.
   }
   return { init };
 })();
@@ -322,9 +353,6 @@ const DragDrop = (() => {
 const Flashcard = (() => {
   function init(config) {
     // config.cards: array of { front, back } objects
-    // TODO: render .flashcard elements with .flashcard-front / .flashcard-back,
-    //       toggle .flipped class on click to trigger CSS 3D rotation,
-    //       provide next/prev navigation.
   }
   return { init };
 })();
@@ -336,9 +364,6 @@ const ImageMap = (() => {
   function init(config) {
     // config.image: path to image file
     // config.targets: array of { id, x, y, width, height, label, answer }
-    // TODO: overlay absolutely-positioned click targets on the image,
-    //       show label popups or fill-in fields on click,
-    //       score and give feedback.
   }
   return { init };
 })();
@@ -348,12 +373,8 @@ const ImageMap = (() => {
 /*
 const AudioPlayer = (() => {
   function init(config) {
-    // config.audioDir: relative path to the audio subfolder
-    //   e.g. 'audio/' resolves to Dairy/audio/ when called from Dairy/dairy_quiz.html
-    // config.files: array of { id, filename, label } objects
-    // TODO: create <audio> elements pointing to audioDir + filename,
-    //       wire play/pause buttons,
-    //       integrate with quiz engine so audio plays on question load.
+    // config.audioDir: relative path to audio subfolder
+    // config.files: array of { id, filename, label }
   }
   return { init };
 })();

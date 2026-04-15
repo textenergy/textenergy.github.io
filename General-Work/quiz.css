@@ -15,10 +15,10 @@
  *   :root { --accent: #5c3a1a; }
  *
  * Future interaction modules:
- *   drag-drop.css   — drag-and-drop matching exercises   [STUB — not yet implemented]
- *   flashcard.css   — flip-card vocabulary review        [STUB — not yet implemented]
- *   imagemap.css    — clickable image-map exercises       [STUB — not yet implemented]
- *   audio-player.css — styled <audio> element wrapper    [STUB — not yet implemented]
+ *   drag-drop.css    — drag-and-drop matching exercises   [STUB — not yet implemented]
+ *   flashcard.css    — flip-card vocabulary review        [STUB — not yet implemented]
+ *   imagemap.css     — clickable image-map exercises      [STUB — not yet implemented]
+ *   audio-player.css — styled <audio> element wrapper     [STUB — not yet implemented]
  */
 
 /* ── RESET ── */
@@ -57,6 +57,9 @@
   --note-bg:       #fff8e1;
   --note-border:   #ffe082;
 
+  /* Minimum tap target — Apple HIG / Android Material: 44px */
+  --tap-min:       44px;
+
   /* Layout */
   --max-width:     700px;
   --radius-card:   12px;
@@ -91,8 +94,7 @@ header p {
   line-height: 1.5;
 }
 
-/* ── SCENARIO SELECTOR
-   (hidden automatically when no scenarios are present) ── */
+/* ── SCENARIO SELECTOR ── */
 .scenario-selector {
   max-width: var(--max-width);
   margin: 0 auto 22px;
@@ -102,6 +104,7 @@ header p {
   justify-content: center;
 }
 .scenario-btn {
+  min-height: var(--tap-min);
   padding: 7px 16px;
   border: 2px solid var(--accent-border);
   border-radius: var(--radius-pill);
@@ -196,6 +199,7 @@ header p {
   white-space: nowrap;
   margin-top: 2px;
 }
+
 /* English sentence shown in the card header */
 .eng-prompt {
   font-size: 1rem;
@@ -210,28 +214,49 @@ header p {
   color: var(--accent-dark);
 }
 
-/* ── AUDIO BUTTON (text-to-speech trigger) ── */
-.audio-btn {
+/* ── AUDIO BUTTONS (text-to-speech triggers) ──────────────────────────────
+ * .audio-btn       — question-level speaker (in card header)
+ * .option-audio-btn — per-option speaker (left of each answer row)
+ *
+ * Both meet the 44px minimum tap target via min-width / min-height.
+ * The option speaker is visually smaller but its tap area is padded to 44px.
+ */
+.audio-btn,
+.option-audio-btn {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 1.3rem;
-  padding: 2px 4px;
-  border-radius: 4px;
   line-height: 1;
+  border-radius: 4px;
   transition: transform 0.1s;
   flex-shrink: 0;
-  margin-top: 1px;
 }
-.audio-btn:hover { transform: scale(1.2); }
-.audio-btn.playing {
-  animation: pulse 0.6s ease-in-out infinite alternate;
+.audio-btn {
+  /* Question-level: sits in card header row */
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  padding: 4px;
+  margin-top: -6px;   /* vertically centre with first line of prompt text */
 }
+.option-audio-btn {
+  /* Per-option: narrower column, full row height via flex stretch */
+  min-width: var(--tap-min);
+  align-self: stretch;   /* fills the option-row height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  font-size: 1.1rem;
+}
+.audio-btn:hover,
+.option-audio-btn:hover       { transform: scale(1.2); }
+.audio-btn.playing,
+.option-audio-btn.playing     { animation: pulse 0.6s ease-in-out infinite alternate; }
 @keyframes pulse { from { opacity: 1; } to { opacity: 0.4; } }
 
 /*
  * STUB: audio-player styles for <audio> element wrappers
- * Would apply when HTML includes an .audio-player div containing an <audio> tag.
  * Uncomment and complete when .mp3 playback is needed.
  *
  * .audio-player { ... }
@@ -245,10 +270,23 @@ header p {
   flex-direction: column;
   gap: 9px;
 }
+
+/*
+ * Each answer is an .option-row: a flex container holding
+ * the speaker button and the selectable answer button side by side.
+ */
+.option-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
 .option-btn {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;                      /* fills remaining width after speaker button */
+  min-height: var(--tap-min);   /* 44px tap target */
   padding: 11px 16px;
   border: 2px solid #ddd;
   border-radius: var(--radius-btn);
@@ -307,6 +345,7 @@ header p {
   gap: 12px;
 }
 .nav-btn {
+  min-height: var(--tap-min);
   padding: 11px 28px;
   border: none;
   border-radius: var(--radius-btn);
@@ -339,6 +378,7 @@ header p {
 .end-screen h2 { font-size: 1.4rem; font-weight: 900; color: var(--accent-dark); margin-bottom: 10px; }
 .end-screen p  { font-size: 1rem;   color: var(--subtext); margin-bottom: 22px; }
 .restart-btn {
+  min-height: var(--tap-min);
   background: var(--accent-mid);
   color: #fff;
   border: none;
@@ -355,8 +395,6 @@ header p {
 
 /*
  * STUBS — future interaction types
- * Each stub would be developed in a separate CSS file and @imported here,
- * or loaded as a separate <link> in HTML pages that use that type.
  *
  * STUB: drag-drop.css
  *   .drag-item { ... }
