@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landscaping Tools Practice</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { display: inline-block; transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .note-box p + p {
+            margin-top: 5px;
+        }
+
+        .note-box .device-instructions {
+            font-size: 13px;
+            color: navy;
+            margin-top: 5px;
+        }
+
+        .note-box .incognito-note {
+            font-size: 12px;
+            color: navy;
+            margin-top: 8px;
+        }
+
+        #saveConfirm {
+            display: none;
+            background-color: #E8F5E9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 15px;
+            padding: 8px 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #playButton:hover:not(:disabled) {
+            background-color: #90EE90;
+        }
+
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        #resetButton {
+            background-color: #FF6347;
+            color: white;
+            border: none;
+        }
+
+        #resetButton:hover {
+            background-color: #E5533D;
+        }
+
+        #stats {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            border: 3px solid #333;
+            background-color: white;
+            cursor: pointer;
+            padding: 10px;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 160px;
+        }
+
+        .grid-item:hover:not(.found) {
+            background-color: #f0f0f0;
+        }
+
+        .grid-item.found {
+            background-color: #6B46C1;
+            border-color: #6B46C1;
+            cursor: pointer;
+        }
+
+        .grid-item img {
+            max-width: 100%;
+            max-height: 130px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .tool-caption {
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 8px;
+            min-height: 20px;
+            color: #333;
+            visibility: hidden;
+        }
+
+        .grid-item.found .tool-caption {
+            visibility: visible;
+            color: white;
+        }
+
+        .grid.completed {
+            opacity: 0.7;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Landscaping Tools / Herramientas de Jardinería</h1>
+
+    <div class="note-box">
+        <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
+        <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
+        <details style="margin-top: 6px;">
+            <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+            </summary>
+            <p class="device-instructions" style="margin-top: 6px;">
+                Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+            </p>
+            <p class="incognito-note">
+                Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+            </p>
+        </details>
+    </div>
+
+
+    <div class="controls">
+        <button id="playButton">🔊 Play Audio</button>
+        <span id="stats"></span>
+        <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
+        <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+    </div>
+
+    <div id="currentTool" style="display:none;"></div>
+
+    <div id="gridsContainer"></div>
+
+    <div id="saveConfirm">
+        ✓ Progress saved! Click "Reset All" to start again with 0 score.<br>
+        <em>¡Progreso guardado! Haga clic en "Reiniciar Todo" para comenzar de nuevo con puntuación 0.</em>
+    </div>
+
+    <footer>
+        <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+        <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+    </footer>
+
+    <script>
+        const tools = [
+            { file: 'tool01-aerator',    name: 'aerator' },
+            { file: 'tool02-axe',        name: 'axe' },
+            { file: 'tool03-boots',      name: 'boots' },
+            { file: 'tool04-edging',     name: 'edging tool' },
+            { file: 'tool05-flowerpot',  name: 'flower pot' },
+            { file: 'tool06-gloves',     name: 'gloves' },
+            { file: 'tool07-hoe',        name: 'hoe' },
+            { file: 'tool08-hose',       name: 'hose' },
+            { file: 'tool09-mower',      name: 'mower' },
+            { file: 'tool10-pitchfork',  name: 'pitchfork' },
+            { file: 'tool11-pruningsaw', name: 'pruning saw' },
+            { file: 'tool12-rake',       name: 'rake' },
+            { file: 'tool13-pruners',    name: 'pruners' },
+            { file: 'tool14-loppers',    name: 'loppers' },
+            { file: 'tool15-shovel',     name: 'shovel' },
+            { file: 'tool16-spade',      name: 'spade' },
+            { file: 'tool17-sprinkler',  name: 'sprinkler' },
+            { file: 'tool18-trowel',     name: 'trowel' },
+            { file: 'tool19-wateringcan', name: 'watering can' },
+            { file: 'tool20-wheelbarrow', name: 'wheelbarrow' }
+        ];
+
+        const GRID_SIZE = 4;
+        const TOTAL = tools.length;
+
+        let allPracticed = new Set();
+        let currentGridTools = [];
+        let currentGridFound = new Set();
+        let currentTarget = null;
+        let gridCounter = 0;
+
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function getUnpracticed() {
+            return tools.filter(t => !allPracticed.has(t.file));
+        }
+
+        function createGrid() {
+            const unpracticed = getUnpracticed();
+            if (unpracticed.length === 0) {
+                document.getElementById('currentTool').textContent = 'All 20 tools completed! 🎉 / ¡Todas las 20 herramientas completadas! 🎉';
+                return;
+            }
+
+            const count = Math.min(GRID_SIZE, unpracticed.length);
+            currentGridTools = shuffle(unpracticed).slice(0, count);
+            currentGridFound = new Set();
+            currentTarget = null;
+            gridCounter++;
+
+            renderGrid();
+            updateStats();
+            document.getElementById('playButton').disabled = false;
+            saveState();
+        }
+
+        function renderGrid() {
+            const container = document.getElementById('gridsContainer');
+            const gridEl = document.createElement('div');
+            gridEl.className = 'grid';
+            gridEl.id = `grid-${gridCounter}`;
+
+            currentGridTools.forEach(tool => {
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+                div.dataset.file = tool.file;
+
+                const img = document.createElement('img');
+                img.src = `images/${tool.file}.PNG`;
+                img.alt = tool.name;
+
+                const caption = document.createElement('div');
+                caption.className = 'tool-caption';
+                caption.textContent = tool.name;
+
+                div.appendChild(img);
+                div.appendChild(caption);
+
+                if (currentGridFound.has(tool.file)) {
+                    div.classList.add('found');
+                }
+
+                div.addEventListener('click', () => handleClick(tool, div));
+                gridEl.appendChild(div);
+            });
+
+            container.insertBefore(gridEl, container.firstChild);
+        }
+
+        function handleClick(tool, element) {
+            if (currentGridFound.has(tool.file)) {
+                speak(tool.name);
+                return;
+            }
+
+            if (currentTarget === null) return;
+
+            if (tool.file === currentTarget) {
+                currentGridFound.add(tool.file);
+                allPracticed.add(tool.file);
+                element.classList.add('found');
+                document.getElementById('currentTool').textContent = '';
+                currentTarget = null;
+                updateStats();
+                saveState();
+
+                if (currentGridFound.size === currentGridTools.length) {
+                    document.getElementById(`grid-${gridCounter}`).classList.add('completed');
+                    document.getElementById('playButton').disabled = true;
+
+                    if (getUnpracticed().length > 0) {
+                        setTimeout(createGrid, 1200);
+                    } else {
+                        document.getElementById('stats').textContent = `${TOTAL}/${TOTAL} 🎉`;
+                    }
+                }
+            }
+        }
+
+        function playTool() {
+            const remaining = currentGridTools.filter(t => !currentGridFound.has(t.file));
+            if (remaining.length === 0) return;
+
+            const pick = remaining[Math.floor(Math.random() * remaining.length)];
+            currentTarget = pick.file;
+            speak(pick.name);
+        }
+
+        function updateStats() {
+            const totalDone = allPracticed.size;
+            document.getElementById('stats').textContent = `${totalDone}/${TOTAL}`;
+        }
+
+        function saveState() {
+            try {
+                const state = {
+                    allPracticed: Array.from(allPracticed),
+                    currentGridTools: currentGridTools.map(t => t.file),
+                    currentGridFound: Array.from(currentGridFound),
+                    gridCounter
+                };
+                localStorage.setItem('toolsPracticeState2', JSON.stringify(state));
+            } catch(e) { /* incognito or storage full */ }
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('toolsPracticeState2');
+                if (!saved) return false;
+                const state = JSON.parse(saved);
+                allPracticed = new Set(state.allPracticed || []);
+                currentGridTools = (state.currentGridTools || []).map(f => tools.find(t => t.file === f)).filter(Boolean);
+                currentGridFound = new Set(state.currentGridFound || []);
+                gridCounter = state.gridCounter || 0;
+
+                if (currentGridTools.length > 0) {
+                    renderGrid();
+                    updateStats();
+
+                    if (currentGridFound.size === currentGridTools.length) {
+                        document.getElementById(`grid-${gridCounter}`).classList.add('completed');
+                        document.getElementById('playButton').disabled = true;
+                    } else {
+                        document.getElementById('playButton').disabled = false;
+                    }
+                    return true;
+                }
+            } catch(e) { /* corrupted state */ }
+            return false;
+        }
+
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                try { localStorage.removeItem('toolsPracticeState2'); } catch(e) {}
+                location.reload();
+            }
+        }
+
+        document.getElementById('playButton').addEventListener('click', playTool);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const msg = document.getElementById('saveConfirm');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        });
+
+        if (!loadState()) {
+            createGrid();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-100 Number Practice Grid</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    
+    You are free to:
+    - Share: copy and redistribute the material in any medium or format
+    - Adapt: remix, transform, and build upon the material for any purpose
+    
+    Under the following terms:
+    - Attribution: You must give appropriate credit, provide a link to the license,
+      and indicate if changes were made.
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-template-rows: auto auto;
+            gap: 10px;
+        }
+        
+        #resetButton {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        
+        #playButton:hover:not(:disabled) {
+            background-color: #90EE90;
+        }
+        
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .grid-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333;
+            background-color: white;
+            cursor: pointer;
+            font-size: clamp(24px, 4vw, 48px);
+            font-weight: bold;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .grid-item:hover:not(.found) {
+            background-color: #f0f0f0;
+        }
+        
+        .grid-item.found {
+            background-color: #6B46C1;
+            color: white;
+            cursor: pointer;
+        }
+        
+        #currentNumber {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            min-height: 30px;
+        }
+        
+        #stats {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .grid.completed {
+            opacity: 0.7;
+        }
+        
+        #continueButton {
+            display: none;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+        }
+        
+        #continueButton:hover {
+            background-color: #0b7dda;
+        }
+        
+        #resetButton {
+            background-color: #FF6347;
+            color: white;
+            border: none;
+        }
+        
+        #resetButton:hover {
+            background-color: #E5533D;
+        }
+    </style>
+</head>
+<body>
+    <h1>1-100 Number Practice Grid</h1>
+    
+    <div style="background-color: #FFF9C4; padding: 15px; margin: 10px 0; border-left: 4px solid #FBC02D; border-radius: 4px;">
+        <p style="margin: 0; font-size: 14px;">
+            <strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.
+        </p>
+        <p style="margin: 5px 0 0 0; font-size: 14px;">
+            <strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong>
+        </p>
+        <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;">
+            Android: Settings → Language & Input → Text-to-speech → Install English voice<br/>
+            <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br/>
+            iOS: Settings → Accessibility → Spoken Content → Voices → English<br/>
+            <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+        </p>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: #888;">
+            Progress is saved on this device. Private/incognito browsing does not save progress.<br/>
+            <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+        </p>
+    </div>
+    
+    <div id="audioReminder" style="display:none; background-color: #E3F2FD; padding: 12px 15px; margin: 10px 0; border-left: 4px solid #2196F3; border-radius: 4px; font-size: 14px;">
+        🔊 Make sure your device audio is turned on to hear the numbers!<br/>
+        <em>¡Asegúrese de que el audio de su dispositivo esté activado para escuchar los números!</em>
+        <button onclick="document.getElementById('audioReminder').style.display='none'" style="float:right; background:none; border:none; font-size:18px; cursor:pointer; color:#555; padding:0; line-height:1;">×</button>
+    </div>
+
+    <div class="controls">
+        <button id="playButton">🔊 Play Number<br><span style="font-size: 12px;">Reproducir Número</span></button>
+        <button id="continueButton">Continue<br><span style="font-size: 12px;">Continuar</span></button>
+        <button id="saveButton">Save Progress<br><span style="font-size: 12px;">Guardar Progreso</span></button>
+        <button id="resetButton">Reset All<br><span style="font-size: 12px;">Reiniciar Todo</span></button>
+    </div>
+    
+    <div id="saveConfirm" style="display:none; background-color: #E8F5E9; padding: 10px 15px; margin: 5px 0; border-left: 4px solid #4CAF50; border-radius: 4px; font-size: 14px;">
+        ✓ Progress saved! Click "Reset All" to start again with 0 score.<br/>
+        <em>¡Progreso guardado! Haga clic en "Reiniciar Todo" para comenzar de nuevo con puntuación 0.</em>
+    </div>
+
+    <div id="currentNumber"></div>
+    <div id="stats"></div>
+    
+    <div id="gridsContainer"></div>
+
+    <footer style="margin-top: 40px; padding: 20px; text-align: center; font-size: 14px; color: #666; border-top: 1px solid #ddd;">
+        <p>© 2024 [Your Name] | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+        <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+    </footer>
+
+    <script>
+        // All values: 1-100
+        const allValues = [];
+        for (let i = 1; i <= 100; i++) {
+            allValues.push(i);
+        }
+        
+        let allPracticedNumbers = new Set(); // Track all numbers ever practiced
+        let currentGridValues = [];
+        let currentGridFound = new Set();
+        let currentTarget = null;
+        let gridCounter = 0;
+        let isFirstPlay = true;
+        
+        // Shuffle array
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        
+        // Text-to-speech
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text.toString());
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // Get unpracticed numbers
+        function getUnpracticedNumbers() {
+            return allValues.filter(v => !allPracticedNumbers.has(v));
+        }
+        
+        // Create new grid with 10 items
+        function createGrid() {
+            const unpracticed = getUnpracticedNumbers();
+            
+            if (unpracticed.length === 0) {
+                document.getElementById('currentNumber').textContent = 'All 100 numbers completed! / ¡Todos los 100 números completados!';
+                return;
+            }
+            
+            // Take up to 10 unpracticed numbers
+            const count = Math.min(10, unpracticed.length);
+            currentGridValues = shuffle(unpracticed).slice(0, count);
+            currentGridFound = new Set();
+            currentTarget = null;
+            gridCounter++;
+            
+            renderGrid();
+            updateStats();
+            document.getElementById('continueButton').style.display = 'none';
+            document.getElementById('playButton').disabled = false;
+            saveState();
+        }
+        
+        // Render current grid
+        function renderGrid() {
+            const container = document.getElementById('gridsContainer');
+            
+            // Create new grid element
+            const gridElement = document.createElement('div');
+            gridElement.className = 'grid';
+            gridElement.id = `grid-${gridCounter}`;
+            
+            currentGridValues.forEach((value) => {
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+                div.textContent = value;
+                div.dataset.value = value;
+                
+                if (currentGridFound.has(value)) {
+                    div.classList.add('found');
+                }
+                
+                div.addEventListener('click', () => handleClick(value, div));
+                gridElement.appendChild(div);
+            });
+            
+            // Insert at the top so new grid stays near controls
+            container.insertBefore(gridElement, container.firstChild);
+        }
+        
+        // Handle grid item click
+        function handleClick(value, element) {
+            // If already found, play audio for review
+            if (currentGridFound.has(value)) {
+                speak(value);
+                return;
+            }
+            
+            if (currentTarget === null) {
+                return; // No target set yet
+            }
+            
+            if (value === currentTarget) {
+                currentGridFound.add(value);
+                allPracticedNumbers.add(value);
+                element.classList.add('found');
+                document.getElementById('currentNumber').textContent = `✓ Found / Encontrado: ${value}`;
+                currentTarget = null;
+                updateStats();
+                saveState();
+                
+                // Check if current grid is complete
+                if (currentGridFound.size === currentGridValues.length) {
+                    const currentGrid = document.getElementById(`grid-${gridCounter}`);
+                    currentGrid.classList.add('completed');
+                    document.getElementById('playButton').disabled = true;
+                    
+                    // Show Continue button if there are more numbers
+                    if (getUnpracticedNumbers().length > 0) {
+                        document.getElementById('continueButton').style.display = 'inline-block';
+                    } else {
+                        document.getElementById('currentNumber').textContent = 'All 100 numbers completed! 🎉 / ¡Todos los 100 números completados! 🎉';
+                    }
+                }
+            }
+        }
+        
+        // Play random number from current grid
+        function playNumber() {
+            // Show audio reminder on first play
+            if (isFirstPlay) {
+                document.getElementById('audioReminder').style.display = 'block';
+                isFirstPlay = false;
+            }
+            
+            const remaining = currentGridValues.filter(v => !currentGridFound.has(v));
+            
+            if (remaining.length === 0) {
+                document.getElementById('currentNumber').textContent = 'Current grid complete! / ¡Cuadrícula actual completa!';
+                return;
+            }
+            
+            const randomIndex = Math.floor(Math.random() * remaining.length);
+            currentTarget = remaining[randomIndex];
+            
+            speak(currentTarget);
+            
+            document.getElementById('currentNumber').textContent = `Listen and find the number... / Escuche y encuentre el número...`;
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const totalPracticed = allPracticedNumbers.size;
+            const currentFound = currentGridFound.size;
+            const currentTotal = currentGridValues.length;
+            
+            document.getElementById('stats').textContent = 
+                `Overall Progress / Progreso Total: ${totalPracticed}/100 | Current Grid / Cuadrícula Actual: ${currentFound}/${currentTotal}`;
+        }
+        
+        // Save state to localStorage
+        function saveState() {
+            const state = {
+                allPracticedNumbers: Array.from(allPracticedNumbers),
+                currentGridValues: currentGridValues,
+                currentGridFound: Array.from(currentGridFound),
+                gridCounter: gridCounter
+            };
+            localStorage.setItem('numberPracticeState', JSON.stringify(state));
+        }
+        
+        // Load state from localStorage
+        function loadState() {
+            const saved = localStorage.getItem('numberPracticeState');
+            if (saved) {
+                const state = JSON.parse(saved);
+                allPracticedNumbers = new Set(state.allPracticedNumbers || []);
+                currentGridValues = state.currentGridValues || [];
+                currentGridFound = new Set(state.currentGridFound || []);
+                gridCounter = state.gridCounter || 0;
+                
+                if (currentGridValues && currentGridValues.length > 0) {
+                    renderGrid();
+                    updateStats();
+                    
+                    // Check if grid is complete
+                    if (currentGridFound.size === currentGridValues.length) {
+                        const currentGrid = document.getElementById(`grid-${gridCounter}`);
+                        currentGrid.classList.add('completed');
+                        document.getElementById('playButton').disabled = true;
+                        if (getUnpracticedNumbers().length > 0) {
+                            document.getElementById('continueButton').style.display = 'inline-block';
+                        }
+                    } else {
+                        document.getElementById('playButton').disabled = false;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        // Reset all progress
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                localStorage.removeItem('numberPracticeState');
+                location.reload();
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('playButton').addEventListener('click', playNumber);
+        document.getElementById('continueButton').addEventListener('click', createGrid);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const confirm = document.getElementById('saveConfirm');
+            confirm.style.display = 'block';
+            setTimeout(() => { confirm.style.display = 'none'; }, 4000);
+        });
+        
+        // Initialize
+        if (!loadState()) {
+            createGrid();
+        }
+    </script>
+</body>
+</html>

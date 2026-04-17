@@ -356,6 +356,12 @@ def build_csv():
 # ── HTML GENERATION ──────────────────────────────────────────────────────────
 # Regenerate both HTML files from the authoritative data above,
 # with options baked in their shuffled-at-generation order.
+#
+# NOTE: The HTML boot call must include quizId, e.g.:
+#   QuizEngine.init({ quizId: "DAIRY-001", scenarios });
+#   QuizEngine.init({ quizId: "TOOLS-001", questions });
+# quizId is used as the localStorage key prefix for saved state.
+# Use the quiz_id value from the spreadsheet.
 
 def build_dairy_html():
     """Rebuild dairy_quiz.html with static baked option order."""

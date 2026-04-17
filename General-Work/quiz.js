@@ -30,7 +30,7 @@
  *
  * TTS language fields use standard ISO language codes, e.g.:
  *   tts_lang    — language of the question sentence  (default: 'en-US')
- *   answer_lang — language of the answer options     (default: 'es-MX')
+ *   answer_lang — language of the answer options     (default: 'es-US')
  *
  * ── FUTURE INTERACTION MODULES (STUBS) ──────────────────────────────────────
  * DragDrop    — drag-and-drop matching exercises
@@ -50,6 +50,8 @@ const QuizEngine = (() => {
   let _current          = 0;
   let _currentScenario  = 0;
   let _hasScenarios     = false;
+  let _slowMode         = false;  // false = 1.0 (normal), true = 0.65 (slow)
+  let _quizId           = '';     // set from config.quizId in init(); used as localStorage key prefix
 
   /* ── HELPERS ── */
 
@@ -61,7 +63,7 @@ const QuizEngine = (() => {
    * Format B field names: eng / options[] / correctIndex / tts_lang / answer_lang
    *
    * options[] and correctIndex are already set by the generation script.
-   * tts_lang and answer_lang default to 'en-US' and 'es-MX' respectively
+   * tts_lang and answer_lang default to 'en-US' and 'es-US' respectively
    * if not present in the data.
    */
   function normalise(q) {
@@ -71,7 +73,7 @@ const QuizEngine = (() => {
       options:      q.options,
       correctIndex: q.correctIndex,
       ttsLang:      q.tts_lang   || 'en-US',
-      answerLang:   q.answer_lang || 'es-MX'
+      answerLang:   q.answer_lang || 'es-US'
     };
   }
 
@@ -84,10 +86,70 @@ const QuizEngine = (() => {
     return html.replace(/<[^>]+>/g, '');
   }
 
+  /* ── LOCAL STORAGE ──
+   * State is saved per quiz + scenario (or per quiz for flat quizzes).
+   * Storage key format:  quizId + '-S' + scenarioIndex   e.g. 'DAIRY-001-S0'
+   *                      quizId + '-flat'                e.g. 'TOOLS-001-flat'
+   *
+   * Saved object: { answered: [], current: number, completed: boolean, saved: timestamp }
+   * State older than EXPIRY_DAYS days is discarded on load.
+   */
+  const EXPIRY_DAYS = 30;
+
+  function storageKey(scenarioIdx) {
+    return _quizId
+      ? (_hasScenarios ? `${_quizId}-S${scenarioIdx}` : `${_quizId}-flat`)
+      : null;
+  }
+
+  function saveState(scenarioIdx, completed) {
+    const key = storageKey(scenarioIdx);
+    if (!key) return;
+    try {
+      localStorage.setItem(key, JSON.stringify({
+        answered:  _answered,
+        current:   _current,
+        completed: completed || false,
+        saved:     Date.now()
+      }));
+    } catch (e) { /* storage full or unavailable — fail silently */ }
+  }
+
+  function loadState(scenarioIdx) {
+    const key = storageKey(scenarioIdx);
+    if (!key) return null;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const state = JSON.parse(raw);
+      /* Discard if older than EXPIRY_DAYS */
+      if (Date.now() - state.saved > EXPIRY_DAYS * 86400000) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      /* Discard if answer array length doesn't match current question count
+         (quiz content may have changed since state was saved) */
+      if (!Array.isArray(state.answered) || state.answered.length !== _quizData.length) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return state;
+    } catch (e) { return null; }
+  }
+
+  function clearState(scenarioIdx) {
+    const key = storageKey(scenarioIdx);
+    if (key) {
+      try { localStorage.removeItem(key); } catch (e) { /* ignore */ }
+    }
+  }
+
   /* ── TEXT-TO-SPEECH ──
    * Speaks text aloud using the browser's built-in SpeechSynthesis API.
-   * lang: ISO language code, e.g. 'en-US', 'es-MX', 'fr-FR'
+   * lang:        ISO language code, e.g. 'en-US', 'es-US', 'fr-FR'
    * activateBtn: optional element to animate with .playing class while speaking
+   * Rate:        English uses 1.0 normally, 0.65 in slow mode (_slowMode).
+   *              All other languages always use 1.0.
    * Falls back silently if the browser does not support speech synthesis.
    */
   function speakText(htmlText, lang, activateBtn) {
@@ -96,13 +158,50 @@ const QuizEngine = (() => {
     window.speechSynthesis.cancel();
     const utt  = new SpeechSynthesisUtterance(plain);
     utt.lang   = lang || 'en-US';
-    utt.rate   = 0.85;
+    utt.rate   = (lang && lang.startsWith('en') && _slowMode) ? 0.65 : 1.0;
     if (activateBtn) {
       activateBtn.classList.add('playing');
       utt.onend  = () => activateBtn.classList.remove('playing');
       utt.onerror= () => activateBtn.classList.remove('playing');
     }
     window.speechSynthesis.speak(utt);
+  }
+
+  /* ── SLOW MODE TOGGLE ──
+   * Appends a "Speed / Velocidad:" label and the SLOW sign button inline
+   * into the existing <header> <p> tag, so it sits on the same line as
+   * the instruction text without consuming extra vertical space.
+   * Called once at init(). Persists across all questions and scenarios.
+   *
+   * Opacity states (reversed from typical disabled pattern):
+   *   Default (slow OFF): full opacity — button looks available/inviting
+   *   Active  (slow ON):  dimmed      — slow mode engaged, tap to return to normal
+   */
+  function buildSlowButton() {
+    const p = document.querySelector('header p');
+    if (!p) return;
+
+    /* Label */
+    const label = document.createElement('span');
+    label.className   = 'rate-label';
+    label.textContent = ' Speed / Velocidad: ';
+
+    /* Button */
+    const btn = document.createElement('button');
+    btn.id        = 'slow-btn';
+    btn.className = 'rate-btn';
+    btn.setAttribute('aria-label', 'Slow / Despacio');
+    btn.title     = 'Slow / Despacio';
+    btn.innerHTML = `<img src="../slow-sign.svg" alt="SLOW" width="36" height="36">`;
+    btn.onclick   = () => {
+      _slowMode = !_slowMode;
+      btn.classList.toggle('rate-btn--active', _slowMode);
+      btn.title = _slowMode ? 'Normal' : 'Slow / Despacio';
+      btn.setAttribute('aria-label', _slowMode ? 'Normal' : 'Slow / Despacio');
+    };
+
+    p.appendChild(label);
+    p.appendChild(btn);
   }
 
   /* ── RENDER ── */
@@ -227,6 +326,7 @@ const QuizEngine = (() => {
   function selectAnswer(idx) {
     if (_answered[_current] !== null) return;
     _answered[_current] = idx;
+    saveState(_currentScenario, false);
     render();
   }
 
@@ -249,6 +349,10 @@ const QuizEngine = (() => {
     document.getElementById('end-score').innerHTML =
       `You got ${score} of ${_quizData.length} correct.<br>` +
       `<em>Obtuviste ${score} de ${_quizData.length} correctas.</em>`;
+
+    /* Save completed state so returning learners land on the end screen,
+       then clear after a short delay — next visit starts fresh */
+    saveState(_currentScenario, true);
 
     setQuizVisible(false);
     document.getElementById('end-screen').style.display = 'block';
@@ -276,17 +380,41 @@ const QuizEngine = (() => {
     document.getElementById('narrative-text').innerHTML =
       _scenarios[idx].narrative;
 
-    _quizData  = buildQuizData(_scenarios[idx].questions);
-    _answered  = new Array(_quizData.length).fill(null);
-    _current   = 0;
+    _quizData = buildQuizData(_scenarios[idx].questions);
 
-    document.getElementById('end-screen').style.display = 'none';
-    setQuizVisible(true);
-    render();
+    const saved = loadState(idx);
+
+    if (saved && saved.completed) {
+      /* Quiz was completed — show end screen with saved score */
+      _answered = saved.answered;
+      _current  = _quizData.length - 1;
+      const score = _answered.filter((a, i) => a === _quizData[i].correctIndex).length;
+      document.getElementById('end-score').innerHTML =
+        `You got ${score} of ${_quizData.length} correct.<br>` +
+        `<em>Obtuviste ${score} de ${_quizData.length} correctas.</em>`;
+      setQuizVisible(false);
+      document.getElementById('end-screen').style.display = 'block';
+      document.getElementById('progress-fill').style.width = '100%';
+    } else if (saved) {
+      /* Partial progress — resume at last unanswered question */
+      _answered = saved.answered;
+      _current  = saved.current;
+      document.getElementById('end-screen').style.display = 'none';
+      setQuizVisible(true);
+      render();
+    } else {
+      /* No saved state — start fresh */
+      _answered = new Array(_quizData.length).fill(null);
+      _current  = 0;
+      document.getElementById('end-screen').style.display = 'none';
+      setQuizVisible(true);
+      render();
+    }
   }
 
-  /* Restart: reload the current scenario or flat list from the baked data */
+  /* Restart: clear saved state and reload from the beginning */
   function restart() {
+    clearState(_currentScenario);
     if (_hasScenarios) {
       loadScenario(_currentScenario);
     } else {
@@ -300,7 +428,16 @@ const QuizEngine = (() => {
   }
 
   /* ── PUBLIC API ── */
+  /*
+   * init(config)
+   *   config.quizId     — unique quiz identifier, e.g. 'DAIRY-001' (used as localStorage key prefix)
+   *   config.scenarios  — array of scenario objects (Format A)
+   *   config.questions  — array of flat question objects (Format B)
+   * quizId and exactly one of scenarios/questions must be provided.
+   */
   function init(config) {
+    _quizId = config.quizId || '';
+
     if (config.scenarios) {
       _scenarios    = config.scenarios;
       _hasScenarios = true;
@@ -318,13 +455,34 @@ const QuizEngine = (() => {
     window.restartQuiz  = restart;
     window.loadScenario = loadScenario;
 
+    buildSlowButton();
+
     if (_hasScenarios) {
       loadScenario(0);
     } else {
       _quizData = buildQuizData(_flatQuestions);
-      _answered = new Array(_quizData.length).fill(null);
-      _current  = 0;
-      render();
+
+      const saved = loadState(0);  /* flat quizzes use key suffix '-flat' */
+
+      if (saved && saved.completed) {
+        _answered = saved.answered;
+        _current  = _quizData.length - 1;
+        const score = _answered.filter((a, i) => a === _quizData[i].correctIndex).length;
+        document.getElementById('end-score').innerHTML =
+          `You got ${score} of ${_quizData.length} correct.<br>` +
+          `<em>Obtuviste ${score} de ${_quizData.length} correctas.</em>`;
+        setQuizVisible(false);
+        document.getElementById('end-screen').style.display = 'block';
+        document.getElementById('progress-fill').style.width = '100%';
+      } else if (saved) {
+        _answered = saved.answered;
+        _current  = saved.current;
+        render();
+      } else {
+        _answered = new Array(_quizData.length).fill(null);
+        _current  = 0;
+        render();
+      }
     }
   }
 

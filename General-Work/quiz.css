@@ -263,6 +263,35 @@ header p {
  * .audio-player audio { width: 100%; ... }
  */
 
+/* ── SLOW MODE BUTTON ──
+ * Injected inline into the <header> <p> tag by quiz.js at init time.
+ * Full opacity by default (available/inviting).
+ * Dimmed when slow mode is ON (.rate-btn--active) — engaged, tap to cancel.
+ * Brightens to full on hover regardless of state.
+ */
+.rate-label {
+  font-size: 0.9rem;
+  color: var(--subtext);
+  white-space: nowrap;
+}
+.rate-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.2s;
+  vertical-align: middle;
+}
+.rate-btn:hover        { opacity: 1; }
+.rate-btn--active      { opacity: 0.35; }
+
 /* ── ANSWER OPTIONS ── */
 .options {
   padding: 14px 18px 18px;
