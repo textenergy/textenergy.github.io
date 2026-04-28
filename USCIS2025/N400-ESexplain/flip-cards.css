@@ -1,0 +1,181 @@
+/* flip-cards.css — shared styles for flip card interactive pages */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Trebuchet MS', 'Gill Sans', Arial, sans-serif;
+  background-color: #f4f4f0;
+  color: #111;
+  padding: 1.5rem;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.4rem;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
+}
+
+h1 .subtitle {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: #444;
+  margin-top: 0.2rem;
+}
+
+/* ── Controls bar ─────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.2rem 0 1.8rem;
+  flex-wrap: wrap;
+}
+
+.controls .instruction {
+  font-size: 0.88rem;
+  color: #444;
+  font-style: italic;
+}
+
+.lang-toggle {
+  display: flex;
+  border: 2px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.lang-toggle button {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lang-toggle button.active {
+  background: #333;
+  color: #fff;
+}
+
+/* ── Grid ─────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Flip card structure ──────────────────────────────── */
+.flip-card {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+/* height is driven by the front face; back face mirrors it */
+.flip-card-front {
+  min-height: 220px;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  border-radius: 10px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.4rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  justify-content: flex-start;
+  align-items: flex-start;
+  transform: rotateY(180deg);
+  overflow-y: auto;
+}
+
+/* ── Front face ───────────────────────────────────────── */
+.flip-card-front {
+  /* background-color set per-card via inline style */
+}
+
+.flip-card-front .card-label {
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  line-height: 1.25;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  letter-spacing: 0.01em;
+}
+
+/* ── Back face ────────────────────────────────────────── */
+.flip-card-back {
+  transform: rotateY(180deg);
+  /* background-color set per-card via inline style (light tint) */
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flip-card-back .back-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0,0,0,0.15);
+  width: 100%;
+  padding-bottom: 0.3rem;
+}
+
+.flip-card-back .back-def {
+  font-size: 0.82rem;
+  color: #111;
+  line-height: 1.5;
+}
+
+.flip-card-back .back-def-es {
+  font-size: 0.8rem;
+  color: #222;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── Footer note ──────────────────────────────────────── */
+.page-note {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #666;
+  margin-top: 2rem;
+  font-style: italic;
+}

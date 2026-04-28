@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Is My Marital Status? / ¿Cuál es mi estado civil?</title>
+  <link rel="stylesheet" href="flip-cards.css">
+  <script src="flip-cards.js"></script>
+</head>
+<body>
+
+<h1>
+  What Is My Marital Status?
+  <span class="subtitle">¿Cuál es mi estado civil?</span>
+</h1>
+  <p><strong>Part 5, Item 1. Marital Status:</strong> What do the options "Single, Never Married", "Married", "Divorced",  "Widowed", "Separated" and "Marriage Annulled" mean? Which one should I choose?</p>
+  <p><strong>Parte 5, Punto 1. Estado civil:</strong> ¿Qué significan las opciones "Single, Never Married", "Married", "Divorced",  "Widowed", "Separated" y "Marriage Annulled"? ¿Cuál debo elegir?</p>
+<div class="controls">
+  <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+    <button data-lang="en" class="active" aria-pressed="true">English</button>
+    <button data-lang="es" aria-pressed="false">Español</button>
+  </div>
+  <p><span class="instruction">Click a card to read the definition. Click again to flip back.</span></p> 
+</div>
+
+<div class="card-grid" id="card-grid"></div>
+
+<p class="page-note">
+  These are unofficial explanatory notes only and do not constitute legal advice. /
+  Estas son notas explicativas no oficiales y no constituyen asesoría legal.
+</p>
+
+<script>
+var maritalStatusData = [
+  {
+    id: 'single',
+    color: '#1a6fa8',
+    tint: '#e0eff8',
+    labelEN: 'Single, Never Married',
+    labelES: 'Soltero/a, nunca casado/a (Single, Never Married)',
+    defEN: 'You have never been legally married to any person at any time. This applies in many cases even if you have lived with a partner without being legally married. If you are unsure whether a past relationship qualifies as a legal marriage, consult an immigration attorney.',
+    defES: 'Nunca ha contraído matrimonio legal con ninguna persona en ningún momento. Esto aplica en muchos casos aunque haya convivido con una pareja sin estar legalmente casado/a. Si no está seguro/a de si una relación pasada califica como matrimonio legal, consulte a un abogado de inmigración.'
+  },
+  {
+    id: 'married',
+    color: '#b05e00',
+    tint: '#fdf0e0',
+    labelEN: 'Married',
+    labelES: 'Casado/a (Married)',
+    defEN: 'You and your spouse have a marriage that is legally recognized in the place where you married. This includes civil and religious ceremonies registered with civil authorities, and may include common-law marriages recognized as legal in the state or country where established. If unsure, consult an immigration attorney.',
+    defES: 'Usted y su cónyuge tienen un matrimonio legalmente reconocido en el lugar donde se casaron. Esto incluye ceremonias civiles y religiosas registradas ante las autoridades civiles, y puede incluir uniones de hecho reconocidas como matrimonios legales en el estado o país donde se establecieron. Si no está seguro/a, consulte a un abogado de inmigración.'
+  },
+  {
+    id: 'divorced',
+    color: '#6b3fa0',
+    tint: '#f2ecfa',
+    labelEN: 'Divorced',
+    labelES: 'Divorciado/a (Divorced)',
+    defEN: 'You and your spouse have legally ended your marriage. You have a divorce decree or equivalent legal document issued by the court.',
+    defES: 'Usted y su cónyuge han disuelto legalmente su matrimonio. Cuenta con un decreto de divorcio u otro documento legal equivalente emitido por el tribunal.'
+  },
+  {
+    id: 'widowed',
+    color: '#2e7d5e',
+    tint: '#e4f4ee',
+    labelEN: 'Widowed',
+    labelES: 'Viudo/a (Widowed)',
+    defEN: 'Your spouse from a legal marriage has died. You have documentation of the spouse\'s death, such as a death certificate.',
+    defES: 'Su cónyuge de un matrimonio legal ha fallecido. Cuenta con documentación que acredita el fallecimiento del cónyuge, como un certificado de defunción.'
+  },
+  {
+    id: 'separated',
+    color: '#8a6200',
+    tint: '#fdf6e0',
+    labelEN: 'Separated',
+    labelES: 'Separado/a (Separated)',
+    defEN: 'You and your spouse are living apart. The definition of legal separation varies by state; some states issue a formal legal separation order, and others do not have this process. If you are unsure whether your situation qualifies as separated or married, consult an immigration attorney.',
+    defES: 'Usted y su cónyuge viven separados. La definición de separación legal varía según el estado; algunos estados emiten una orden formal de separación legal y otros no contemplan este proceso. Si no está seguro/a de si su situación corresponde a separado/a o casado/a, consulte a un abogado de inmigración.'
+  },
+  {
+    id: 'annulled',
+    color: '#a03050',
+    tint: '#fae8ec',
+    labelEN: 'Marriage Annulled',
+    labelES: 'Matrimonio anulado (Marriage Annulled)',
+    defEN: 'A court has issued a legal determination that your marriage was not a valid marriage. You have a court order or decree of annulment.',
+    defES: 'Un tribunal ha emitido una resolución legal que determina que su matrimonio no fue válido. Cuenta con una orden judicial o decreto de anulación.'
+  }
+];
+
+FlipCards.init(maritalStatusData, 'card-grid');
+</script>
+
+</body>
+</html>

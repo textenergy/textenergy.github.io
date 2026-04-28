@@ -1,0 +1,340 @@
+/* interview-scenarios.css
+   N-400 Interview Scenario Practice pages
+   Shared by all pages in the "Understanding Interview Questions" group
+   ------------------------------------------------------------------ */
+
+/* ── Variables ─────────────────────────────────────────────────── */
+:root {
+  --navy:       #003366;
+  --blue:       #0055aa;
+  --gold:       #b7862a;
+  --green:      #1a6b2e;
+  --red:        #8b0000;
+  --bg:         #f5f5f5;
+  --white:      #ffffff;
+  --text:       #111111;
+  --muted:      #555555;
+  --border:     #cccccc;
+  --es-bg:      #fff8e8;
+  --es-border:  #cc6600;
+  --note-bg:    #fff8e6;
+  --note-border:#d4a017;
+  --correct-bg: #d4edda;
+  --correct-fg: #1a6b2e;
+  --wrong-bg:   #fde8e8;
+  --wrong-fg:   #8b0000;
+  --font:       Arial, Helvetica, sans-serif;
+  --radius:     6px;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ───────────────────────────────────────────────────────── */
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a { color: var(--blue); }
+a:hover { text-decoration: underline; }
+
+/* ── Page wrapper ───────────────────────────────────────────────── */
+.page-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+header {
+  background: var(--navy);
+  color: var(--white);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+header h1 { font-size: 1.1rem; font-weight: bold; }
+header p  { font-size: 0.85rem; margin-top: 4px; opacity: 0.85; font-style: italic; }
+
+/* ── Nav bar ─────────────────────────────────────────────────────── */
+.nav-bar {
+  background: var(--navy);
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.nav-bar a {
+  color: var(--white);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 0.82em;
+  background: rgba(255,255,255,0.1);
+}
+.nav-bar a:hover,
+.nav-bar a.current { background: var(--blue); }
+.nav-bar .nav-label {
+  color: var(--white);
+  font-size: 0.82em;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+/* ── Usage note ──────────────────────────────────────────────────── */
+.usage-note {
+  background: var(--note-bg);
+  border-left: 4px solid var(--note-border);
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.usage-note p + p { margin-top: 6px; }
+
+/* ── Scenario block ──────────────────────────────────────────────── */
+.scenario {
+  background: #eefff8; /* ~20% celadon */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.scenario-label {
+  font-size: 0.78rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.scenario-title {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--navy);
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--navy);
+  padding-bottom: 6px;
+}
+
+/* Scenario paragraph */
+.scenario-text {
+  font-size: 0.97rem;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* Spanish scenario paragraph */
+.scenario-text-es {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #333;
+  background: var(--es-bg);
+  border-left: 3px solid var(--es-border);
+  padding: 8px 12px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin-bottom: 12px;
+  display: none;
+}
+.scenario-text-es.visible { display: block; }
+
+/* Show/hide Spanish toggle */
+.toggle-es-btn {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--navy);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 10px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  min-height: 36px;
+}
+.toggle-es-btn:hover { background: #eee; }
+
+/* Screenshot: scrollable so text remains legible at natural size */
+.scenario-img-wrap {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+.img-scroll-note {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.scenario-img {
+  display: block;
+  max-width: none; /* do not shrink */
+  border: 1px solid var(--border);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.30);;
+  margin-bottom: 16px;
+}
+
+/* ── Question block ──────────────────────────────────────────────── */
+.question-block {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.officer-label {
+  font-size: 0.78rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.officer-question {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--navy);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+/* TTS button — icon only, left-aligned before question text */
+.tts-btn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--navy);
+  min-height: 36px;
+}
+.tts-btn:hover { color: var(--blue); }
+
+/* ── Answer options ──────────────────────────────────────────────── */
+.options-list {
+  list-style: none;
+  margin-bottom: 14px;
+}
+
+.options-list li { list-style: none; }
+
+/* option-row: bordered container, tts button at left, label fills rest.
+   Button is a sibling of label (not inside) to satisfy HTML validator. */
+.option-row {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  transition: background 0.15s;
+  margin-bottom: 8px;
+}
+.option-row:hover { background: #f0f4fa; }
+
+.option-tts-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--navy);
+  flex-shrink: 0;
+  padding: 10px 4px 10px 10px;
+}
+.option-tts-btn:hover { color: var(--blue); }
+
+.option-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px 10px 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.option-label input[type="radio"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--navy);
+}
+
+.option-text { flex: 1; }
+
+/* ── Feedback panel ──────────────────────────────────────────────── */
+.feedback {
+  display: none;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-top: 8px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.feedback.visible { display: block; }
+
+.feedback.correct {
+  background: var(--correct-bg);
+  border-left: 4px solid var(--correct-fg);
+}
+.feedback.wrong {
+  background: var(--wrong-bg);
+  border-left: 4px solid var(--wrong-fg);
+}
+
+.feedback-verdict {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.feedback.correct .feedback-verdict { color: var(--correct-fg); }
+.feedback.wrong   .feedback-verdict { color: var(--wrong-fg); }
+
+.feedback-label {
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+}
+
+.feedback-en { margin-bottom: 4px; }
+
+.feedback-es {
+  font-style: italic;
+  color: #333;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+/* ── Reset button ────────────────────────────────────────────────── */
+.reset-btn {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  color: var(--muted);
+  margin-top: 16px;
+  min-height: 36px;
+}
+.reset-btn:hover { background: #eee; }
+
+/* ── Utility ─────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .scenario { padding: 14px; }
+  .officer-question { font-size: 0.97rem; }
+}

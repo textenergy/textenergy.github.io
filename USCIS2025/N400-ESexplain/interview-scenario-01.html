@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interview Practice: Personal Information — N-400 Parts 3 &amp; 5</title>
+  <link rel="stylesheet" href="interview-scenarios.css"/>
+</head>
+<body>
+
+<header>
+  <h1>Understanding Interview Questions / Cómo entender las preguntas de la entrevista</h1>
+  <p>N-400 Naturalization Interview Practice &mdash; Entrenamiento para la entrevista de naturalización</p>
+</header>
+
+<div class="page-wrap">
+
+  <nav class="nav-bar">
+    <span class="nav-label">N-400 Interview Practice / Práctica:</span>
+    <a href="interview-scenario-01.html" class="current">Parts 3 &amp; 5:</a>
+    <!--<a href="interview-scenario-02.html">Part 8</a>-->
+  </nav>
+
+  <div class="usage-note">
+    <p><strong>Understanding the meaning of interview questions.</strong> <br/>
+      The officer will read your N-400 and ask you about details in your data in the form. You should remember what is written in your N-400.</p>
+    <p><strong>How to use:</strong> Read each paragraph, then &#128266; <strong>listen to the officer&rsquo;s question.</strong> Select the best response for the person in the story. After you choose, you will see feedback in English and Spanish explaining why each option is good or needs improvement.</p>
+    <p><em><strong>Comprender el significado de las preguntas de la entrevista.</strong><br/>
+      El oficial leerá su formulario N-400 y le hará preguntas sobre los detalles de la información que figura en el mismo. Usted debe recordar lo que está escrito en su N-400.</em></p>
+    <p><em><strong>Cómo utilizarlo:</strong> Lea cada párrafo y, a continuación, &#128266; <strong>escuche la pregunta del oficial.</strong> Seleccione la mejor respuesta para el/la persona en la historia. Después de elegir, verá comentarios en inglés y español que explican por qué cada opción es adecuada o requiere mejoras.</em></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCENARIO A — Part 3: Ethnicity and Race
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="scenario" id="scenario-a">
+
+    <div class="scenario-label">Scenario A &mdash; N-400 Part 3: Personal Information / Información personal</div>
+    <div class="scenario-title">Ethnicity and Race / Etnicidad y raza</div>
+    <p class="scenario-text">Rosa is from Guatemala. Her mother belongs to a Mayan indigenous community, but her family always identified themselves as "white" on official documents in their home country. On her N-400, Rosa listed her ethnicity as <em>Hispanic or Latino</em> and her race as <em>White</em>. The officer is reviewing her form at the start of the interview.</p>
+
+    <button class="toggle-es-btn" onclick="toggleEs(this, 'scenario-a-es')">Mostrar / Hide Spanish</button>
+    <p class="scenario-text-es" id="scenario-a-es">Rosa es de Guatemala. Su madre pertenece a una comunidad indígena maya, pero su familia siempre se identificó como "blanca" en los documentos oficiales de su país de origen. En su formulario N-400, Rosa indicó su etnicidad como <em>Hispana o Latina</em> y su raza como <em>Blanca</em>. El oficial está revisando su formulario al inicio de la entrevista.</p>
+
+
+
+    <!-- Question A-1 -->
+    <div class="question-block" id="qa1">
+      <div class="officer-label">Officer&rsquo;s Question / Pregunta del oficial</div>
+      <div class="scenario-img-wrap">
+        <img class="scenario-img" src="Part3_1ethnicity.png" alt="Part3_1ethnicity.png"/>
+        <p class="img-scroll-note">Scroll to view full form / Deslice para ver el formulario completo</p>
+      </div>
+      <p class="officer-question"><button class="tts-btn" onclick="speak('qa1-text', 'en-US')"
+              aria-label="Listen to question">&#128266;</button>
+            <span id="qa1-text">&ldquo;What is your ethnicity?&rdquo;</span>
+            <a href="DefinitionsN400-ethnicity-race.pdf">(See USCIS definitions / <em>Ver
+                definiciones de USCIS</em>)</a> PDF</p>
+
+      <ul class="options-list">
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qa1-opt-a','en-US')" aria-label="Listen to option A">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qa1" value="a" onchange="showFeedback('qa1','a')"/>
+              <span class="option-text" id="qa1-opt-a">I am Latina.</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qa1-opt-b','en-US')" aria-label="Listen to option B">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qa1" value="b" onchange="showFeedback('qa1','b')"/>
+              <span class="option-text" id="qa1-opt-b">I&rsquo;m not sure. My mother was indigenous, but we always called ourselves white.</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qa1-opt-c','en-US')" aria-label="Listen to option C">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qa1" value="c" onchange="showFeedback('qa1','c')"/>
+              <span class="option-text" id="qa1-opt-c">We don&rsquo;t belong to any ethnic group.</span>
+            </label>
+          </div>
+        </li>
+      </ul>
+
+      <div class="feedback correct" id="qa1-fb-a">
+        <div class="feedback-verdict">&#10003; Correct / Correcto</div>
+        <div class="feedback-en">&ldquo;I am Latina.&rdquo; directly answers the question. <em>Latina</em> and <em>Hispanic</em> are both accepted terms for this ethnicity on the N-400. Either word is a complete, appropriate answer.</div>
+        <div class="feedback-es">&ldquo;Soy latina.&rdquo; responde directamente la pregunta. <em>Latina</em> e <em>Hispana</em> son términos aceptados para esta etnicidad en el formulario N-400. Cualquiera de las dos palabras es una respuesta completa y apropiada.</div>
+      </div>
+
+      <div class="feedback wrong" id="qa1-fb-b">
+        <div class="feedback-verdict">&#10007; Needs improvement / Necesita mejorar</div>
+        <div class="feedback-label">Memoriza los hechos y datos</div>
+        <div class="feedback-en">&ldquo;I&rsquo;m not sure. My mother was indigenous, but we always called ourselves white.&rdquo; — This confuses race and ethnicity. Ethnicity (Hispanic/Latino) describes a shared cultural and linguistic identity, not race. Rosa already answered this on her form and should know her own answer.</div>
+        <div class="feedback-es">&ldquo;No estoy segura. Mi madre era indígena, pero siempre nos llamamos blancos.&rdquo; — Esta respuesta confunde raza y etnicidad. La etnicidad (hispana/latina) describe una identidad cultural y lingüística compartida, no la raza. Rosa ya respondió esto en su formulario y debe conocer su propia respuesta.</div>
+      </div>
+
+      <div class="feedback wrong" id="qa1-fb-c">
+        <div class="feedback-verdict">&#10007; Needs improvement / Necesita mejorar</div>
+        <div class="feedback-label">Enfoca en la pregunta real</div>
+        <div class="feedback-en">&ldquo;We don&rsquo;t belong to any ethnic group.&rdquo; — This is factually incorrect for someone who identifies as Latina. <em>Hispanic or Latino</em> is an ethnicity listed on the N-400. The answer also uses "we" — the officer is asking about Rosa, not her family.</div>
+        <div class="feedback-es">&ldquo;No pertenecemos a ningún grupo étnico.&rdquo; — Esto es factualmente incorrecto para alguien que se identifica como latina. <em>Hispana o Latina</em> es una etnicidad listada en el formulario N-400. Además, la respuesta usa "nosotros" — el oficial le pregunta a Rosa, no a su familia.</div>
+      </div>
+
+    </div><!-- end qa1 -->
+
+    <button class="reset-btn" onclick="resetScenario('scenario-a')">&#8635; Reset / Reiniciar</button>
+
+  </div><!-- end scenario-a -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCENARIO B — Part 5: Marital Status
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="scenario" id="scenario-b">
+
+    <div class="scenario-label">Scenario B &mdash; N-400 Part 5: Marital History / Historial matrimonial</div>
+    <div class="scenario-title">Marital Status and Previous Marriages / Estado civil y matrimonios anteriores</div>
+    <p><a href="marital-status-cards.html" target="_blank">What's my marital status? / <em>¿Cuál es mi estado
+              civil?</em></a></p>
+    <p class="scenario-text">Carmen has been divorced once and is now in a new marriage to David. On her N-400, she correctly indicated that she had been married once before and is currently married. At the beginning of the interview, the officer asks about her current status. Later, the officer asks about David&rsquo;s marital history.</p>
+
+    <button class="toggle-es-btn" onclick="toggleEs(this, 'scenario-b-es')">Mostrar / Hide Spanish</button>
+
+    <p class="scenario-text-es" id="scenario-b-es">Carmen se divorció una vez y ahora está en un nuevo matrimonio con David. En su formulario N-400, indicó correctamente que había estado casada una vez antes y que actualmente está casada. Al inicio de la entrevista, el oficial le pregunta sobre su estado civil actual. Más adelante, el oficial le pregunta sobre el historial matrimonial de David.</p>
+
+    <!-- Question B-1 -->
+    <div class="question-block" id="qb1">
+      <div class="officer-label">Officer&rsquo;s Question 1 of 2 / Pregunta del oficial 1 de 2</div>
+      <div class="scenario-img-wrap">
+        <img class="scenario-img" src="Part5_1-3marital-status.png" alt="Part5_1-3marital-status.png"/>
+        <p class="img-scroll-note">Scroll to view full form / Deslice para ver el formulario completo</p>
+      </div>
+      <p class="officer-question"><button class="tts-btn" onclick="speak('qb1-text', 'en-US')" aria-label="Listen to question">&#128266;</button> <span id="qb1-text">&ldquo;Your form says you were previously married. Are you single now?&rdquo;</span></p>
+
+      <ul class="options-list">
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qb1-opt-a','en-US')" aria-label="Listen to option A">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qb1" value="a" onchange="showFeedback('qb1','a')"/>
+              <span class="option-text" id="qb1-opt-a">No, I am married now. I was divorced before, not single.</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qb1-opt-b','en-US')" aria-label="Listen to option B">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qb1" value="b" onchange="showFeedback('qb1','b')"/>
+              <span class="option-text" id="qb1-opt-b">What is the difference? I am not married to that person anymore.</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qb1-opt-c','en-US')" aria-label="Listen to option C">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qb1" value="c" onchange="showFeedback('qb1','c')"/>
+              <span class="option-text" id="qb1-opt-c">Let me check my documents, please.</span>
+            </label>
+          </div>
+        </li>
+      </ul>
+
+      <div class="feedback correct" id="qb1-fb-a">
+        <div class="feedback-verdict">&#10003; Correct / Correcto</div>
+        <div class="feedback-en">&ldquo;No, I am married now. I was divorced before, not single.&rdquo; — This answers the yes/no question clearly, corrects the officer&rsquo;s framing politely, and confirms her current status using a complete short answer.</div>
+        <div class="feedback-es">&ldquo;No, estoy casada ahora. Antes estuve divorciada, no soltera.&rdquo; — Esta respuesta responde la pregunta de sí/no claramente, corrige el planteamiento del oficial de forma respetuosa y confirma su estado actual con una respuesta corta y completa.</div>
+      </div>
+
+      <div class="feedback wrong" id="qb1-fb-b">
+        <div class="feedback-verdict">&#10007; Needs improvement / Necesita mejorar</div>
+        <div class="feedback-label">Enfoca en la pregunta real</div>
+        <div class="feedback-en">&ldquo;What is the difference? I am not married to that person anymore.&rdquo; — <em>Single</em> and <em>divorced</em> are legally distinct categories on the N-400. The officer needs to know which applies. Questioning the officer&rsquo;s question is not a useful response.</div>
+        <div class="feedback-es">&ldquo;¿Cuál es la diferencia? Ya no estoy casada con esa persona.&rdquo; — <em>Soltera</em> y <em>divorciada</em> son categorías legalmente distintas en el formulario N-400. El oficial necesita saber cuál aplica. Cuestionar la pregunta del oficial no es una respuesta útil.</div>
+      </div>
+
+      <div class="feedback wrong" id="qb1-fb-c">
+        <div class="feedback-verdict">&#10007; Needs improvement / Necesita mejorar</div>
+        <div class="feedback-label">Memoriza los hechos y datos</div>
+        <div class="feedback-en">&ldquo;Let me check my documents, please.&rdquo; — Checking documents is appropriate for dates and addresses you may not recall exactly. Your own marital status is something you are expected to know without looking.</div>
+        <div class="feedback-es">&ldquo;Déjeme revisar mis documentos, por favor.&rdquo; — Revisar documentos es apropiado para fechas y direcciones que quizás no recuerda con exactitud. Se espera que conozca su propio estado civil sin necesidad de consultar documentos.</div>
+      </div>
+
+    </div><!-- end qb1 -->
+
+    <!-- Question B-2 -->
+    <div class="question-block" id="qb2">
+      <div class="officer-label">Officer&rsquo;s Question 2 of 2 / Pregunta del oficial 2 de 2</div>
+      <div class="scenario-img-wrap">
+        <img class="scenario-img" src="Part5_7spouse-marriages.png" alt="Part5_7spouse-marriages.png"/>
+        <p class="img-scroll-note">Scroll to view full form / Deslice para ver el formulario completo</p>
+      </div>
+      <p class="officer-question"><button class="tts-btn" onclick="speak('qb2-text', 'en-US')" aria-label="Listen to question">&#128266;</button> <span id="qb2-text">&ldquo;Has your current husband ever been married before?&rdquo;</span></p>
+
+      <ul class="options-list">
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qb2-opt-a','en-US')" aria-label="Listen to option A">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qb2" value="a" onchange="showFeedback('qb2','a')"/>
+              <span class="option-text" id="qb2-opt-a">No.</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qb2-opt-b','en-US')" aria-label="Listen to option B">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qb2" value="b" onchange="showFeedback('qb2','b')"/>
+              <span class="option-text" id="qb2-opt-b">Yes, he was married and divorced once before.</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="option-row">
+            <button class="option-tts-btn" onclick="speak('qb2-opt-c','en-US')" aria-label="Listen to option C">&#128266;</button>
+            <label class="option-label">
+              <input type="radio" name="qb2" value="c" onchange="showFeedback('qb2','c')"/>
+              <span class="option-text" id="qb2-opt-c">He was married a long time ago but it was a mistake, so he got a divorce, and then we met and he married me.</span>
+            </label>
+          </div>
+        </li>
+      </ul>
+
+      <div class="feedback wrong" id="qb2-fb-a">
+        <div class="feedback-verdict">&#10007; Needs improvement / Necesita mejorar</div>
+        <div class="feedback-label">Respuesta incompleta</div>
+        <div class="feedback-en">&ldquo;No.&rdquo; — A single word is too brief for a question about a spouse&rsquo;s marital history. A complete short answer is expected: &ldquo;No, he has not.&rdquo; is the minimum appropriate form.</div>
+        <div class="feedback-es">&ldquo;No.&rdquo; — Una sola palabra es demasiado breve para una pregunta sobre el historial matrimonial del cónyuge. Se espera una respuesta corta y completa: &ldquo;No, he has not.&rdquo; es la forma mínima apropiada.</div>
+      </div>
+
+      <div class="feedback correct" id="qb2-fb-b">
+        <div class="feedback-verdict">&#10003; Correct / Correcto</div>
+        <div class="feedback-en">&ldquo;Yes, he was married and divorced once before.&rdquo; — Clear, complete, and appropriately brief. It confirms the prior marriage and its legal resolution, which is what the officer needs to verify against the N-400.</div>
+        <div class="feedback-es">&ldquo;Sí, estuvo casado y se divorció una vez antes.&rdquo; — Clara, completa y apropiadamente breve. Confirma el matrimonio anterior y su resolución legal, que es lo que el oficial necesita verificar con el formulario N-400.</div>
+      </div>
+
+      <div class="feedback wrong" id="qb2-fb-c">
+        <div class="feedback-verdict">&#10007; Needs improvement / Necesita mejorar</div>
+        <div class="feedback-label">Demasiado detalle</div>
+        <div class="feedback-en">&ldquo;He was married a long time ago but it was a mistake, so he got a divorce, and then we met and he married me.&rdquo; — The officer only needs to confirm two facts: was there a prior marriage, and did it end legally? Personal history and opinions are not needed.</div>
+        <div class="feedback-es">&ldquo;Él se casó hace mucho tiempo pero fue un error, así que se divorció, y luego nos conocimos y se casó conmigo.&rdquo; — El oficial solo necesita confirmar dos datos: ¿hubo un matrimonio anterior y terminó legalmente? La historia personal y las opiniones no son necesarias.</div>
+      </div>
+
+    </div><!-- end qb2 -->
+
+    <button class="reset-btn" onclick="resetScenario('scenario-b')">&#8635; Reset / Reiniciar</button>
+
+  </div><!-- end scenario-b -->
+
+</div><!-- end page-wrap -->
+
+<script src="interview-scenarios.js"></script>
+</body>
+</html>
