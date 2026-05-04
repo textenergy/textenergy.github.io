@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Times of Day / Momentos del Día</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { display: inline-block; transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .note-box p + p {
+            margin-top: 5px;
+        }
+
+        .note-box .device-instructions {
+            font-size: 13px;
+            color: navy;
+            margin-top: 5px;
+        }
+
+        .note-box .incognito-note {
+            font-size: 12px;
+            color: navy;
+            margin-top: 8px;
+        }
+
+        #saveConfirm {
+            display: none;
+            background-color: #E8F5E9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 15px;
+            padding: 8px 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #playButton:hover:not(:disabled) {
+            background-color: #90EE90;
+        }
+
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        #resetButton {
+            background-color: #FF6347;
+            color: white;
+            border: none;
+        }
+
+        #resetButton:hover {
+            background-color: #E5533D;
+        }
+
+        #saveButton {
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+
+        #stats {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .set-label {
+            font-size: 14px;
+            color: #555;
+            margin: 12px 0 6px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #333;
+            background-color: white;
+            cursor: pointer;
+            padding: 10px 6px 8px 6px;
+            transition: background-color 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 60px;
+            justify-content: flex-start;
+        }
+
+        .grid-item:hover:not(.found):not(.locked) {
+            background-color: #f0f0f0;
+        }
+
+        .grid-item.found {
+            background-color: #6B46C1;
+            border-color: #6B46C1;
+            cursor: pointer;
+        }
+
+        .grid-item.wrong {
+            background-color: #FFE0E0;
+            border-color: #e53935;
+        }
+
+        .grid-item.locked {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .word-label {
+            font-size: clamp(11px, 2vw, 15px);
+            font-weight: bold;
+            color: #222;
+            text-align: center;
+        }
+
+        .grid-item.found .word-label {
+            color: white;
+        }
+
+        .revealed-question {
+            font-size: 11px;
+            color: white;
+            text-align: center;
+            margin-top: 6px;
+            line-height: 1.3;
+            display: none;
+        }
+
+        .grid-item.found .revealed-question {
+            display: block;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Times of Day / Momentos del Día</h1>
+
+    <div class="note-box">
+        <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
+        <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
+        <details style="margin-top: 6px;">
+            <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+            </summary>
+            <p class="device-instructions" style="margin-top: 6px;">
+                Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+            </p>
+            <p class="incognito-note">
+                Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+            </p>
+        </details>
+    </div>
+
+    <div class="controls">
+        <button id="playButton">🔊 Play Audio</button>
+        <span id="stats"></span>
+        <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
+        <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+    </div>
+
+    <div id="saveConfirm">
+        ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
+        <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
+    </div>
+
+    <div id="set1-section">
+        <div class="set-label">Set 1 / Serie 1</div>
+        <div class="grid" id="grid-set1"></div>
+    </div>
+
+    <div class="set-label">Set 2 / Serie 2</div>
+    <div class="grid" id="grid-set2"></div>
+
+    <footer>
+        <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+        <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+    </footer>
+
+    <script>
+        const phrases = [
+            { word: 'sunrise',
+              set1: { en: 'We start work at sunrise.',
+                      es: 'Empezamos a trabajar al amanecer.' },
+              set2: { en: 'The sky turns pink at sunrise.',
+                      es: 'El cielo se pone rosado al amanecer.' } },
+            { word: 'lunchtime',
+              set1: { en: 'We take a break at lunchtime.',
+                      es: 'Tomamos un descanso a la hora del almuerzo.' },
+              set2: { en: 'It was so hot by lunchtime we had to stop.',
+                      es: 'Para la hora del almuerzo hacía tanto calor que tuvimos que parar.' } },
+            { word: 'afternoon',
+              set1: { en: 'It always rains in the afternoon in the summer.',
+                      es: 'En el verano siempre llueve por la tarde.' },
+              set2: { en: 'We finished the job in the afternoon.',
+                      es: 'Terminamos el trabajo por la tarde.' } },
+            { word: 'end of day',
+              set1: { en: 'We clean up the equipment at end of day.',
+                      es: 'Al final del día limpiamos el equipo.' },
+              set2: { en: "We're always tired by end of day.",
+                      es: 'Siempre estamos cansados al final del día.' } },
+            { word: 'dinnertime',
+              set1: { en: 'I was still on the road at dinnertime.',
+                      es: 'Todavía iba en camino a la hora de cenar.' },
+              set2: { en: 'The crew was home by dinnertime.',
+                      es: 'El grupo ya estaba en casa a la hora de cenar.' } },
+            { word: 'after hours',
+              set1: { en: 'We got a call after hours.',
+                      es: 'Nos llamaron fuera de horario.' },
+              set2: { en: 'We never work after hours on Fridays.',
+                      es: 'Nunca trabajamos fuera de horario los viernes.' } },
+            { word: 'dusk',
+              set1: { en: 'We finished just before dusk.',
+                      es: 'Terminamos justo antes del anochecer.' },
+              set2: { en: 'It gets cool fast after dusk.',
+                      es: 'Refresca rápido después del anochecer.' } },
+            { word: 'sunset',
+              set1: { en: 'We try to finish before sunset.',
+                      es: 'Tratamos de terminar antes de que se ponga el sol.' },
+              set2: { en: 'The sky was beautiful at sunset.',
+                      es: 'El cielo estaba hermoso cuando se puso el sol.' } },
+            { word: 'evening',
+              set1: { en: 'In the evening I like to rest.',
+                      es: 'En la noche me gusta descansar.' },
+              set2: { en: 'We had a meeting this evening.',
+                      es: 'Tuvimos una reunión esta noche.' } },
+            { word: 'nighttime',
+              set1: { en: "I don't like to drive in the nighttime.",
+                      es: 'No me gusta manejar de noche.' },
+              set2: { en: 'Nighttime is the best time to water the lawn.',
+                      es: 'La noche es el mejor momento para regar el pasto.' } },
+            { word: 'midnight',
+              set1: { en: "We didn't get home until midnight.",
+                      es: 'No llegamos a casa hasta la medianoche.' },
+              set2: { en: 'The alarm went off at midnight.',
+                      es: 'La alarma sonó a la medianoche.' } },
+            { word: 'all night long',
+              set1: { en: 'The dog barked all night long.',
+                      es: 'El perro estuvo ladrando toda la noche.' },
+              set2: { en: 'I was worried and was tossing in bed all night long.',
+                      es: 'Estaba preocupado y me estuve dando vueltas en la cama toda la noche.' } }
+        ];
+
+        const TOTAL = phrases.length * 2;
+
+        let foundSet1 = new Set();
+        let foundSet2 = new Set();
+        let currentTarget = null;
+        let score = 0;
+
+        function activeSet() {
+            return foundSet1.size < phrases.length ? 'set1' : 'set2';
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function buildGrids() {
+            buildGrid('grid-set1', 'set1');
+            buildGrid('grid-set2', 'set2');
+        }
+
+        function buildGrid(containerId, setKey) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            const foundSet = setKey === 'set1' ? foundSet1 : foundSet2;
+            const isLocked = setKey === 'set2' && foundSet1.size < phrases.length;
+
+            phrases.forEach(item => {
+                const div = document.createElement('div');
+                let cls = 'grid-item';
+                if (foundSet.has(item.word)) cls += ' found';
+                else if (isLocked) cls += ' locked';
+                div.className = cls;
+
+                const label = document.createElement('div');
+                label.className = 'word-label';
+                label.textContent = item.word;
+
+                const revealed = document.createElement('div');
+                revealed.className = 'revealed-question';
+                if (foundSet.has(item.word)) {
+                    revealed.textContent = item[setKey].en + '\n' + item[setKey].es;
+                }
+
+                div.appendChild(label);
+                div.appendChild(revealed);
+                div.addEventListener('click', () => handleClick(item, setKey, div));
+                container.appendChild(div);
+            });
+        }
+
+        function playQuestion() {
+            if (foundSet1.size === phrases.length && foundSet2.size === phrases.length) return;
+
+            const set = activeSet();
+            const foundSet = set === 'set1' ? foundSet1 : foundSet2;
+            const remaining = phrases.filter(i => !foundSet.has(i.word));
+            if (remaining.length === 0) return;
+
+            const item = remaining[Math.floor(Math.random() * remaining.length)];
+            currentTarget = { word: item.word, set };
+            speak(item[set].en);
+        }
+
+        function handleClick(item, setKey, element) {
+            const foundSet = setKey === 'set1' ? foundSet1 : foundSet2;
+
+            if (setKey === 'set2' && foundSet1.size < phrases.length) return;
+
+            if (foundSet.has(item.word)) {
+                speak(item[setKey].en);
+                return;
+            }
+
+            if (!currentTarget) return;
+
+            if (item.word === currentTarget.word && setKey === currentTarget.set) {
+                foundSet.add(item.word);
+                element.classList.remove('locked');
+                element.classList.add('found');
+                const revealed = element.querySelector('.revealed-question');
+                revealed.textContent = item[setKey].en + '\n' + item[setKey].es;
+                currentTarget = null;
+                score++;
+                updateStats();
+                saveState();
+
+                if (setKey === 'set1' && foundSet1.size === phrases.length) {
+                    document.getElementById('set1-section').style.display = 'none';
+                    document.querySelectorAll('#grid-set2 .grid-item.locked').forEach(el => {
+                        el.classList.remove('locked');
+                    });
+                }
+
+                if (foundSet1.size === phrases.length && foundSet2.size === phrases.length) {
+                    updateStats(true);
+                    document.getElementById('playButton').disabled = true;
+                }
+            } else {
+                element.classList.add('wrong');
+                setTimeout(() => element.classList.remove('wrong'), 600);
+            }
+        }
+
+        function updateStats(complete) {
+            const el = document.getElementById('stats');
+            el.textContent = complete ? `${TOTAL}/${TOTAL} 🎉` : `${score}/${TOTAL}`;
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem('timeOfDayState', JSON.stringify({
+                    foundSet1: Array.from(foundSet1),
+                    foundSet2: Array.from(foundSet2),
+                    score
+                }));
+            } catch(e) {}
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('timeOfDayState');
+                if (!saved) return false;
+                const state = JSON.parse(saved);
+                foundSet1 = new Set(state.foundSet1 || []);
+                foundSet2 = new Set(state.foundSet2 || []);
+                score = state.score || 0;
+                return true;
+            } catch(e) {}
+            return false;
+        }
+
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                try { localStorage.removeItem('timeOfDayState'); } catch(e) {}
+                location.reload();
+            }
+        }
+
+        // Init
+        loadState();
+        buildGrids();
+        updateStats();
+
+        if (foundSet1.size === phrases.length) {
+            document.getElementById('set1-section').style.display = 'none';
+        }
+        if (foundSet1.size === phrases.length && foundSet2.size === phrases.length) {
+            updateStats(true);
+            document.getElementById('playButton').disabled = true;
+        }
+
+        document.getElementById('playButton').addEventListener('click', playQuestion);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const msg = document.getElementById('saveConfirm');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        });
+    </script>
+</body>
+</html>
