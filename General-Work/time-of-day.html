@@ -108,9 +108,37 @@
             border: 1px solid #ccc;
         }
 
+        #showSpanishButton {
+            background-color: #E3F2FD;
+            border: 1px solid #2196F3;
+            color: #0D47A1;
+            font-size: 14px;
+            padding: 8px 14px;
+        }
+
         #stats {
             font-size: 16px;
             font-weight: bold;
+        }
+
+        #sentenceDisplay {
+            margin: 10px 0;
+            min-height: 56px;
+        }
+
+        #englishSentence {
+            font-size: 17px;
+            font-weight: bold;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        #spanishSentence {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.4;
+            margin-top: 4px;
+            display: none;
         }
 
         .set-label {
@@ -121,7 +149,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             margin-bottom: 16px;
         }
@@ -130,14 +158,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             border: 3px solid #333;
             background-color: white;
             cursor: pointer;
-            padding: 10px 6px 8px 6px;
+            padding: 14px 8px;
             transition: background-color 0.3s;
             -webkit-tap-highlight-color: transparent;
-            min-height: 60px;
-            justify-content: flex-start;
+            min-height: 70px;
         }
 
         .grid-item:hover:not(.found):not(.locked) {
@@ -161,28 +189,24 @@
         }
 
         .word-label {
-            font-size: clamp(11px, 2vw, 15px);
+            font-size: clamp(13px, 3vw, 17px);
             font-weight: bold;
             color: #222;
             text-align: center;
         }
 
-        .grid-item.found .word-label {
-            color: white;
-        }
+        .grid-item.found .word-label { color: white; }
 
-        .revealed-question {
-            font-size: 11px;
+        .word-es {
+            font-size: 16px;
             color: white;
             text-align: center;
             margin-top: 6px;
-            line-height: 1.3;
+            line-height: 1.4;
             display: none;
         }
 
-        .grid-item.found .revealed-question {
-            display: block;
-        }
+        .grid-item.found .word-es { display: block; }
 
         footer {
             margin-top: 40px;
@@ -220,8 +244,14 @@
     <div class="controls">
         <button id="playButton">🔊 Play Audio</button>
         <span id="stats"></span>
+        <button id="showSpanishButton">Mostrar/Ocultar Español</button>
         <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
         <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+    </div>
+
+    <div id="sentenceDisplay">
+        <div id="englishSentence"></div>
+        <div id="spanishSentence"></div>
     </div>
 
     <div id="saveConfirm">
@@ -244,62 +274,62 @@
 
     <script>
         const phrases = [
-            { word: 'sunrise',
+            { word: 'sunrise',      wordEs: 'amanecer',
               set1: { en: 'We start work at sunrise.',
                       es: 'Empezamos a trabajar al amanecer.' },
               set2: { en: 'The sky turns pink at sunrise.',
                       es: 'El cielo se pone rosado al amanecer.' } },
-            { word: 'lunchtime',
+            { word: 'lunchtime',    wordEs: 'a la hora del almuerzo',
               set1: { en: 'We take a break at lunchtime.',
                       es: 'Tomamos un descanso a la hora del almuerzo.' },
               set2: { en: 'It was so hot by lunchtime we had to stop.',
                       es: 'Para la hora del almuerzo hacía tanto calor que tuvimos que parar.' } },
-            { word: 'afternoon',
+            { word: 'afternoon',    wordEs: 'por la tarde',
               set1: { en: 'It always rains in the afternoon in the summer.',
                       es: 'En el verano siempre llueve por la tarde.' },
               set2: { en: 'We finished the job in the afternoon.',
                       es: 'Terminamos el trabajo por la tarde.' } },
-            { word: 'end of day',
+            { word: 'end of day',   wordEs: 'al final del día',
               set1: { en: 'We clean up the equipment at end of day.',
                       es: 'Al final del día limpiamos el equipo.' },
               set2: { en: "We're always tired by end of day.",
                       es: 'Siempre estamos cansados al final del día.' } },
-            { word: 'dinnertime',
+            { word: 'dinnertime',   wordEs: 'a la hora de cenar',
               set1: { en: 'I was still on the road at dinnertime.',
                       es: 'Todavía iba en camino a la hora de cenar.' },
               set2: { en: 'The crew was home by dinnertime.',
                       es: 'El grupo ya estaba en casa a la hora de cenar.' } },
-            { word: 'after hours',
+            { word: 'after hours',  wordEs: 'fuera de horario',
               set1: { en: 'We got a call after hours.',
                       es: 'Nos llamaron fuera de horario.' },
               set2: { en: 'We never work after hours on Fridays.',
                       es: 'Nunca trabajamos fuera de horario los viernes.' } },
-            { word: 'dusk',
+            { word: 'dusk',         wordEs: 'atardecer',
               set1: { en: 'We finished just before dusk.',
-                      es: 'Terminamos justo antes del anochecer.' },
+                      es: 'Terminamos justo antes del atardecer.' },
               set2: { en: 'It gets cool fast after dusk.',
-                      es: 'Refresca rápido después del anochecer.' } },
-            { word: 'sunset',
+                      es: 'Refresca rápido después del atardecer.' } },
+            { word: 'sunset',       wordEs: 'puesta de sol',
               set1: { en: 'We try to finish before sunset.',
-                      es: 'Tratamos de terminar antes de que se ponga el sol.' },
+                      es: 'Tratamos de terminar antes de la puesta de sol.' },
               set2: { en: 'The sky was beautiful at sunset.',
-                      es: 'El cielo estaba hermoso cuando se puso el sol.' } },
-            { word: 'evening',
+                      es: 'El cielo estaba hermoso en la puesta de sol.' } },
+            { word: 'evening',      wordEs: 'noche temprana',
               set1: { en: 'In the evening I like to rest.',
-                      es: 'En la noche me gusta descansar.' },
+                      es: 'En la noche temprana me gusta descansar.' },
               set2: { en: 'We had a meeting this evening.',
-                      es: 'Tuvimos una reunión esta noche.' } },
-            { word: 'nighttime',
+                      es: 'Tuvimos una reunión en la noche temprana.' } },
+            { word: 'nighttime',    wordEs: 'de noche',
               set1: { en: "I don't like to drive in the nighttime.",
                       es: 'No me gusta manejar de noche.' },
               set2: { en: 'Nighttime is the best time to water the lawn.',
                       es: 'La noche es el mejor momento para regar el pasto.' } },
-            { word: 'midnight',
+            { word: 'midnight',     wordEs: 'medianoche',
               set1: { en: "We didn't get home until midnight.",
                       es: 'No llegamos a casa hasta la medianoche.' },
               set2: { en: 'The alarm went off at midnight.',
                       es: 'La alarma sonó a la medianoche.' } },
-            { word: 'all night long',
+            { word: 'all night long', wordEs: 'toda la noche',
               set1: { en: 'The dog barked all night long.',
                       es: 'El perro estuvo ladrando toda la noche.' },
               set2: { en: 'I was worried and was tossing in bed all night long.',
@@ -311,7 +341,9 @@
         let foundSet1 = new Set();
         let foundSet2 = new Set();
         let currentTarget = null;
+        let currentSet = null;
         let score = 0;
+        let spanishVisible = false;
 
         function activeSet() {
             return foundSet1.size < phrases.length ? 'set1' : 'set2';
@@ -349,17 +381,21 @@
                 label.className = 'word-label';
                 label.textContent = item.word;
 
-                const revealed = document.createElement('div');
-                revealed.className = 'revealed-question';
-                if (foundSet.has(item.word)) {
-                    revealed.textContent = item[setKey].en + '\n' + item[setKey].es;
-                }
+                const wordEs = document.createElement('div');
+                wordEs.className = 'word-es';
+                wordEs.textContent = item.wordEs;
 
                 div.appendChild(label);
-                div.appendChild(revealed);
+                div.appendChild(wordEs);
                 div.addEventListener('click', () => handleClick(item, setKey, div));
                 container.appendChild(div);
             });
+        }
+
+        function blankSentence(sentence, keyword) {
+            const idx = sentence.toLowerCase().indexOf(keyword.toLowerCase());
+            if (idx === -1) return sentence;
+            return sentence.slice(0, idx) + '______' + sentence.slice(idx + keyword.length);
         }
 
         function playQuestion() {
@@ -372,6 +408,12 @@
 
             const item = remaining[Math.floor(Math.random() * remaining.length)];
             currentTarget = { word: item.word, set };
+
+            document.getElementById('englishSentence').textContent = blankSentence(item[set].en, item.word);
+            document.getElementById('spanishSentence').textContent = item[set].es;
+            spanishVisible = false;
+            document.getElementById('spanishSentence').style.display = 'none';
+
             speak(item[set].en);
         }
 
@@ -381,6 +423,10 @@
             if (setKey === 'set2' && foundSet1.size < phrases.length) return;
 
             if (foundSet.has(item.word)) {
+                document.getElementById('englishSentence').textContent = item[setKey].en;
+                document.getElementById('spanishSentence').textContent = item[setKey].es;
+                spanishVisible = false;
+                document.getElementById('spanishSentence').style.display = 'none';
                 speak(item[setKey].en);
                 return;
             }
@@ -391,9 +437,11 @@
                 foundSet.add(item.word);
                 element.classList.remove('locked');
                 element.classList.add('found');
-                const revealed = element.querySelector('.revealed-question');
-                revealed.textContent = item[setKey].en + '\n' + item[setKey].es;
                 currentTarget = null;
+                document.getElementById('englishSentence').textContent = '';
+                document.getElementById('spanishSentence').textContent = '';
+                document.getElementById('spanishSentence').style.display = 'none';
+                spanishVisible = false;
                 score++;
                 updateStats();
                 saveState();
@@ -415,9 +463,14 @@
             }
         }
 
+        function toggleSpanish() {
+            if (!document.getElementById('spanishSentence').textContent) return;
+            spanishVisible = !spanishVisible;
+            document.getElementById('spanishSentence').style.display = spanishVisible ? 'block' : 'none';
+        }
+
         function updateStats(complete) {
-            const el = document.getElementById('stats');
-            el.textContent = complete ? `${TOTAL}/${TOTAL} 🎉` : `${score}/${TOTAL}`;
+            document.getElementById('stats').textContent = complete ? `${TOTAL}/${TOTAL} 🎉` : `${score}/${TOTAL}`;
         }
 
         function saveState() {
@@ -450,7 +503,6 @@
             }
         }
 
-        // Init
         loadState();
         buildGrids();
         updateStats();
@@ -464,6 +516,7 @@
         }
 
         document.getElementById('playButton').addEventListener('click', playQuestion);
+        document.getElementById('showSpanishButton').addEventListener('click', toggleSpanish);
         document.getElementById('resetButton').addEventListener('click', resetAll);
         document.getElementById('saveButton').addEventListener('click', () => {
             saveState();
