@@ -546,6 +546,9 @@
   </div>
 
   <div class="nav-row">
+    <button class="btn-next" id="btnPrev" onclick="prevSentence()" style="display:none;">
+      ◀ Previous / Anterior
+    </button>
     <button class="btn-next" id="btnNext" onclick="nextSentence()">
       Next / Próximo ▶
     </button>
@@ -770,6 +773,10 @@ function renderSentence(index) {
   document.getElementById('btnNext').style.display =
     index < total - 1 ? 'inline-block' : 'none';
 
+  /* Hide Previous button on first sentence */
+  document.getElementById('btnPrev').style.display =
+    index > 0 ? 'inline-block' : 'none';
+
   animateThermo(s.tempF);
 }
 
@@ -830,12 +837,21 @@ function nextSentence() {
   }
 }
 
+/* Previous / Anterior */
+function prevSentence() {
+  if (current > 0) {
+    current--;
+    renderSentence(current);
+  }
+}
+
 function restart() {
   current = 0;
   document.getElementById('sentenceCard').style.display = '';
   document.querySelector('.thermo-card').style.display  = '';
   document.querySelector('.nav-row').style.display      = '';
   document.getElementById('endScreen').classList.remove('visible');
+  document.getElementById('btnPrev').style.display      = 'none';
   renderSentence(0);
 }
 
@@ -902,19 +918,15 @@ function buildQuiz() {
   container.innerHTML  = '';
 
   SENTENCES.forEach((s, idx) => {
-    /* Wrong options: first pull from other lesson key words,
-       then fill from wildcards; never repeat or use the correct answer */
+    /* Fixed wildcard for this sentence (one per sentence in order) */
+    const wildcard = WILDCARDS[idx];
+
+    /* One wrong option from other lesson key words (shuffled, never the correct answer) */
     const otherKeys = shuffle(allCorrectKeys.filter(k => k !== s.keyEs));
-    const wilds     = shuffle(WILDCARDS);
-    const wrongPool = [];
-    const seen      = new Set([s.keyEs]);
-    for (const w of [...otherKeys, ...wilds]) {
-      if (!seen.has(w)) { seen.add(w); wrongPool.push(w); }
-      if (wrongPool.length === 2) break;
-    }
+    const lessonWrong = otherKeys[0];
 
     /* Randomise correct option position among the 3 */
-    const options = shuffle([s.keyEs, ...wrongPool]);
+    const options = shuffle([s.keyEs, lessonWrong, wildcard]);
 
     /* Build card */
     const item = document.createElement('div');
