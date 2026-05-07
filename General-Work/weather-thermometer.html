@@ -626,80 +626,81 @@ const SENTENCES = [
     en:    'This morning it was <span class="key-phrase">below freezing</span> — it was 28°F when I got up.',
     es:    'Esta mañana la temperatura estaba <span class="key-phrase-es">bajo cero</span>; hacía 28 grados F cuando me levanté.',
     audio: 'This morning it was below freezing — it was 28 degrees Fahrenheit when I got up.',
-    keyEs: 'bajo cero'
+    keyEs: 'bajo cero',
+    wildcard: 'hielo'
   },
   {
     tempF: 35,
     en:    'When I came here in April, we had some <span class="key-phrase">freezing</span> weather and snow at 35°F.',
     es:    'Cuando llegué aquí en abril, tuvimos un tiempo <span class="key-phrase-es">gélido</span> y nieve a 35°F.',
     audio: 'When I came here in April, we had some freezing weather and snow at 35 degrees Fahrenheit.',
-    keyEs: 'gélido'
+    keyEs: 'gélido',
+    wildcard: 'se congeló'
   },
   {
     tempF: 50,
     en:    'Later in the month, we had a <span class="key-phrase">thaw</span> of 50°F.',
     es:    'Más avanzado el mes, experimentamos un <span class="key-phrase-es">deshielo</span> a 50°F.',
     audio: 'Later in the month, we had a thaw of 50 degrees Fahrenheit.',
-    keyEs: 'deshielo'
+    keyEs: 'deshielo',
+    wildcard: 'fresco'
   },
   {
     tempF: 40,
     en:    'The snow and ice <span class="key-phrase">melted</span> for a day above 40°F.',
     es:    'La nieve y el hielo se <span class="key-phrase-es">derritieron</span> durante un día en el que la temperatura superó los 40°F.',
     audio: 'The snow and ice melted for a day above 40 degrees Fahrenheit.',
-    keyEs: 'derritieron'
+    keyEs: 'derritieron',
+    wildcard: 'charco'
   },
   {
     tempF: 70,
     en:    'But a <span class="key-phrase">warming trend</span> had temperatures to 70°F later in April.',
     es:    'Sin embargo, una <span class="key-phrase-es">tendencia al calentamiento</span> elevó las temperaturas hasta los 70°F más tarde en abril.',
     audio: 'But a warming trend had temperatures to 70 degrees Fahrenheit later in April.',
-    keyEs: 'tendencia al calentamiento'
+    keyEs: 'tendencia al calentamiento',
+    wildcard: 'se calentó'
   },
   {
     tempF: 75,
     en:    'Spring <span class="key-phrase">rainy season</span> had a high of 75°F.',
     es:    'La <span class="key-phrase-es">temporada de lluvias</span> primaveral alcanzó un máximo de 75°F.',
     audio: 'Spring rainy season had a high of 75 degrees Fahrenheit.',
-    keyEs: 'temporada de lluvias'
+    keyEs: 'temporada de lluvias',
+    wildcard: 'sequía'
   },
   {
     tempF: 82,
     en:    'Suddenly in May we had a <span class="key-phrase">heat wave</span> to 82°F.',
     es:    'De repente, en mayo, sufrimos una <span class="key-phrase-es">ola de calor</span> que llegó a los 82°F.',
     audio: 'Suddenly in May we had a heat wave to 82 degrees Fahrenheit.',
-    keyEs: 'ola de calor'
+    keyEs: 'ola de calor',
+    wildcard: 'tiempo fresco'
   },
   {
     tempF: 85,
     en:    "That's close to the <span class=\"key-phrase\">heat stress</span> level of 85°F.",
     es:    'Esto se acerca al nivel de <span class="key-phrase-es">estrés térmico</span>, situado en los 85°F.',
     audio: "That's close to the heat stress level of 85 degrees Fahrenheit.",
-    keyEs: 'estrés térmico'
+    keyEs: 'estrés térmico',
+    wildcard: 'congelación'
   },
   {
     tempF: 45,
     en:    'It suddenly dropped to 45°F with a <span class="key-phrase">cold snap</span>.',
     es:    'Luego, la temperatura descendió bruscamente hasta los 45°F debido a una <span class="key-phrase-es">ola de frío</span>.',
     audio: 'It suddenly dropped to 45 degrees Fahrenheit with a cold snap.',
-    keyEs: 'ola de frío'
+    keyEs: 'ola de frío',
+    wildcard: 'golpe de calor'
   },
   {
     tempF: 95,
     en:    "At worst, we can get a <span class=\"key-phrase\">high</span> of 95°F or more and we can't work.",
     es:    'En el peor de los casos, podemos alcanzar una <span class="key-phrase-es">máxima</span> de 95 °F o más y no podemos trabajar.',
     audio: "At worst, we can get a high of 95 degrees Fahrenheit or more and we can't work.",
-    keyEs: 'máxima'
+    keyEs: 'máxima',
+    wildcard: 'quemadura solar'
   }
-];
-
-/* ═══════════════════════════════════════════════════════════
-   WILDCARD DISTRACTORS
-   Extra wrong-answer pool; used to fill quiz option sets
-   ═══════════════════════════════════════════════════════════ */
-const WILDCARDS = [
-  'hielo', 'se congeló', 'fresco', 'charco', 'se calentó',
-  'sequía', 'tiempo fresco', 'congelación', 'golpe de calor', 'quemadura solar'
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -918,11 +919,11 @@ function buildQuiz() {
   container.innerHTML  = '';
 
   SENTENCES.forEach((s, idx) => {
-    /* Fixed wildcard for this sentence (one per sentence in order) */
-    const wildcard = WILDCARDS[idx];
+    /* Wildcard distractor is fixed per sentence, stored in sentence data */
+    const wildcard = s.wildcard;
 
     /* One wrong option from other lesson key words (shuffled, never the correct answer) */
-    const otherKeys = shuffle(allCorrectKeys.filter(k => k !== s.keyEs));
+    const otherKeys   = shuffle(allCorrectKeys.filter(k => k !== s.keyEs));
     const lessonWrong = otherKeys[0];
 
     /* Randomise correct option position among the 3 */
