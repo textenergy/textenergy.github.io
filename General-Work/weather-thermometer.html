@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Vocabulary / Vocabulario del Tiempo</title>
+<style>
+  :root {
+    --blue-dark:   #0d3b6e;
+    --blue-mid:    #1565c0;
+    --blue-light:  #e3f0ff;
+    --blue-border: #90caf9;
+    --cold-color:  #5c9fd4;
+    --warm-color:  #e05c2a;
+    --text:        #1a1a1a;
+    --subtext:     #555;
+    --card-bg:     #ffffff;
+    --page-bg:     #eef3f9;
+    --purple:      #6a1b9a;
+    --green:       #2e7d32;
+    --red:         #c62828;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 16px 48px;
+  }
+
+  /* ── Header ─────────────────────────────────────────── */
+  header {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 1.55rem;
+    font-weight: 900;
+    color: var(--blue-dark);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  header p {
+    font-size: 0.9rem;
+    color: var(--subtext);
+  }
+
+  /* ── Progress ────────────────────────────────────────── */
+  .progress-wrap {
+    max-width: 700px;
+    margin: 0 auto 6px;
+    background: #cdd8e8;
+    border-radius: 6px;
+    height: 7px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--blue-mid);
+    border-radius: 6px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    max-width: 700px;
+    margin: 0 auto 16px;
+    font-size: 0.8rem;
+    color: var(--subtext);
+    text-align: right;
+  }
+
+  /* ── Card ────────────────────────────────────────────── */
+  .card {
+    max-width: 700px;
+    margin: 0 auto 18px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 22px 20px 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  /* ── Sentence display ───────────────────────────────── */
+  .sentence-en {
+    font-size: 1.15rem;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 14px;
+    min-height: 2.5em;
+  }
+
+  /* Bold + underline key phrases in English */
+  .key-phrase {
+    font-weight: 700;
+    text-decoration: underline;
+    color: var(--blue-dark);
+  }
+
+  /* ── Controls row ───────────────────────────────────── */
+  .controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .btn-audio {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--blue-mid);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+    transition: background 0.15s;
+  }
+  .btn-audio:hover { background: var(--blue-dark); }
+  .btn-audio:active { transform: scale(0.97); }
+
+  .btn-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #fff;
+    color: var(--blue-mid);
+    border: 2px solid var(--blue-mid);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-toggle:hover { background: var(--blue-light); }
+
+  /* ── Spanish sentence (hidden by default) ───────────── */
+  /* Height is fully flexible — Spanish text can be longer than English */
+  .sentence-es {
+    display: none;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333;
+    background: var(--blue-light);
+    border-left: 4px solid var(--blue-mid);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-bottom: 4px;
+    width: 100%;
+  }
+  .sentence-es.visible { display: block; }
+
+  /* Bold + underline key phrases in Spanish (italic inherited from parent) */
+  .key-phrase-es {
+    font-weight: 700;
+    font-style: italic;
+    text-decoration: underline;
+    color: var(--blue-dark);
+  }
+
+  /* ── Thermometer card ───────────────────────────────── */
+  .thermo-card {
+    max-width: 700px;
+    margin: 0 auto 18px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 24px 20px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .thermo-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  /* ── Navigation ─────────────────────────────────────── */
+  .nav-row {
+    max-width: 700px;
+    margin: 0 auto 28px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-next {
+    background: var(--blue-dark);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+    letter-spacing: 0.01em;
+    transition: background 0.15s;
+  }
+  .btn-next:hover { background: var(--blue-mid); }
+  .btn-next:active { transform: scale(0.97); }
+  .btn-next:disabled { background: #aaa; cursor: default; }
+
+  /* ── End screen (review mode) ────────────────────────── */
+  .end-screen {
+    display: none;
+    max-width: 700px;
+    margin: 0 auto 24px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .end-screen.visible { display: block; }
+  .end-screen h2 {
+    font-size: 1.4rem;
+    color: var(--blue-dark);
+    margin-bottom: 10px;
+  }
+  .end-screen p {
+    color: var(--subtext);
+    margin-bottom: 20px;
+  }
+  .btn-restart {
+    background: var(--blue-mid);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .btn-restart:hover { background: var(--blue-dark); }
+
+  /* ══════════════════════════════════════════════════════
+     MODE SWITCH BAR — always visible between sections
+     ══════════════════════════════════════════════════════ */
+  .mode-bar {
+    max-width: 700px;
+    margin: 0 auto 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-mode {
+    border: 2px solid var(--blue-dark);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-mode.active {
+    background: var(--blue-dark);
+    color: #fff;
+  }
+  .btn-mode.inactive {
+    background: #fff;
+    color: var(--blue-dark);
+  }
+  .btn-mode.inactive:hover { background: var(--blue-light); }
+
+  /* ══════════════════════════════════════════════════════
+     QUIZ SECTION
+     ══════════════════════════════════════════════════════ */
+  .quiz-section {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .quiz-heading {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .quiz-heading h2 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--blue-dark);
+    margin-bottom: 4px;
+  }
+  .quiz-heading p {
+    font-size: 0.88rem;
+    color: var(--subtext);
+  }
+
+  /* Each quiz item card */
+  .quiz-item {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 18px 18px 14px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+
+  .quiz-sentence {
+    font-size: 1.08rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .quiz-controls {
+    margin-bottom: 10px;
+  }
+
+  /* Option buttons */
+  .options-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .btn-option {
+    flex: 1 1 auto;
+    min-width: 120px;
+    background: #f0f4f9;
+    border: 2px solid var(--blue-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    font-style: italic;
+    cursor: pointer;
+    min-height: 44px;
+    text-align: center;
+    transition: background 0.15s, border-color 0.15s;
+    color: var(--text);
+  }
+  .btn-option:hover:not(:disabled) {
+    background: var(--blue-light);
+    border-color: var(--blue-mid);
+  }
+  .btn-option:disabled { cursor: default; }
+
+  /* Correct answer chosen */
+  .btn-option.correct {
+    background: #e8f5e9;
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 700;
+  }
+  /* Wrong answer chosen */
+  .btn-option.incorrect {
+    background: #ffebee;
+    border-color: var(--red);
+    color: var(--red);
+    font-weight: 700;
+  }
+  /* Reveal correct answer after wrong pick or no pick */
+  .btn-option.reveal {
+    background: #e8f5e9;
+    border-color: var(--green);
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* ── Quiz submit row ─────────────────────────────────── */
+  .quiz-submit-row {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    text-align: center;
+  }
+  .btn-submit {
+    background: var(--blue-dark);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+    transition: background 0.15s;
+  }
+  .btn-submit:hover { background: var(--blue-mid); }
+
+  /* ── Quiz summary ────────────────────────────────────── */
+  .quiz-summary {
+    display: none;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 28px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .quiz-summary.visible { display: block; }
+  .quiz-summary h3 {
+    font-size: 1.2rem;
+    color: var(--blue-dark);
+    margin-bottom: 10px;
+  }
+  .quiz-summary p {
+    color: var(--subtext);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .review-msg {
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    color: #5d4037;
+    font-size: 0.95rem;
+    text-align: left;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .summary-btn-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-summary {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+    transition: background 0.15s;
+  }
+  .btn-summary.primary {
+    background: var(--blue-mid);
+    color: #fff;
+  }
+  .btn-summary.primary:hover { background: var(--blue-dark); }
+  .btn-summary.secondary {
+    background: #fff;
+    color: var(--blue-dark);
+    border: 2px solid var(--blue-dark);
+  }
+  .btn-summary.secondary:hover { background: var(--blue-light); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Weather Vocabulary</h1>
+  <p>Vocabulario del tiempo / temperaturas</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════════
+     REVIEW SECTION (Mode 1)
+     ══════════════════════════════════════════════════════ -->
+<div id="reviewSection">
+
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progressFill" style="width:10%"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">1 / 10</div>
+
+  <div class="card" id="sentenceCard">
+    <div class="sentence-en" id="sentenceEn"></div>
+    <div class="controls">
+      <button class="btn-audio" id="btnAudio" onclick="playAudio()">
+        🔊 Play / Escuchar
+      </button>
+      <button class="btn-toggle" id="btnToggle" onclick="toggleSpanish()">
+        👁 Show Spanish / Mostrar
+      </button>
+    </div>
+    <div class="sentence-es" id="sentenceEs"></div>
+  </div>
+
+  <div class="thermo-card">
+    <svg class="thermo-svg" id="thermoSvg" viewBox="0 0 660 160"
+         xmlns="http://www.w3.org/2000/svg" aria-label="Thermometer">
+
+      <!-- Track background -->
+      <circle cx="30"  cy="110" r="22" fill="#e0e0e0"/>
+      <rect x="8"   y="88" width="22"  height="44" rx="0" fill="#e0e0e0"/>
+      <rect x="30"  y="88" width="602" height="44" rx="4" fill="#e0e0e0"/>
+      <rect x="610" y="88" width="22"  height="44" rx="0" fill="#e0e0e0"/>
+      <circle cx="632" cy="110" r="22" fill="#e0e0e0"/>
+
+      <!-- Mercury fill (animated) -->
+      <defs>
+        <clipPath id="trackClip">
+          <rect x="8" y="88" width="646" height="44" rx="22"/>
+        </clipPath>
+        <linearGradient id="mercuryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#5c9fd4"/>
+          <stop offset="32%"  stop-color="#9fc5e8"/>
+          <stop offset="85%"  stop-color="#f4a261"/>
+          <stop offset="100%" stop-color="#e05c2a"/>
+        </linearGradient>
+      </defs>
+      <rect id="mercuryFill" x="8" y="88" width="0" height="44"
+            fill="url(#mercuryGrad)" clip-path="url(#trackClip)"
+            style="transition: width 0.7s cubic-bezier(0.4,0,0.2,1)"/>
+
+      <!-- Reference marker lines -->
+      <line id="line32" x1="0" y1="80" x2="0" y2="132"
+            stroke="#2874a6" stroke-width="2" stroke-dasharray="4,3"/>
+      <line id="line85" x1="0" y1="80" x2="0" y2="132"
+            stroke="#c0392b" stroke-width="2" stroke-dasharray="4,3"/>
+
+      <!-- Reference labels above track -->
+      <text id="label0F"   y="76" text-anchor="middle"
+            font-size="11" font-family="Lato,Arial,sans-serif" fill="#444">0°F / −18°C</text>
+      <text id="label32F"  y="76" text-anchor="middle"
+            font-size="11" font-family="Lato,Arial,sans-serif" fill="#2874a6">32°F / 0°C</text>
+      <text id="label85F"  y="76" text-anchor="middle"
+            font-size="11" font-family="Lato,Arial,sans-serif" fill="#c0392b">85°F / 29°C</text>
+      <text id="label100F" y="76" text-anchor="middle"
+            font-size="11" font-family="Lato,Arial,sans-serif" fill="#444">100°F / 38°C</text>
+
+      <!-- Tick marks at reference temps -->
+      <line id="tick0"   x1="0" y1="88" x2="0" y2="100" stroke="#888" stroke-width="1.5"/>
+      <line id="tick32"  x1="0" y1="88" x2="0" y2="100" stroke="#2874a6" stroke-width="1.5"/>
+      <line id="tick85"  x1="0" y1="88" x2="0" y2="100" stroke="#c0392b" stroke-width="1.5"/>
+      <line id="tick100" x1="0" y1="88" x2="0" y2="100" stroke="#888" stroke-width="1.5"/>
+
+      <!-- Sentence temperature marker (flag and stem) -->
+      <polygon id="markerFlag"  points="0,0" fill="#6a1b9a" opacity="0"/>
+      <line    id="markerStem"  x1="0" y1="132" x2="0" y2="148"
+               stroke="#6a1b9a" stroke-width="2.5" opacity="0"/>
+      <text    id="markerLabel" x="0" y="147" text-anchor="middle"
+               font-size="12" font-weight="700"
+               font-family="Lato,Arial,sans-serif" fill="#6a1b9a" opacity="0"/>
+
+      <!-- Outer scale labels below track -->
+      <text id="scaleMin" y="156" text-anchor="middle"
+            font-size="10" font-family="Lato,Arial,sans-serif" fill="#666">0°F</text>
+      <text id="scaleMax" y="156" text-anchor="middle"
+            font-size="10" font-family="Lato,Arial,sans-serif" fill="#666">100°F</text>
+
+    </svg>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-next" id="btnNext" onclick="nextSentence()">
+      Next / Próximo ▶
+    </button>
+  </div>
+
+  <div class="end-screen" id="endScreen">
+    <h2>¡Bien hecho! / Well done!</h2>
+    <p>You've reviewed all the weather sentences.<br>
+       Repasaste todas las oraciones del tiempo.</p>
+    <button class="btn-restart" onclick="restart()">Start over / Empezar de nuevo</button>
+  </div>
+
+</div><!-- /reviewSection -->
+
+<!-- ══════════════════════════════════════════════════════
+     MODE SWITCH BAR — always visible
+     ══════════════════════════════════════════════════════ -->
+<div class="mode-bar">
+  <button class="btn-mode inactive" id="btnModeReview" onclick="modeBarAction()">
+    🔄 Reset / Borrar
+  </button>
+  <button class="btn-mode inactive" id="btnModeQuiz"   onclick="setMode('quiz')">
+    ✏️ Quiz / Prueba
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     QUIZ SECTION (Mode 2)
+     ══════════════════════════════════════════════════════ -->
+<div id="quizSection" style="display:none;">
+
+  <div class="quiz-heading">
+    <h2>Check your understanding / Comprueba tu comprensión</h2>
+    <p>Listen, then choose the correct Spanish key word.<br>
+       Escucha y elige la palabra correcta en español.</p>
+  </div>
+
+  <div id="quizItems"></div>
+
+  <div class="quiz-submit-row">
+    <button class="btn-submit" id="btnSubmit" onclick="submitQuiz()">
+      Check answers / Ver resultados
+    </button>
+  </div>
+
+  <div class="quiz-summary" id="quizSummary">
+    <h3 id="summaryTitle"></h3>
+    <p  id="summaryScore"></p>
+    <div class="review-msg" id="reviewMsg" style="display:none;"></div>
+    <div class="summary-btn-row">
+      <button class="btn-summary primary"   onclick="resetQuiz()">
+        Try again / Intentar de nuevo
+      </button>
+      <button class="btn-summary secondary" onclick="setMode('review')">
+        Review sentences / Repasar oraciones
+      </button>
+    </div>
+  </div>
+
+</div><!-- /quizSection -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   SENTENCE DATA
+   Each entry:
+     tempF  — °F temperature the marker points to
+     en     — English sentence; key phrase in <span class="key-phrase">
+     es     — Spanish sentence; key phrase in <span class="key-phrase-es">
+     audio  — plain text for TTS (no HTML tags)
+     keyEs  — correct Spanish key phrase plain text (for quiz options)
+   ═══════════════════════════════════════════════════════════ */
+const SENTENCES = [
+  {
+    tempF: 28,
+    en:    'This morning it was <span class="key-phrase">below freezing</span> — it was 28°F when I got up.',
+    es:    'Esta mañana la temperatura estaba <span class="key-phrase-es">bajo cero</span>; hacía 28 grados F cuando me levanté.',
+    audio: 'This morning it was below freezing — it was 28 degrees Fahrenheit when I got up.',
+    keyEs: 'bajo cero'
+  },
+  {
+    tempF: 35,
+    en:    'When I came here in April, we had some <span class="key-phrase">freezing</span> weather and snow at 35°F.',
+    es:    'Cuando llegué aquí en abril, tuvimos un tiempo <span class="key-phrase-es">gélido</span> y nieve a 35°F.',
+    audio: 'When I came here in April, we had some freezing weather and snow at 35 degrees Fahrenheit.',
+    keyEs: 'gélido'
+  },
+  {
+    tempF: 50,
+    en:    'Later in the month, we had a <span class="key-phrase">thaw</span> of 50°F.',
+    es:    'Más avanzado el mes, experimentamos un <span class="key-phrase-es">deshielo</span> a 50°F.',
+    audio: 'Later in the month, we had a thaw of 50 degrees Fahrenheit.',
+    keyEs: 'deshielo'
+  },
+  {
+    tempF: 40,
+    en:    'The snow and ice <span class="key-phrase">melted</span> for a day above 40°F.',
+    es:    'La nieve y el hielo se <span class="key-phrase-es">derritieron</span> durante un día en el que la temperatura superó los 40°F.',
+    audio: 'The snow and ice melted for a day above 40 degrees Fahrenheit.',
+    keyEs: 'derritieron'
+  },
+  {
+    tempF: 70,
+    en:    'But a <span class="key-phrase">warming trend</span> had temperatures to 70°F later in April.',
+    es:    'Sin embargo, una <span class="key-phrase-es">tendencia al calentamiento</span> elevó las temperaturas hasta los 70°F más tarde en abril.',
+    audio: 'But a warming trend had temperatures to 70 degrees Fahrenheit later in April.',
+    keyEs: 'tendencia al calentamiento'
+  },
+  {
+    tempF: 75,
+    en:    'Spring <span class="key-phrase">rainy season</span> had a high of 75°F.',
+    es:    'La <span class="key-phrase-es">temporada de lluvias</span> primaveral alcanzó un máximo de 75°F.',
+    audio: 'Spring rainy season had a high of 75 degrees Fahrenheit.',
+    keyEs: 'temporada de lluvias'
+  },
+  {
+    tempF: 82,
+    en:    'Suddenly in May we had a <span class="key-phrase">heat wave</span> to 82°F.',
+    es:    'De repente, en mayo, sufrimos una <span class="key-phrase-es">ola de calor</span> que llegó a los 82°F.',
+    audio: 'Suddenly in May we had a heat wave to 82 degrees Fahrenheit.',
+    keyEs: 'ola de calor'
+  },
+  {
+    tempF: 85,
+    en:    "That's close to the <span class=\"key-phrase\">heat stress</span> level of 85°F.",
+    es:    'Esto se acerca al nivel de <span class="key-phrase-es">estrés térmico</span>, situado en los 85°F.',
+    audio: "That's close to the heat stress level of 85 degrees Fahrenheit.",
+    keyEs: 'estrés térmico'
+  },
+  {
+    tempF: 45,
+    en:    'It suddenly dropped to 45°F with a <span class="key-phrase">cold snap</span>.',
+    es:    'Luego, la temperatura descendió bruscamente hasta los 45°F debido a una <span class="key-phrase-es">ola de frío</span>.',
+    audio: 'It suddenly dropped to 45 degrees Fahrenheit with a cold snap.',
+    keyEs: 'ola de frío'
+  },
+  {
+    tempF: 95,
+    en:    "At worst, we can get a <span class=\"key-phrase\">high</span> of 95°F or more and we can't work.",
+    es:    'En el peor de los casos, podemos alcanzar una <span class="key-phrase-es">máxima</span> de 95 °F o más y no podemos trabajar.',
+    audio: "At worst, we can get a high of 95 degrees Fahrenheit or more and we can't work.",
+    keyEs: 'máxima'
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════
+   WILDCARD DISTRACTORS
+   Extra wrong-answer pool; used to fill quiz option sets
+   ═══════════════════════════════════════════════════════════ */
+const WILDCARDS = [
+  'hielo', 'se congeló', 'fresco', 'charco', 'se calentó',
+  'sequía', 'tiempo fresco', 'congelación', 'golpe de calor', 'quemadura solar'
+];
+
+/* ═══════════════════════════════════════════════════════════
+   THERMOMETER GEOMETRY
+   Track runs from x=8 to x=654 (646px in viewBox units)
+   Temperature range: 0°F – 100°F
+   ═══════════════════════════════════════════════════════════ */
+const TRACK_LEFT  = 8;
+const TRACK_RIGHT = 654;
+const TRACK_WIDTH = TRACK_RIGHT - TRACK_LEFT;
+const TEMP_MIN    = 0;
+const TEMP_MAX    = 100;
+
+function tempToX(f) {
+  const ratio = (f - TEMP_MIN) / (TEMP_MAX - TEMP_MIN);
+  return TRACK_LEFT + ratio * TRACK_WIDTH;
+}
+
+/* Position fixed SVG reference elements once on load */
+function positionFixedElements() {
+  const refs = [
+    { id: 'label0F',   f: 0   },
+    { id: 'label32F',  f: 32  },
+    { id: 'label85F',  f: 85  },
+    { id: 'label100F', f: 100 },
+    { id: 'tick0',     f: 0   },
+    { id: 'tick32',    f: 32  },
+    { id: 'tick85',    f: 85  },
+    { id: 'tick100',   f: 100 },
+    { id: 'line32',    f: 32  },
+    { id: 'line85',    f: 85  },
+    { id: 'scaleMin',  f: 0   },
+    { id: 'scaleMax',  f: 100 },
+  ];
+  refs.forEach(r => {
+    const el = document.getElementById(r.id);
+    if (!el) return;
+    const x   = tempToX(r.f);
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'text') {
+      el.setAttribute('x', x);
+    } else if (tag === 'line') {
+      el.setAttribute('x1', x);
+      el.setAttribute('x2', x);
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REVIEW MODE STATE
+   ═══════════════════════════════════════════════════════════ */
+let current        = 0;
+let spanishVisible = false;
+
+function renderSentence(index) {
+  const s = SENTENCES[index];
+  spanishVisible = false;
+
+  document.getElementById('sentenceEn').innerHTML = s.en;
+  document.getElementById('sentenceEs').innerHTML = s.es;
+  document.getElementById('sentenceEs').classList.remove('visible');
+  document.getElementById('btnToggle').textContent = '👁 Show Spanish / Mostrar';
+
+  const total = SENTENCES.length;
+  document.getElementById('progressFill').style.width =
+    ((index + 1) / total * 100) + '%';
+  document.getElementById('progressLabel').textContent =
+    (index + 1) + ' / ' + total;
+
+  /* Hide Next button on last sentence */
+  document.getElementById('btnNext').style.display =
+    index < total - 1 ? 'inline-block' : 'none';
+
+  animateThermo(s.tempF);
+}
+
+function animateThermo(f) {
+  const x = tempToX(f);
+
+  document.getElementById('mercuryFill').setAttribute('width', x - TRACK_LEFT);
+
+  const stemTop = 132, stemBot = 148, flagH = 12, flagW = 18;
+  const pts = `${x},${stemTop} ${x - flagW/2},${stemBot + flagH} ${x + flagW/2},${stemBot + flagH}`;
+
+  const flag = document.getElementById('markerFlag');
+  flag.setAttribute('points', pts);
+  flag.setAttribute('opacity', '1');
+
+  const stem = document.getElementById('markerStem');
+  stem.setAttribute('x1', x); stem.setAttribute('x2', x);
+  stem.setAttribute('y1', stemTop); stem.setAttribute('y2', stemBot);
+  stem.setAttribute('opacity', '1');
+
+  const c     = Math.round((f - 32) * 5 / 9);
+  const label = document.getElementById('markerLabel');
+  label.setAttribute('x', x);
+  label.setAttribute('y', stemBot + flagH + 12);
+  label.textContent = f + '°F / ' + c + '°C';
+  label.setAttribute('opacity', '1');
+}
+
+/* TTS for review mode */
+function playAudio() {
+  const s = SENTENCES[current];
+  if (!s) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(s.audio);
+  utt.lang = 'en-US';
+  utt.rate = 0.9;
+  window.speechSynthesis.speak(utt);
+}
+
+/* Show / hide Spanish translation */
+function toggleSpanish() {
+  spanishVisible = !spanishVisible;
+  document.getElementById('sentenceEs').classList.toggle('visible', spanishVisible);
+  document.getElementById('btnToggle').textContent =
+    spanishVisible ? '🙈 Hide Spanish / Ocultar' : '👁 Show Spanish / Mostrar';
+}
+
+/* Next / Próximo */
+function nextSentence() {
+  if (current < SENTENCES.length - 1) {
+    current++;
+    renderSentence(current);
+  } else {
+    document.getElementById('sentenceCard').style.display = 'none';
+    document.querySelector('.thermo-card').style.display  = 'none';
+    document.querySelector('.nav-row').style.display      = 'none';
+    document.getElementById('endScreen').classList.add('visible');
+  }
+}
+
+function restart() {
+  current = 0;
+  document.getElementById('sentenceCard').style.display = '';
+  document.querySelector('.thermo-card').style.display  = '';
+  document.querySelector('.nav-row').style.display      = '';
+  document.getElementById('endScreen').classList.remove('visible');
+  renderSentence(0);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODE SWITCHING
+   ═══════════════════════════════════════════════════════════ */
+
+/* modeBarAction: left button behaviour depends on current mode.
+   In review mode it resets the review. In quiz mode it switches
+   back to review (its label changes to "Review Sentences" in that state). */
+function modeBarAction() {
+  const inQuiz = document.getElementById('quizSection').style.display !== 'none';
+  if (inQuiz) {
+    setMode('review');
+  } else {
+    restart();
+  }
+}
+
+function setMode(mode) {
+  const isReview      = mode === 'review';
+  const btnLeft       = document.getElementById('btnModeReview');
+  const btnQuiz       = document.getElementById('btnModeQuiz');
+
+  document.getElementById('reviewSection').style.display = isReview ? '' : 'none';
+  document.getElementById('quizSection').style.display   = isReview ? 'none' : '';
+
+  if (isReview) {
+    /* Review mode: show Reset / Borrar + Quiz / Prueba */
+    btnLeft.textContent  = '🔄 Reset / Borrar';
+    btnLeft.style.display = '';
+    btnQuiz.style.display = '';
+  } else {
+    /* Quiz mode: hide Quiz button, relabel left button */
+    btnLeft.textContent  = '📖 Review Sentences / Repasar Oraciones';
+    btnLeft.style.display = '';
+    btnQuiz.style.display = 'none';
+    if (!quizBuilt) buildQuiz();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   QUIZ
+   ═══════════════════════════════════════════════════════════ */
+let quizBuilt   = false;
+let quizAnswers = [];   /* {answered: bool, correct: bool} per sentence */
+
+/* Fisher-Yates shuffle — returns new array */
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuiz() {
+  quizBuilt   = true;
+  quizAnswers = SENTENCES.map(() => ({ answered: false, correct: false }));
+
+  const allCorrectKeys = SENTENCES.map(s => s.keyEs);
+  const container      = document.getElementById('quizItems');
+  container.innerHTML  = '';
+
+  SENTENCES.forEach((s, idx) => {
+    /* Wrong options: first pull from other lesson key words,
+       then fill from wildcards; never repeat or use the correct answer */
+    const otherKeys = shuffle(allCorrectKeys.filter(k => k !== s.keyEs));
+    const wilds     = shuffle(WILDCARDS);
+    const wrongPool = [];
+    const seen      = new Set([s.keyEs]);
+    for (const w of [...otherKeys, ...wilds]) {
+      if (!seen.has(w)) { seen.add(w); wrongPool.push(w); }
+      if (wrongPool.length === 2) break;
+    }
+
+    /* Randomise correct option position among the 3 */
+    const options = shuffle([s.keyEs, ...wrongPool]);
+
+    /* Build card */
+    const item = document.createElement('div');
+    item.className = 'quiz-item';
+    item.id = `quiz-item-${idx}`;
+
+    /* English sentence (bold+underline key phrase via CSS class) */
+    const sentDiv = document.createElement('div');
+    sentDiv.className = 'quiz-sentence';
+    sentDiv.innerHTML = s.en;
+
+    /* Audio button */
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'quiz-controls';
+    const audioBtn = document.createElement('button');
+    audioBtn.className = 'btn-audio';
+    audioBtn.innerHTML = '🔊 Play / Escuchar';
+    audioBtn.onclick   = () => playQuizAudio(idx);
+    controlsDiv.appendChild(audioBtn);
+
+    /* Option buttons */
+    const optionsRow = document.createElement('div');
+    optionsRow.className = 'options-row';
+    optionsRow.id = `options-${idx}`;
+
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className        = 'btn-option';
+      btn.textContent      = opt;
+      btn.dataset.value    = opt;
+      btn.dataset.correct  = (opt === s.keyEs) ? 'true' : 'false';
+      btn.onclick          = () => selectOption(idx, btn);
+      optionsRow.appendChild(btn);
+    });
+
+    item.appendChild(sentDiv);
+    item.appendChild(controlsDiv);
+    item.appendChild(optionsRow);
+    container.appendChild(item);
+  });
+
+  document.getElementById('btnSubmit').style.display = 'inline-block';
+  document.getElementById('quizSummary').classList.remove('visible');
+}
+
+/* TTS for quiz items */
+function playQuizAudio(idx) {
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(SENTENCES[idx].audio);
+  utt.lang = 'en-US';
+  utt.rate = 0.9;
+  window.speechSynthesis.speak(utt);
+}
+
+/* Handle option tap — one selection per item only */
+function selectOption(idx, clickedBtn) {
+  if (quizAnswers[idx].answered) return;
+  quizAnswers[idx].answered = true;
+
+  const isCorrect = clickedBtn.dataset.correct === 'true';
+  quizAnswers[idx].correct = isCorrect;
+
+  const row = document.getElementById(`options-${idx}`);
+  row.querySelectorAll('.btn-option').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.correct === 'true') {
+      /* Always show the correct answer in green */
+      btn.classList.add(isCorrect ? 'correct' : 'reveal');
+      btn.textContent = '✔ ' + btn.textContent;
+    } else if (btn === clickedBtn) {
+      /* Mark the wrong choice in red */
+      btn.classList.add('incorrect');
+      btn.textContent = '✘ ' + btn.textContent;
+    }
+  });
+}
+
+/* Score and display summary after all 10 attempted */
+function submitQuiz() {
+  /* Reveal correct answers for any unanswered items */
+  quizAnswers.forEach((a, idx) => {
+    if (!a.answered) {
+      a.answered = true;
+      a.correct  = false;
+      const row  = document.getElementById(`options-${idx}`);
+      row.querySelectorAll('.btn-option').forEach(btn => {
+        btn.disabled = true;
+        if (btn.dataset.correct === 'true') {
+          btn.classList.add('reveal');
+          btn.textContent = '✔ ' + btn.textContent;
+        }
+      });
+    }
+  });
+
+  const total   = SENTENCES.length;
+  const correct = quizAnswers.filter(a => a.correct).length;
+  const wrong   = total - correct;
+
+  document.getElementById('summaryTitle').textContent =
+    correct === total  ? '¡Perfecto! / Perfect!' :
+    correct >= total/2 ? 'Good work! / ¡Buen trabajo!' :
+                         'Keep practicing / ¡Sigue practicando!';
+
+  document.getElementById('summaryScore').textContent =
+    `You got ${correct} out of ${total} correct. / ` +
+    `Tuviste ${correct} de ${total} correctas.`;
+
+  const reviewMsg = document.getElementById('reviewMsg');
+  if (wrong > 0) {
+    reviewMsg.style.display = '';
+    const pl = wrong > 1 ? 's' : '';
+    reviewMsg.innerHTML =
+      `You missed ${wrong} item${pl}. Use the ` +
+      `<strong>Review Sentences / Repasar Oraciones</strong> button above to go back and listen to the sentences again.<br>` +
+      `<em>Tuviste ${wrong} respuesta${pl} incorrecta${pl}. ` +
+      `Usa el botón <strong>Review Sentences / Repasar Oraciones</strong> para escuchar las oraciones de nuevo.</em>`;
+  } else {
+    reviewMsg.style.display = 'none';
+  }
+
+  document.getElementById('btnSubmit').style.display = 'none';
+  document.getElementById('quizSummary').classList.add('visible');
+}
+
+/* Reset quiz with freshly shuffled options */
+function resetQuiz() {
+  quizBuilt = false;
+  document.getElementById('quizSummary').classList.remove('visible');
+  buildQuiz();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  positionFixedElements();
+  renderSentence(0);
+});
+</script>
+</body>
+</html>
