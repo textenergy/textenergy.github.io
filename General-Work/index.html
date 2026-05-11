@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Work — Learning Materials</title>
+  <style>
+    /* ── Base ── */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f0f4f0;
+      color: black;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      border-bottom: 3px solid #4a7a2a;
+      padding-bottom: 0.4rem;
+      color: #1a3a08;
+      margin: 1rem 0 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 1.4rem;
+    }
+
+    .about-link {
+      margin: 1.2rem 0 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .about-link a {
+      color: #005a9c;
+      text-decoration: underline;
+    }
+
+    .about-link a:visited { color: #551a8b; }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #555;
+      border-top: 1px solid #ccc;
+      padding-top: 1rem;
+    }
+
+    footer a { color: #005a9c; }
+
+    /* ── Navigation bar ── */
+    .nav-bar {
+      background: #ddeedd;
+      border-bottom: 2px solid #aaccaa;
+      margin: -20px -20px 1.6rem -20px;
+    }
+
+    .nav-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      background: #4a7a2a;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      font-family: inherit;
+      padding: 14px 18px;
+      cursor: pointer;
+      text-align: left;
+      min-height: 48px;
+      box-sizing: border-box;
+    }
+
+    .nav-toggle:focus {
+      outline: 3px solid #ffcc00;
+      outline-offset: -2px;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 22px;
+      flex-shrink: 0;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Menu panel — standard disc list */
+    .nav-menu {
+      display: none;
+      list-style: disc;
+      margin: 0;
+      padding: 8px 0 12px 36px;
+      background: #eef5ee;
+    }
+
+    .nav-menu.is-open { display: block; }
+
+    .nav-menu li { margin: 2px 0; }
+
+    /* Leaf page links */
+    .nav-menu li > a {
+      color: #005a9c;
+      text-decoration: underline;
+      font-size: 0.95rem;
+      line-height: 2.2;
+    }
+
+    .nav-menu li > a:visited { color: #551a8b; }
+
+    /* Category expand button */
+    .nav-menu li > button.nav-cat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: #1a3a08;
+      font-size: 0.95rem;
+      font-family: inherit;
+      font-weight: bold;
+      padding: 4px 0;
+      cursor: pointer;
+      min-height: 44px;
+      text-align: left;
+    }
+
+    .nav-menu li > button.nav-cat:focus {
+      outline: 3px solid #ffcc00;
+      outline-offset: 2px;
+    }
+
+    .nav-cat-arrow {
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+      color: #4a7a2a;
+    }
+
+    button.nav-cat[aria-expanded="true"] .nav-cat-arrow { transform: rotate(90deg); }
+
+    /* Sub-menu */
+    .nav-sub {
+      display: none;
+      list-style: disc;
+      margin: 2px 0 4px 20px;
+      padding: 0;
+    }
+
+    .nav-sub.is-open { display: block; }
+
+    .nav-sub li > a {
+      color: #005a9c;
+      text-decoration: underline;
+      font-size: 0.9rem;
+      line-height: 2.2;
+    }
+
+    .nav-sub li > a:visited { color: #551a8b; }
+  </style>
+</head>
+<body>
+
+  <div class="nav-bar" role="navigation" aria-label="Site navigation">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" id="nav-toggle">
+      <span class="hamburger" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      Navigate Work-Related Topics / Navigar temas del trabajo
+    </button>
+
+    <ul class="nav-menu" id="nav-menu">
+
+      <li><a href="https://textenergy.github.io/General-Work/interrogatives-quiz.html" target="_blank">Question Words / Palabras de Pregunta</a></li>
+      <li><a href="https://textenergy.github.io/General-Work/number-practice-grid.html" target="_blank">1-100 Number Practice / Números del 1 al 100</a></li>
+      <li><a href="https://textenergy.github.io/General-Work/time-frequency.html" target="_blank">Time Frequency / Frecuencia de Tiempo</a></li>
+      <li><a href="https://textenergy.github.io/General-Work/time-of-day.html" target="_blank">Times of Day / Momentos del Día</a></li>
+      <li><a href="https://textenergy.github.io/General-Work/weather-thermometer.html" target="_blank">Weather Vocabulary / Vocabulario del Tiempo</a></li>
+
+      <li>
+        <button class="nav-cat" aria-expanded="false" aria-controls="sub-dairy">
+          Dairy / Lechería <span class="nav-cat-arrow" aria-hidden="true">▶</span>
+        </button>
+        <ul class="nav-sub" id="sub-dairy">
+          <li><a href="https://textenergy.github.io/General-Work/Dairy/down-cow/moving-down-cow.html" target="_blank">Moving a Down Cow with a Skid Steer or Loader</a></li>
+          <li><a href="https://textenergy.github.io/General-Work/Dairy/work-vocab/dairy_quiz.html" target="_blank">Dairy Farm Vocabulary Quiz</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <button class="nav-cat" aria-expanded="false" aria-controls="sub-landscaping">
+          Landscaping / Jardinería <span class="nav-cat-arrow" aria-hidden="true">▶</span>
+        </button>
+        <ul class="nav-sub" id="sub-landscaping">
+          <li><a href="https://textenergy.github.io/General-Work/Landscaping/tools_quiz.html" target="_blank">Landscaping Tools Quiz</a></li>
+          <li><a href="https://textenergy.github.io/General-Work/Landscaping/tools-image-quiz.html" target="_blank">Landscaping Tools Practice</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+
+  <h1>General Work — Learning Materials</h1>
+  <p class="subtitle">Bilingual English/Spanish resources for adult learners<br>
+  <em>Recursos bilingües inglés/español para adultos aprendices</em></p>
+
+  <p class="about-link"><a href="about-learning.html" target="_blank">About This Learning Material / Acerca de este material de aprendizaje</a></p>
+
+  <footer>
+    <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu   = document.getElementById('nav-menu');
+
+    navToggle.addEventListener('click', function () {
+      const open = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!open));
+      navMenu.classList.toggle('is-open', !open);
+    });
+
+    document.querySelectorAll('button.nav-cat').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const open     = this.getAttribute('aria-expanded') === 'true';
+        const targetId = this.getAttribute('aria-controls');
+        const sub      = document.getElementById(targetId);
+        this.setAttribute('aria-expanded', String(!open));
+        sub.classList.toggle('is-open', !open);
+      });
+    });
+
+    navMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('is-open');
+      });
+    });
+  </script>
+
+</body>
+</html>

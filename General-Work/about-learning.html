@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About This Learning Material / Acerca de este material de aprendizaje</title>
+  <style>
+    /* ── Base ── */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f0f4f0;
+      color: #111;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      border-bottom: 3px solid #4a7a2a;
+      padding-bottom: 0.4rem;
+      color: #1a3a08;
+      margin: 1rem 0 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 1.6rem;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      color: #1a3a08;
+      margin: 1.6rem 0 0.5rem;
+      border-left: 4px solid #4a7a2a;
+      padding-left: 0.6rem;
+    }
+
+    /* ── Home link ── */
+    .home-link {
+      margin: 0 0 1.2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .home-link a {
+      color: #005a9c;
+      text-decoration: underline;
+    }
+
+    .home-link a:visited { color: #551a8b; }
+
+    /* ── Tables ── */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      min-width: 480px;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: 0.92rem;
+    }
+
+    thead tr { background: #ddeedd; }
+
+    th {
+      text-align: left;
+      padding: 9px 10px;
+      font-weight: bold;
+      border-bottom: 2px solid #aaccaa;
+    }
+
+    td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #ddeedd;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* ── Links ── */
+    a.link-page {
+      color: #005a9c;
+      text-decoration: underline;
+    }
+
+    a.link-page:visited { color: #551a8b; }
+
+    a.link-folder {
+      color: #7a4a00;
+      text-decoration: none;
+      font-style: italic;
+    }
+
+    a.link-folder:visited { color: #5a3500; }
+
+    /* ── Tags ── */
+    .tag {
+      display: inline-block;
+      font-size: 0.76rem;
+      padding: 2px 7px;
+      border-radius: 3px;
+      margin-right: 4px;
+      white-space: nowrap;
+      border: 1px solid;
+    }
+
+    .tag-self   { background: #e6f4e6; color: #1a5c1a; border-color: #99cc99; }
+    .tag-shared { background: #fff4cc; color: #6b4400; border-color: #ddaa44; }
+    .tag-static { background: #ddeeff; color: #003388; border-color: #88aadd; }
+
+    .dep-note {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 3px;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      margin: 1.4rem 0 0.4rem;
+      font-size: 0.85rem;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #555;
+      border-top: 1px solid #ccc;
+      padding-top: 1rem;
+    }
+
+    footer a { color: #005a9c; }
+  </style>
+</head>
+<body>
+
+  <p class="home-link"><a href="index.html">&#8592; Home / Inicio</a></p>
+
+  <h1>About This Learning Material / Acerca de este material de aprendizaje</h1>
+  <p class="subtitle">Bilingual English/Spanish resources for adult learners<br>
+  <em>Recursos bilingües inglés/español para adultos aprendices</em></p>
+
+  <div class="legend">
+    <span><span class="tag tag-self">self-contained</span> All CSS &amp; JS inline in the HTML file</span>
+    <span><span class="tag tag-shared">shared assets</span> Depends on external <code>quiz.css</code> and/or <code>quiz.js</code></span>
+    <span><span class="tag tag-static">static</span> No JavaScript; HTML/CSS only</span>
+  </div>
+
+  <!-- ── General (root) ───────────────────────────── -->
+  <h2>General / General</h2>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Title</th>
+        <th>Dependencies</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="link-page" href="interrogatives-quiz.html">interrogatives-quiz.html</a></td>
+        <td>Question Words / Palabras de Pregunta</td>
+        <td>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS &amp; JS; uses browser Web Speech API</div>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="link-page" href="number-practice-grid.html">number-practice-grid.html</a></td>
+        <td>1–100 Number Practice / Números del 1 al 100</td>
+        <td>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS &amp; JS; uses browser Web Speech API</div>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="link-page" href="time-frequency.html">time-frequency.html</a></td>
+        <td>Time Frequency / Frecuencia de Tiempo</td>
+        <td>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS &amp; JS; uses browser Web Speech API</div>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="link-page" href="time-of-day.html">time-of-day.html</a></td>
+        <td>Times of Day / Momentos del Día</td>
+        <td>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS &amp; JS; uses browser Web Speech API</div>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="link-page" href="weather-thermometer.html">weather-thermometer.html</a></td>
+        <td>Weather Vocabulary / Vocabulario del Tiempo</td>
+        <td>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS &amp; JS; uses browser Web Speech API</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ── Dairy ────────────────────────────────────── -->
+  <h2>Dairy / Lechería</h2>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Title</th>
+        <th>Dependencies</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="link-page" href="Dairy/down-cow/moving-down-cow.html">Dairy/down-cow/moving-down-cow.html</a></td>
+        <td>Moving a Down Cow with a Skid Steer or Loader</td>
+        <td>
+          <span class="tag tag-static">static</span>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS only; no JS. References local images in <a class="link-folder" href="Dairy/down-cow/"><code>Dairy/down-cow/</code></a></div>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="link-page" href="Dairy/work-vocab/dairy_quiz.html">Dairy/work-vocab/dairy_quiz.html</a></td>
+        <td>Dairy Farm Vocabulary Quiz</td>
+        <td>
+          <span class="tag tag-shared">shared assets</span>
+          <div class="dep-note">Requires <a class="link-folder" href="quiz.css"><code>quiz.css</code></a> (2 levels up: <code>../../quiz.css</code>) and <code>quiz.js</code></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ── Landscaping ──────────────────────────────── -->
+  <h2>Landscaping / Jardinería</h2>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Title</th>
+        <th>Dependencies</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="link-page" href="Landscaping/tools_quiz.html">Landscaping/tools_quiz.html</a></td>
+        <td>Landscaping Tools Quiz / Quiz de herramientas de jardinería</td>
+        <td>
+          <span class="tag tag-shared">shared assets</span>
+          <div class="dep-note">Requires <a class="link-folder" href="quiz.css"><code>quiz.css</code></a> (1 level up: <code>../quiz.css</code>) and <code>quiz.js</code></div>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="link-page" href="Landscaping/tools-image-quiz.html">Landscaping/tools-image-quiz.html</a></td>
+        <td>Landscaping Tools Practice / Herramientas de Jardinería</td>
+        <td>
+          <span class="tag tag-self">self-contained</span>
+          <div class="dep-note">Inline CSS &amp; JS; uses browser Web Speech API</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <footer>
+    <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+  </footer>
+
+</body>
+</html>
