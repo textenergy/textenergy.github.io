@@ -1,0 +1,211 @@
+/* sentence-writing-practice.css */
+/* Sentence listening and writing practice — USCIS Naturalization */
+/* Derived from sentence-completion-check.css conventions */
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    color: #111;
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #003366;
+    border-bottom: 3px solid #003366;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 1.2em;
+    color: #003366;
+    border-bottom: 1px solid #aac4e0;
+    padding-bottom: 6px;
+    margin-top: 36px;
+    margin-bottom: 12px;
+}
+
+h3 {
+    font-size: 1em;
+    color: #003366;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Section navigation */
+#section-nav {
+    margin-bottom: 24px;
+    font-size: 0.97em;
+    line-height: 1.8;
+}
+
+#section-nav a {
+    color: #003366;
+    text-decoration: underline;
+}
+
+#section-nav a:hover {
+    color: #0055a5;
+}
+
+/* Instructions block */
+#instructions {
+    background-color: #fff;
+    border-left: 4px solid #003366;
+    padding: 14px 18px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    font-size: 0.97em;
+    line-height: 1.6;
+}
+
+#instructions p {
+    margin: 4px 0;
+}
+
+/* Individual sentence card */
+.sentence-item {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.sentence-item.completed {
+    border-left: 4px solid #388e3c;
+}
+
+/* Play button + label on one line */
+.sentence-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.sentence-label {
+    font-size: 0.9em;
+    color: #444;
+}
+
+/* TTS button */
+.speak-btn {
+    background-color: #e8f0fb;
+    color: #003366;
+    border: 1px solid #003366;
+    border-radius: 4px;
+    padding: 7px 16px;
+    cursor: pointer;
+    font-size: 0.95em;
+    display: inline-block;
+}
+
+.speak-btn:hover {
+    background-color: #cddcf5;
+}
+
+/* Writing input */
+.writing-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1em;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.writing-input:focus {
+    outline: 2px solid #003366;
+    border-color: #003366;
+}
+
+/* Check button */
+.check-btn {
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 16px;
+    cursor: pointer;
+    font-size: 0.95em;
+}
+
+.check-btn:hover {
+    background-color: #0055a5;
+}
+
+.check-btn:disabled {
+    background-color: #7a99bb;
+    cursor: default;
+}
+
+/* Feedback */
+.feedback-msg {
+    font-size: 0.97em;
+    margin-top: 8px;
+    min-height: 1.4em;
+    line-height: 1.6;
+}
+
+.feedback-correct {
+    color: #1b5e20;
+    font-weight: bold;
+}
+
+/* Word-level highlight */
+.word-correct {
+    color: #1b5e20;
+}
+
+.word-wrong {
+    color: #c62828;
+    font-weight: bold;
+    text-decoration: underline wavy #c62828;
+}
+
+/* Reveal answer */
+.reveal-btn {
+    background-color: #fff8e1;
+    color: #5d4037;
+    border: 1px solid #bcaaa4;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.88em;
+    margin-left: 8px;
+}
+
+.reveal-btn:hover {
+    background-color: #ffecb3;
+}
+
+.revealed-answer {
+    background-color: #e8f4f8;
+    border-left: 3px solid #0066cc;
+    padding: 6px 10px;
+    border-radius: 3px;
+    margin-top: 6px;
+    font-size: 0.95em;
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+@media (max-width: 600px) {
+    .writing-input {
+        font-size: 1em;
+    }
+}
