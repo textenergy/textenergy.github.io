@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Cleaning Verbs</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { display: inline-block; transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .note-box p + p {
+            margin-top: 5px;
+        }
+
+        .note-box .device-instructions {
+            font-size: 13px;
+            color: navy;
+            margin-top: 5px;
+        }
+
+        .note-box .incognito-note {
+            font-size: 12px;
+            color: navy;
+            margin-top: 8px;
+        }
+
+        #saveConfirm {
+            display: none;
+            background-color: #E8F5E9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 15px;
+            padding: 8px 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #playButton:hover:not(:disabled) { background-color: #90EE90; }
+
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        #resetButton {
+            background-color: #FF6347;
+            color: white;
+            border: none;
+        }
+
+        #resetButton:hover { background-color: #E5533D; }
+
+        #stats {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 640px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .grid-item {
+            perspective: 600px;
+            min-height: 90px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 90px;
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+
+        .grid-item.found .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            min-height: 90px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border: 3px solid #333;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .card-front { background-color: white; }
+        .card-front:hover { background-color: #f0f0f0; }
+
+        .card-back {
+            background-color: #6B46C1;
+            border-color: #6B46C1;
+            transform: rotateY(180deg);
+        }
+
+        .spanish-word {
+            font-size: 17px;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        .english-word {
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .spanish-word-back {
+            font-size: 15px;
+            color: #E9D8FD;
+            margin-top: 5px;
+            line-height: 1.3;
+        }
+
+        .grid.completed { opacity: 0.7; }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html">Home / Al inicio</a>
+    </nav>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Spring Cleaning: Verbs / Limpieza de primavera: Verbos</h1>
+
+    <div class="note-box">
+        <p><strong>Note / Nota:</strong> You will hear an English verb. Find and tap the matching Spanish card. When correct, the card flips to show both words.</p>
+        <p><strong>Escucharás un verbo en inglés. Encuentra y toca la tarjeta en español que corresponde. Cuando sea correcta, la tarjeta se voltea para mostrar ambas palabras.</strong></p>
+        <details style="margin-top: 6px;">
+            <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+            </summary>
+            <p class="device-instructions" style="margin-top: 6px;">
+                Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+            </p>
+            <p class="incognito-note">
+                Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+            </p>
+        </details>
+    </div>
+
+    <div class="controls">
+        <button id="playButton" title="Play Audio / Reproducir Audio">🔊 Play Audio</button>
+        <span id="stats"></span>
+        <button id="saveButton" title="Save Answers / Guardar Respuestas">Save<br/><span style="font-size: 12px;">Guardar</span></button>
+        <button id="resetButton" title="Reset / Empezar de Nuevo">Reset<br/><span style="font-size: 12px;">Reiniciar</span></button>
+    </div>
+
+    <div id="gridsContainer"></div>
+
+    <div id="saveConfirm">
+        ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
+        <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
+    </div>
+
+    <footer>
+        <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+        <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+    </footer>
+
+    <script>
+        const tools = [
+            { id: 'solicitar',  tts: 'to ask',        en: 'to ask',        es: 'solicitar / pedir / preguntar' },
+            { id: 'mover',      tts: 'to move',       en: 'to move',       es: 'mover' },
+            { id: 'cerrar',     tts: 'to close',      en: 'to close',      es: 'cerrar' },
+            { id: 'parquear',   tts: 'to park',       en: 'to park',       es: 'parquear' },
+            { id: 'evitar',     tts: 'to avoid',      en: 'to avoid',      es: 'evitar' },
+            { id: 'retirar',    tts: 'to remove',     en: 'to remove',     es: 'retirar' },
+            { id: 'eliminar',   tts: 'to eliminate',  en: 'to eliminate',  es: 'eliminar' },
+            { id: 'barrer',     tts: 'to sweep',      en: 'to sweep',      es: 'barrer' },
+            { id: 'rastrillar', tts: 'to rake',       en: 'to rake',       es: 'rastrillar' },
+            { id: 'soplar',     tts: 'to blow',       en: 'to blow',       es: 'soplar' },
+            { id: 'dejar',      tts: 'to leave',      en: 'to leave',      es: 'dejar / salir' },
+            { id: 'separar',    tts: 'to separate',   en: 'to separate',   es: 'separar' },
+            { id: 'llevar',     tts: 'to carry',      en: 'to carry',      es: 'llevar' },
+            { id: 'derribar',   tts: 'to knock down', en: 'to knock down', es: 'derribar' },
+            { id: 'cortar',     tts: 'to cut back',   en: 'to cut back',   es: 'cortar' },
+            { id: 'sacar',      tts: 'to take out',   en: 'to take out',   es: 'sacar' },
+            { id: 'arrancar',   tts: 'to uproot',     en: 'to uproot',     es: 'arrancar' },
+            { id: 'triturar',   tts: 'to crush',      en: 'to crush',      es: 'triturar' },
+            { id: 'reparar',    tts: 'to repair',     en: 'to repair',     es: 'reparar' },
+            { id: 'resembrar',  tts: 'to reseed',     en: 'to reseed',     es: 'resembrar' },
+            { id: 'limpiar',    tts: 'to clean',      en: 'to clean',      es: 'limpiar' },
+            { id: 'revisar',    tts: 'to check',      en: 'to check',      es: 'revisar' },
+            { id: 'cargar',     tts: 'to fill up',    en: 'to fill up',    es: 'cargar' },
+            { id: 'anotar',     tts: 'to note down',  en: 'to note down',  es: 'anotar' }
+        ];
+
+        const GRID_SIZE = 6;
+        const TOTAL = tools.length;
+
+        let allPracticed = new Set();
+        let currentGridTools = [];
+        let currentGridFound = new Set();
+        let currentTarget = null;
+        let gridCounter = 0;
+
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.75;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function getUnpracticed() {
+            return tools.filter(t => !allPracticed.has(t.id));
+        }
+
+        function createGrid() {
+            const unpracticed = getUnpracticed();
+            if (unpracticed.length === 0) return;
+
+            const count = Math.min(GRID_SIZE, unpracticed.length);
+            currentGridTools = shuffle(unpracticed).slice(0, count);
+            currentGridFound = new Set();
+            currentTarget = null;
+            gridCounter++;
+
+            renderGrid();
+            updateStats();
+            document.getElementById('playButton').disabled = false;
+            saveState();
+        }
+
+        function renderGrid() {
+            const container = document.getElementById('gridsContainer');
+            const gridEl = document.createElement('div');
+            gridEl.className = 'grid';
+            gridEl.id = `grid-${gridCounter}`;
+
+            currentGridTools.forEach(tool => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'grid-item';
+                wrapper.dataset.id = tool.id;
+
+                const inner = document.createElement('div');
+                inner.className = 'card-inner';
+
+                const front = document.createElement('div');
+                front.className = 'card-front';
+                const spanishWord = document.createElement('div');
+                spanishWord.className = 'spanish-word';
+                spanishWord.textContent = tool.es;
+                front.appendChild(spanishWord);
+
+                const back = document.createElement('div');
+                back.className = 'card-back';
+                const englishWord = document.createElement('div');
+                englishWord.className = 'english-word';
+                englishWord.textContent = tool.en;
+                const spanishBack = document.createElement('div');
+                spanishBack.className = 'spanish-word-back';
+                spanishBack.textContent = tool.es;
+                back.appendChild(englishWord);
+                back.appendChild(spanishBack);
+
+                inner.appendChild(front);
+                inner.appendChild(back);
+                wrapper.appendChild(inner);
+
+                if (currentGridFound.has(tool.id)) {
+                    wrapper.classList.add('found');
+                }
+
+                wrapper.addEventListener('click', () => handleClick(tool, wrapper));
+                gridEl.appendChild(wrapper);
+            });
+
+            container.insertBefore(gridEl, container.firstChild);
+        }
+
+        function handleClick(tool, element) {
+            if (currentGridFound.has(tool.id)) {
+                speak(tool.tts);
+                return;
+            }
+            if (currentTarget === null) return;
+            if (tool.id === currentTarget) {
+                currentGridFound.add(tool.id);
+                allPracticed.add(tool.id);
+                element.classList.add('found');
+                currentTarget = null;
+                updateStats();
+                saveState();
+
+                if (currentGridFound.size === currentGridTools.length) {
+                    document.getElementById(`grid-${gridCounter}`).classList.add('completed');
+                    document.getElementById('playButton').disabled = true;
+
+                    if (getUnpracticed().length > 0) {
+                        setTimeout(createGrid, 1400);
+                    } else {
+                        document.getElementById('stats').textContent = `${TOTAL}/${TOTAL} 🎉`;
+                    }
+                }
+            }
+        }
+
+        function playTool() {
+            const remaining = currentGridTools.filter(t => !currentGridFound.has(t.id));
+            if (remaining.length === 0) return;
+            const pick = remaining[Math.floor(Math.random() * remaining.length)];
+            currentTarget = pick.id;
+            speak(pick.tts);
+        }
+
+        function updateStats() {
+            document.getElementById('stats').textContent = `${allPracticed.size}/${TOTAL}`;
+        }
+
+        function saveState() {
+            try {
+                const state = {
+                    allPracticed: Array.from(allPracticed),
+                    currentGridTools: currentGridTools.map(t => t.id),
+                    currentGridFound: Array.from(currentGridFound),
+                    gridCounter
+                };
+                localStorage.setItem('springCleaningVerbsState', JSON.stringify(state));
+            } catch(e) {}
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('springCleaningVerbsState');
+                if (!saved) return false;
+                const state = JSON.parse(saved);
+                allPracticed = new Set(state.allPracticed || []);
+                currentGridTools = (state.currentGridTools || []).map(id => tools.find(t => t.id === id)).filter(Boolean);
+                currentGridFound = new Set(state.currentGridFound || []);
+                gridCounter = state.gridCounter || 0;
+
+                if (currentGridTools.length > 0) {
+                    renderGrid();
+                    updateStats();
+                    if (currentGridFound.size === currentGridTools.length) {
+                        document.getElementById(`grid-${gridCounter}`).classList.add('completed');
+                        document.getElementById('playButton').disabled = true;
+                    } else {
+                        document.getElementById('playButton').disabled = false;
+                    }
+                    return true;
+                }
+            } catch(e) {}
+            return false;
+        }
+
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                try { localStorage.removeItem('springCleaningVerbsState'); } catch(e) {}
+                location.reload();
+            }
+        }
+
+        document.getElementById('playButton').addEventListener('click', playTool);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const msg = document.getElementById('saveConfirm');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        });
+
+        if (!loadState()) {
+            createGrid();
+        }
+    </script>
+</body>
+</html>
