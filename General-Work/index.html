@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>General Work — Learning Materials</title>
   <style>
-    /* ── Base ── */
     body {
       font-family: Arial, Helvetica, sans-serif;
       max-width: 860px;
@@ -53,210 +52,94 @@
 
     footer a { color: #005a9c; }
 
-    /* ── Navigation bar ── */
-    .nav-bar {
-      background: #ddeedd;
-      border-bottom: 2px solid #aaccaa;
-      margin: -20px -20px 1.6rem -20px;
-    }
-
-    .nav-toggle {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    /* ── Nav table ── */
+    .nav-table {
       width: 100%;
-      background: #4a7a2a;
-      border: none;
-      color: #fff;
+      border-collapse: collapse;
+      margin-bottom: 1.6rem;
+    }
+
+    .nav-table th {
       font-size: 1rem;
-      font-family: inherit;
-      padding: 14px 18px;
-      cursor: pointer;
-      text-align: left;
-      min-height: 48px;
-      box-sizing: border-box;
-    }
-
-    .nav-toggle:focus {
-      outline: 3px solid #ffcc00;
-      outline-offset: -2px;
-    }
-
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      width: 22px;
-      flex-shrink: 0;
-    }
-
-    .hamburger span {
-      display: block;
-      height: 2px;
-      background: #fff;
-      border-radius: 2px;
-      transition: transform 0.2s, opacity 0.2s;
-    }
-
-    .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(2) { opacity: 0; }
-    .nav-toggle[aria-expanded="true"] .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* Menu panel — standard disc list */
-    .nav-menu {
-      display: none;
-      list-style: disc;
-      margin: 0;
-      padding: 8px 0 12px 36px;
-      background: #eef5ee;
-    }
-
-    .nav-menu.is-open { display: block; }
-
-    .nav-menu li { margin: 2px 0; }
-
-    /* Leaf page links */
-    .nav-menu li > a {
-      color: #005a9c;
-      text-decoration: underline;
-      font-size: 0.95rem;
-      line-height: 2.2;
-    }
-
-    .nav-menu li > a:visited { color: #551a8b; }
-
-    /* Category expand button */
-    .nav-menu li > button.nav-cat {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: none;
-      border: none;
-      color: #1a3a08;
-      font-size: 0.95rem;
-      font-family: inherit;
       font-weight: bold;
-      padding: 4px 0;
-      cursor: pointer;
-      min-height: 44px;
+      padding: 8px 10px;
       text-align: left;
+      border: 1px solid #bbb;
     }
 
-    .nav-menu li > button.nav-cat:focus {
-      outline: 3px solid #ffcc00;
-      outline-offset: 2px;
+    .nav-table td {
+      vertical-align: top;
+      padding: 8px 10px;
+      border: 1px solid #bbb;
+      font-size: 0.95rem;
     }
 
-    .nav-cat-arrow {
-      font-size: 0.75rem;
-      transition: transform 0.2s;
-      color: #4a7a2a;
-    }
+    .col-general  { background: #ddeeff; }
+    .col-landscape { background: #d4fbb0; }
+    .col-dairy    { background: #f5ead8; }
 
-    button.nav-cat[aria-expanded="true"] .nav-cat-arrow { transform: rotate(90deg); }
-
-    /* Sub-menu */
-    .nav-sub {
-      display: none;
-      list-style: disc;
-      margin: 2px 0 4px 20px;
-      padding: 0;
-    }
-
-    .nav-sub.is-open { display: block; }
-
-    .nav-sub li > a {
-      color: #005a9c;
+    .nav-table a {
+      color: navy;
       text-decoration: underline;
-      font-size: 0.9rem;
-      line-height: 2.2;
+      display: block;
+      margin: 4px 0;
+      padding-left: 1.4em;
+      text-indent: -1.4em;
     }
 
-    .nav-sub li > a:visited { color: #551a8b; }
+    .nav-table a::before {
+      content: "▪ ";
+      color: #444;
+    }
+
+    .nav-table a:visited { color: #551a8b; }
   </style>
 </head>
 <body>
 
-  <div class="nav-bar" role="navigation" aria-label="Site navigation">
-    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" id="nav-toggle">
-      <span class="hamburger" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </span>
-      Navigate Work-Related Topics / Navigar temas del trabajo
-    </button>
-    <!-- relativet to https://textenergy.github.io/General-Work/-->
-    
-    <ul class="nav-menu" id="nav-menu">
-
-      <li><a href="interrogatives-quiz.html" target="_blank">Question Words / Palabras de Pregunta</a></li>
-      <li><a href="number-practice-grid.html" target="_blank">1-100 Number Practice / Números del 1 al 100</a></li>
-      <li><a href="time-frequency.html" target="_blank">Time Frequency / Frecuencia de Tiempo</a></li>
-      <li><a href="time-of-day.html" target="_blank">Times of Day / Momentos del Día</a></li>
-      <li><a href="weather-thermometer.html" target="_blank">Weather Vocabulary / Vocabulario del Tiempo</a></li>
-
-      <li>
-        <button class="nav-cat" aria-expanded="false" aria-controls="sub-dairy">
-          Dairy / Lechería <span class="nav-cat-arrow" aria-hidden="true">▶</span>
-        </button>
-        <ul class="nav-sub" id="sub-dairy">
-          <li><a href="Dairy/down-cow/moving-down-cow.html" target="_blank">Moving a Down Cow with a Skid Steer or Loader</a></li>
-          <li><a href="Dairy/work-vocab/dairy_quiz.html" target="_blank">Dairy Farm Vocabulary Quiz</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <button class="nav-cat" aria-expanded="false" aria-controls="sub-landscaping">
-          Landscaping / Jardinería <span class="nav-cat-arrow" aria-hidden="true">▶</span>
-        </button>
-        <ul class="nav-sub" id="sub-landscaping">
-          <li><a href="Landscaping/tools_quiz.html" target="_blank">Landscaping Tools Quiz</a></li>
-          <li><a href="Landscaping/tools-image-quiz.html" target="_blank">Landscaping Tools Practice</a></li>
-          <li><a href="Landscaping/spring-cleanup-tools.html" target="_blank">Spring Cleanup - Tools</a></li>
-          <li><a href="Landscaping/spring-cleaning-nouns.html" target="_blank">Spring Cleanup - Nouns</a></li>
-          <li><a href="Landscaping/spring-cleaning-verbs.html" target="_blank">Spring Cleanup - Verbs</a></li>
-        </ul>
-      </li>
-
-    </ul>
-  </div>
-
   <h1>General Work — Learning Materials</h1>
   <p class="subtitle">Bilingual English/Spanish resources for adult learners<br>
   <em>Recursos bilingües inglés/español para adultos aprendices</em></p>
+
+  <nav aria-label="Site navigation">
+    <table class="nav-table">
+      <thead>
+        <tr>
+          <th class="col-general">General</th>
+          <th class="col-landscape">Landscaping / <em>Jardinería</em></th>
+          <th class="col-dairy">Dairy / <em>Lechería</em></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-general">
+            <a href="interrogatives-quiz.html" target="_blank">Question Words<br><em>Palabras de Pregunta</em></a>
+            <a href="number-practice-grid.html" target="_blank">1–100 Number Practice<br><em>Números del 1 al 100</em></a>
+            <a href="time-frequency.html" target="_blank">Time Frequency<br><em>Frecuencia de Tiempo</em></a>
+            <a href="time-of-day.html" target="_blank">Times of Day<br><em>Momentos del Día</em></a>
+            <a href="weather-thermometer.html" target="_blank">Weather Vocabulary<br><em>Vocabulario del Tiempo</em></a>
+          </td>
+          <td class="col-landscape">
+            <a href="Landscaping/tools_quiz.html" target="_blank">Landscaping Tools Quiz<br><em>Cuestionario de Herramientas</em></a>
+            <a href="Landscaping/tools-image-quiz.html" target="_blank">Landscaping Tools Practice<br><em>Práctica de Herramientas</em></a>
+            <a href="Landscaping/spring-cleanup-tools.html" target="_blank">Spring Cleanup – Tools<br><em>Limpieza de Primavera – Herramientas</em></a>
+            <a href="Landscaping/spring-cleaning-nouns.html" target="_blank">Spring Cleanup – Nouns<br><em>Limpieza de Primavera – Sustantivos</em></a>
+            <a href="Landscaping/spring-cleaning-verbs.html" target="_blank">Spring Cleanup – Verbs<br><em>Limpieza de Primavera – Verbos</em></a>
+          </td>
+          <td class="col-dairy">
+            <a href="Dairy/down-cow/moving-down-cow.html" target="_blank">Moving a Down Cow<br><em>Mover una Vaca Caída</em></a>
+            <a href="Dairy/work-vocab/dairy_quiz.html" target="_blank">Dairy Farm Vocabulary Quiz<br><em>Cuestionario de Vocabulario Lechero</em></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nav>
 
   <p class="about-link"><a href="about-learning.html" target="_blank">About This Learning Material / Acerca de este material de aprendizaje</a></p>
 
   <footer>
     <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
   </footer>
-
-  <script>
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu   = document.getElementById('nav-menu');
-
-    navToggle.addEventListener('click', function () {
-      const open = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', String(!open));
-      navMenu.classList.toggle('is-open', !open);
-    });
-
-    document.querySelectorAll('button.nav-cat').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        const open     = this.getAttribute('aria-expanded') === 'true';
-        const targetId = this.getAttribute('aria-controls');
-        const sub      = document.getElementById(targetId);
-        this.setAttribute('aria-expanded', String(!open));
-        sub.classList.toggle('is-open', !open);
-      });
-    });
-
-    navMenu.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        navToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('is-open');
-      });
-    });
-  </script>
 
 </body>
 </html>
