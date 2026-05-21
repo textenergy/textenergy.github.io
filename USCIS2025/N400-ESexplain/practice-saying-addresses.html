@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Saying Your Address</title>
+<link rel="stylesheet" href="practice-saying.css">
+<style>
+  .inline-selects {
+    display: inline-flex;
+    gap: 6px;
+    vertical-align: middle;
+  }
+  .inline-selects select {
+    font-size: 0.85rem;
+    padding: 5px 6px;
+    border: 1px solid var(--key-border);
+    border-radius: var(--radius);
+    background: var(--key-bg);
+    color: var(--navy);
+    font-family: var(--font);
+    cursor: pointer;
+    height: 48px;
+  }
+  .inline-selects select:focus { outline: 2px solid var(--navy); }
+
+  .apt-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0 4px;
+  }
+  .apt-row label { font-size: 0.85rem; font-weight: bold; color: var(--navy); }
+  .apt-row select, .apt-row .apt-value {
+    font-size: 1rem;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    background: var(--white);
+  }
+  .apt-row .apt-value { width: 120px; }
+  .apt-row select:focus, .apt-row .apt-value:focus { outline: 2px solid var(--navy); }
+
+  .compact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .compact-field { display: flex; flex-direction: column; gap: 4px; }
+  .compact-field label { font-size: 0.82rem; font-weight: bold; color: var(--navy); }
+  .compact-field .city-input { width: 180px; }
+  .compact-field .state-select { width: 220px; }
+  .compact-field .zip-input { width: 110px; }
+  .compact-field input:focus, .compact-field select:focus { outline: 2px solid var(--navy); border-color: var(--navy); }
+  .compact-field input {
+    font-size: 1rem; padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font);
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <nav class="top-nav" aria-label="Site navigation">
+    <a href="../index.html">Home / Inicio</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-names.html">Practice Saying Your Name</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-addresses.html" class="current">Practice Saying Your Address</a>
+  </nav>
+
+  <div class="page-header">
+    <h1>Practice Saying Your Address<br><em>Practica como decir tu direccion</em></h1>
+    <p class="subtitle">Speaking practice for the naturalization interview &nbsp;&middot;&nbsp;
+      <em>Practica de pronunciacion para la entrevista de naturalizacion</em></p>
+  </div>
+
+  <div class="usage-note" role="note">
+    <p>For the <strong>street number and name</strong>, tap the keys to hear each character as you enter it,
+       or type directly. Use the dropdowns after the number keys to insert a street type (Street, Road&hellip;)
+       or directional (NW, S&hellip;) &mdash; each is spoken aloud when selected.
+       Enter your apartment or suite number below the street keys if needed.
+       Press <strong>Read Street Address</strong> to hear the complete street line spoken with pauses.</p>
+    <p>For <strong>city, state,</strong> and <strong>ZIP</strong>, fill in the second section
+       and press <strong>Read City, State and ZIP</strong>.</p>
+    <p><em>Para el numero y nombre de la calle, toca las teclas o escribe directamente.
+       Usa los menus para insertar tipo de calle o direccion cardinal.
+       Ingresa tu apartamento o suite si es necesario, luego presiona Read Street Address.
+       Para ciudad, estado y codigo postal, completa la segunda seccion.</em></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PANEL 1: Street Number, Name, and Apt/Ste
+       ═══════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-street" aria-labelledby="hdr-street">
+    <div class="panel-header">
+      <h2 id="hdr-street">Street Number, Name, and Unit<br>
+        <em>Numero y nombre de calle y unidad</em></h2>
+      <p class="panel-subtitle">Tap keys or type &mdash; each character spoken as you tap &nbsp;&middot;&nbsp;
+        <em>Toca las teclas o escribe &mdash; cada caracter se pronuncia al tocarlo</em></p>
+    </div>
+    <div class="panel-body">
+
+      <div class="name-input-row">
+        <input class="name-input" type="text" id="input-street"
+               placeholder="Type here / Escriba aqui"
+               autocomplete="off" spellcheck="false" aria-label="Street number and name">
+      </div>
+
+      <!-- Tap grid built by JS; street-type and directional dropdowns inserted after digit row -->
+      <div class="key-grid" id="grid-street" role="group" aria-label="Keys for street address"></div>
+
+      <!-- Apt/Ste/Flr below the grid, same panel -->
+      <div class="apt-row">
+        <label for="apt-type">Apt. / Ste. / Flr. <em style="font-weight:normal">(if any / si aplica)</em></label>
+        <select id="apt-type" aria-label="Unit type">
+          <option value="">-- None --</option>
+          <option value="apartment">Apt. (apartment)</option>
+          <option value="suite">Ste. (suite)</option>
+          <option value="floor">Flr. (floor)</option>
+        </select>
+        <input class="apt-value" type="text" id="input-apt"
+               placeholder="Type here / Escriba aqui"
+               autocomplete="off" spellcheck="false" maxlength="10"
+               aria-label="Unit number or letter">
+      </div>
+
+      <div class="action-row">
+        <button class="btn-speak" id="btn-read-street" type="button">
+          &#128266; Read Street Address / Leer direccion de calle
+        </button>
+        <button class="btn-clear" id="clear-street" type="button">Clear / Borrar</button>
+      </div>
+      <div class="speaking-status" id="status-street" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PANEL 2: City, State, ZIP
+       ═══════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-csz" aria-labelledby="hdr-csz">
+    <div class="panel-header">
+      <h2 id="hdr-csz">City, State, and ZIP Code<br>
+        <em>Ciudad, estado y codigo postal</em></h2>
+    </div>
+    <div class="panel-body">
+      <div class="compact-row">
+        <div class="compact-field">
+          <label for="input-city">City or Town / <em>Ciudad</em></label>
+          <input class="city-input" type="text" id="input-city"
+                 placeholder="Type here / Escriba aqui"
+                 autocomplete="off" spellcheck="false" aria-label="City or town">
+        </div>
+        <div class="compact-field">
+          <label for="state-select">State / <em>Estado</em></label>
+          <select class="state-select" id="state-select" aria-label="Select state or territory"></select>
+        </div>
+        <div class="compact-field">
+          <label for="input-zip">ZIP Code / <em>Codigo postal</em></label>
+          <input class="zip-input" type="text" id="input-zip"
+                 placeholder="Type here / Escriba aqui"
+                 inputmode="numeric" maxlength="10"
+                 autocomplete="off" spellcheck="false" aria-label="ZIP code">
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn-speak" id="btn-read-csz" type="button">
+          &#128266; Read City, State and ZIP / Leer ciudad, estado y codigo postal
+        </button>
+      </div>
+      <div class="speaking-status" id="status-csz" aria-live="polite"></div>
+    </div>
+  </section>
+
+</div>
+
+<script src="practice-saying.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  var DIGITS  = '0123456789'.split('');
+
+  var ABBREV = {
+    ST:'street', AVE:'avenue', BLVD:'boulevard', DR:'drive', RD:'road',
+    LN:'lane', CT:'court', PL:'place', TER:'terrace', TRL:'trail',
+    WAY:'way', CIR:'circle', PKWY:'parkway', HWY:'highway', RT:'route',
+    N:'north', S:'south', E:'east', W:'west',
+    NW:'northwest', NE:'northeast', SW:'southwest', SE:'southeast'
+  };
+
+  PS.populateStateSelect(document.getElementById('state-select'));
+
+  document.getElementById('input-zip').addEventListener('input', function () {
+    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+  });
+  document.getElementById('input-apt').addEventListener('input', function () {
+    this.value = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  });
+
+  /* ── Street panel ─────────────────────────────────────────────── */
+  (function () {
+    var input  = document.getElementById('input-street');
+    var grid   = document.getElementById('grid-street');
+    var speakB = document.getElementById('btn-read-street');
+    var clearB = document.getElementById('clear-street');
+    var status = document.getElementById('status-street');
+
+    /* Digit keys */
+    DIGITS.forEach(function (ch) { grid.appendChild(makeKey(ch, ch, 'num')); });
+
+    /* Street type and directional dropdowns inline after digits */
+    var selWrap = document.createElement('div');
+    selWrap.className = 'inline-selects';
+    selWrap.appendChild(makeAbbrevSelect('sel-street-type', 'Street type...', [
+      ['ST','ST - street'], ['AVE','AVE - avenue'], ['BLVD','BLVD - boulevard'],
+      ['DR','DR - drive'], ['RD','RD - road'], ['LN','LN - lane'],
+      ['CT','CT - court'], ['PL','PL - place'], ['TER','TER - terrace'],
+      ['TRL','TRL - trail'], ['WAY','WAY - way'], ['CIR','CIR - circle'],
+      ['PKWY','PKWY - parkway'], ['HWY','HWY - highway'], ['RT','RT - route']
+    ]));
+    selWrap.appendChild(makeAbbrevSelect('sel-directional', 'Directional...', [
+      ['N','N - north'], ['S','S - south'], ['E','E - east'], ['W','W - west'],
+      ['NW','NW - northwest'], ['NE','NE - northeast'],
+      ['SW','SW - southwest'], ['SE','SE - southeast']
+    ]));
+    grid.appendChild(selWrap);
+
+    /* Divider, letter keys, SPACE, DELETE */
+    grid.appendChild(makeDivider());
+    LETTERS.forEach(function (ch) { grid.appendChild(makeKey(ch, ch, '')); });
+    grid.appendChild(makeDivider());
+    grid.appendChild(makeSpecial('SPACE', ' '));
+    grid.appendChild(makeBackspace());
+
+    function makeKey(label, val, extraClass) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'key' + (extraClass ? ' ' + extraClass : '');
+      btn.textContent = label;
+      btn.setAttribute('aria-label', label);
+      btn.addEventListener('click', function () {
+        input.value = (input.value + val).replace(/[^A-Za-z0-9 ]/g, '').toUpperCase();
+        if (val !== ' ') speakFast(val);
+      });
+      return btn;
+    }
+    function makeSpecial(label, val) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'key wide special';
+      btn.textContent = label;
+      btn.addEventListener('click', function () {
+        input.value = (input.value + val).replace(/[^A-Za-z0-9 ]/g, '').toUpperCase();
+      });
+      return btn;
+    }
+    function makeBackspace() {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'key wide backspace';
+      btn.textContent = 'DELETE';
+      btn.addEventListener('click', function () { input.value = input.value.slice(0, -1); });
+      return btn;
+    }
+    function makeDivider() {
+      var d = document.createElement('div');
+      d.className = 'key-divider';
+      return d;
+    }
+    function makeAbbrevSelect(id, placeholder, options) {
+      var sel = document.createElement('select');
+      sel.id = id;
+      var opt0 = document.createElement('option');
+      opt0.value = ''; opt0.textContent = placeholder;
+      sel.appendChild(opt0);
+      options.forEach(function (pair) {
+        var opt = document.createElement('option');
+        opt.value = pair[0]; opt.textContent = pair[1];
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', function () {
+        var abbr = sel.value;
+        if (!abbr) return;
+        var cur = input.value;
+        input.value = (cur.length > 0 && cur[cur.length-1] !== ' ') ? cur+' '+abbr : cur+abbr;
+        speakFast(ABBREV[abbr]);
+        sel.value = '';
+      });
+      return sel;
+    }
+    function speakFast(ch) {
+      if (!ch || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      var utt = new SpeechSynthesisUtterance(ch);
+      utt.lang = 'en-US'; utt.rate = 1.0;
+      window.speechSynthesis.speak(utt);
+    }
+
+    input.addEventListener('input', function () {
+      input.value = input.value.replace(/[^A-Za-z0-9 ]/g, '').toUpperCase();
+    });
+    clearB.addEventListener('click', function () {
+      input.value = '';
+      document.getElementById('input-apt').value = '';
+      document.getElementById('apt-type').value = '';
+      status.textContent = '';
+      window.speechSynthesis && window.speechSynthesis.cancel();
+    });
+
+    speakB.addEventListener('click', async function () {
+      var raw = input.value.trim();
+      var aptType  = document.getElementById('apt-type').value;
+      var aptValue = document.getElementById('input-apt').value.trim();
+      if (!raw && !(aptType && aptValue)) return;
+      speakB.disabled = true; status.textContent = 'Speaking...';
+
+      if (raw) {
+        var tokens = raw.split(' ').filter(Boolean);
+        for (var i = 0; i < tokens.length; i++) {
+          await speakToken(tokens[i], i === 0);
+          if (i < tokens.length - 1) await pause(500);
+        }
+      }
+      if (aptType && aptValue) {
+        if (raw) await pause(500);
+        await speakPhrase(aptType + ', ' + aptValue.split('').join(', '), 0.88);
+      }
+      status.textContent = ''; speakB.disabled = false;
+    });
+
+    function speakToken(token, isFirst) {
+      return new Promise(function (resolve) {
+        if (!window.speechSynthesis) { resolve(); return; }
+        var utt = new SpeechSynthesisUtterance();
+        utt.lang = 'en-US'; utt.rate = 0.88;
+        var upper = token.toUpperCase();
+        if (isFirst && /^[0-9]+$/.test(token)) {
+          utt.text = token.split('').join(', ');
+        } else if (ABBREV[upper]) {
+          utt.text = ABBREV[upper];
+        } else {
+          utt.text = token;
+        }
+        utt.onend = resolve; utt.onerror = resolve;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utt);
+      });
+    }
+  }());
+
+  /* ── City / State / ZIP panel ─────────────────────────────────── */
+  document.getElementById('btn-read-csz').addEventListener('click', async function () {
+    var city  = document.getElementById('input-city').value.trim();
+    var state = document.getElementById('state-select').value;
+    var zip   = document.getElementById('input-zip').value.trim();
+    if (!city && !state && !zip) return;
+    var btn = this, status = document.getElementById('status-csz');
+    btn.disabled = true; status.textContent = 'Speaking...';
+    var segs = [];
+    if (city)  segs.push(function() { return speakPhrase(city, 0.88); });
+    if (state) segs.push(function() { return speakPhrase(state, 0.88); });
+    if (zip)   segs.push(function() { return speakPhrase(zip.split('').join(', '), 0.88); });
+    for (var i = 0; i < segs.length; i++) {
+      await segs[i]();
+      if (i < segs.length - 1) await pause(600);
+    }
+    status.textContent = ''; btn.disabled = false;
+  });
+
+  function speakPhrase(text, rate) {
+    return new Promise(function (resolve) {
+      if (!window.speechSynthesis) { resolve(); return; }
+      var utt = new SpeechSynthesisUtterance(text);
+      utt.lang = 'en-US'; utt.rate = rate || 0.88;
+      utt.onend = resolve; utt.onerror = resolve;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utt);
+    });
+  }
+  function pause(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
+
+}());
+</script>
+</body>
+</html>

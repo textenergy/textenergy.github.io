@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Saying Your Name — Naturalization Interview Practice</title>
+<link rel="stylesheet" href="practice-saying.css">
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ── Navigation ──────────────────────────────────────────────── -->
+  <nav class="top-nav" aria-label="Site navigation">
+    <a href="../index.html">Home / Inicio</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-names.html" class="current">Practice Saying Your Name</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-addresses.html">Practice Saying Your Address</a>
+  </nav>
+
+  <!-- ── Page header ─────────────────────────────────────────────── -->
+  <div class="page-header">
+    <h1>Practice Saying Your Name
+      <br><em>Practica cómo decir tu nombre</em>
+    </h1>
+    <p class="subtitle">Spelling practice for the naturalization interview &nbsp;·&nbsp;
+      <em>Práctica de deletreo para la entrevista de naturalización</em>
+    </p>
+  </div>
+
+  <!-- ── Usage note ──────────────────────────────────────────────── -->
+  <div class="usage-note" role="note">
+    <p>At your interview, the officer may ask you to spell your name.
+       Type or tap the letters of your name in each section below, then press
+       <strong>Read Aloud</strong> to hear how to say it in English.</p>
+    <p><em>En la entrevista, el oficial puede pedirte que deletrees tu nombre.
+       Escribe o toca las letras de tu nombre en cada sección, luego presiona
+       <strong>Read Aloud</strong> para escuchar cómo decirlo en inglés.</em>
+    </p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       PANEL 1 — Family Name (Last Name)
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-family" data-panel="family" aria-labelledby="hdr-family">
+    <div class="panel-header">
+      <h2 id="hdr-family">Family Name (Last Name)
+        <br><em>Apellido</em>
+      </h2>
+      <p class="panel-subtitle">Include hyphens or spaces if your last name has them &nbsp;·&nbsp;
+        <em>Incluye guiones o espacios si tu apellido los tiene</em>
+      </p>
+    </div>
+    <div class="panel-body">
+
+      <!-- Keyboard input -->
+      <div class="name-input-row">
+        <input class="name-input" type="text" id="input-family"
+               placeholder="Type your last name here / Escribe tu apellido aquí"
+               autocomplete="off" spellcheck="false" aria-label="Family name input">
+      </div>
+
+      <!-- Suffix -->
+      <div class="suffix-wrap">
+        <label for="suffix-select">Suffix / Sufijo:</label>
+        <select class="suffix-select" id="suffix-select" aria-label="Name suffix">
+          <option value="">— None / Ninguno —</option>
+          <option value="junior">Jr. (junior)</option>
+          <option value="senior">Sr. (senior)</option>
+          <option value="the second">II (the second)</option>
+          <option value="the third">III (the third)</option>
+          <option value="the fourth">IV (the fourth)</option>
+        </select>
+      </div>
+
+      <!-- Display bar -->
+      <div class="display-bar empty" id="display-family" aria-live="polite"
+           aria-label="Letters entered for family name"></div>
+
+      <!-- Key grid (built by JS) -->
+      <div class="key-grid" id="grid-family" role="group" aria-label="Letter keys for family name"></div>
+
+      <!-- Actions -->
+      <div class="action-row">
+        <button class="btn-speak" id="speak-family" type="button">
+          🔊 Read Aloud / Leer en voz alta
+        </button>
+        <button class="btn-clear" id="clear-family" type="button">
+          Clear / Borrar
+        </button>
+      </div>
+      <div class="speaking-status" id="status-family" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       PANEL 2 — Given Name (First Name)
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-given" data-panel="given" aria-labelledby="hdr-given">
+    <div class="panel-header">
+      <h2 id="hdr-given">Given Name (First Name)
+        <br><em>Nombre de pila</em>
+      </h2>
+      <p class="panel-subtitle">The name you go by every day &nbsp;·&nbsp;
+        <em>El nombre que usas todos los días</em>
+      </p>
+    </div>
+    <div class="panel-body">
+
+      <div class="name-input-row">
+        <input class="name-input" type="text" id="input-given"
+               placeholder="Type your first name here / Escribe tu nombre aquí"
+               autocomplete="off" spellcheck="false" aria-label="Given name input">
+      </div>
+
+      <div class="display-bar empty" id="display-given" aria-live="polite"
+           aria-label="Letters entered for given name"></div>
+
+      <div class="key-grid" id="grid-given" role="group" aria-label="Letter keys for given name"></div>
+
+      <div class="action-row">
+        <button class="btn-speak" id="speak-given" type="button">
+          🔊 Read Aloud / Leer en voz alta
+        </button>
+        <button class="btn-clear" id="clear-given" type="button">
+          Clear / Borrar
+        </button>
+      </div>
+      <div class="speaking-status" id="status-given" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       PANEL 3 — Middle Name
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-middle" data-panel="middle" aria-labelledby="hdr-middle">
+    <div class="panel-header">
+      <h2 id="hdr-middle">Middle Name (if applicable)
+        <br><em>Segundo nombre (si aplica)</em>
+      </h2>
+      <p class="panel-subtitle">Leave blank if you do not have a middle name &nbsp;·&nbsp;
+        <em>Deja en blanco si no tienes segundo nombre</em>
+      </p>
+    </div>
+    <div class="panel-body">
+
+      <div class="name-input-row">
+        <input class="name-input" type="text" id="input-middle"
+               placeholder="Type your middle name here / Escribe tu segundo nombre aquí"
+               autocomplete="off" spellcheck="false" aria-label="Middle name input">
+      </div>
+
+      <div class="display-bar empty" id="display-middle" aria-live="polite"
+           aria-label="Letters entered for middle name"></div>
+
+      <div class="key-grid" id="grid-middle" role="group" aria-label="Letter keys for middle name"></div>
+
+      <div class="action-row">
+        <button class="btn-speak" id="speak-middle" type="button">
+          🔊 Read Aloud / Leer en voz alta
+        </button>
+        <button class="btn-clear" id="clear-middle" type="button">
+          Clear / Borrar
+        </button>
+      </div>
+      <div class="speaking-status" id="status-middle" aria-live="polite"></div>
+    </div>
+  </section>
+
+</div><!-- /.page-wrap -->
+
+<script src="practice-saying.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* Initialise each name panel */
+  document.querySelectorAll('.practice-panel[data-panel]').forEach(function (panel) {
+    initNamePanelFull(panel);
+  });
+
+  /**
+   * Full panel init including backspace wiring.
+   * Extends PS.initNamePanel with local backspace handling.
+   */
+  function initNamePanelFull(panel) {
+    const role     = panel.dataset.panel;
+    const input    = panel.querySelector('.name-input');
+    const display  = panel.querySelector('.display-bar');
+    const grid     = panel.querySelector('.key-grid');
+    const speakBtn = panel.querySelector('.btn-speak');
+    const clearBtn = panel.querySelector('.btn-clear');
+    const status   = panel.querySelector('.speaking-status');
+    const suffix   = panel.querySelector('.suffix-select');
+
+    let value = '';
+
+    // Build grid
+    buildLetterGridLocal(grid, appendChar);
+
+    // Wire backspace
+    PS.wireBackspace(grid, function () {
+      value = value.slice(0, -1);
+      if (input) input.value = value;
+      PS.updateDisplayBar(display, value, '(tap keys or type above)');
+    });
+
+    // Keyboard input
+    if (input) {
+      input.addEventListener('input', function () {
+        value = input.value
+          .replace(/[^A-Za-z\u00C0-\u024F '\-]/g, '')
+          .toUpperCase();
+        input.value = value;
+        PS.updateDisplayBar(display, value, '(tap keys or type above)');
+      });
+    }
+
+    function appendChar(ch) {
+      value += ch;
+      if (input) input.value = value;
+      PS.updateDisplayBar(display, value, '(tap keys or type above)');
+    }
+
+    // Clear
+    clearBtn.addEventListener('click', function () {
+      value = '';
+      if (input) input.value = '';
+      if (suffix) suffix.value = '';
+      PS.updateDisplayBar(display, '', '(tap keys or type above)');
+      if (status) status.textContent = '';
+      window.speechSynthesis && window.speechSynthesis.cancel();
+    });
+
+    // Speak
+    speakBtn.addEventListener('click', async function () {
+      if (!value && !(suffix && suffix.value)) return;
+      speakBtn.disabled = true;
+      if (status) status.textContent = '🔊 Speaking…';
+
+      const spelled   = value ? spellOutLocal(value) : '';
+      const suffixVal = suffix ? suffix.value : '';
+      let phrase = '';
+
+      if (role === 'family') {
+        if (spelled) {
+          phrase = 'My last name is spelled: ' + spelled;
+          if (suffixVal) phrase += ', ' + suffixVal;
+        }
+      } else if (role === 'given') {
+        if (spelled) phrase = 'My first name is spelled: ' + spelled;
+      } else {
+        if (spelled) phrase = 'My middle name is spelled: ' + spelled;
+      }
+
+      if (phrase) await PS.speakOne(phrase, 'en-US');
+
+      if (status) status.textContent = '';
+      speakBtn.disabled = false;
+    });
+
+    PS.updateDisplayBar(display, '', '(tap keys or type above)');
+  }
+
+  /* Local grid builder (letters + hyphen + space + backspace) */
+  function buildLetterGridLocal(container, onKey) {
+    container.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function (ch) {
+      container.appendChild(makeKeyLocal(ch, ch, onKey));
+    });
+    container.appendChild(makeDividerLocal());
+    container.appendChild(makeSpecialLocal('HYPHEN', '-', onKey));
+    container.appendChild(makeSpecialLocal('SPACE',  ' ', onKey));
+    // Backspace (wired separately via wireBackspace)
+    var bk = document.createElement('button');
+    bk.type = 'button';
+    bk.className = 'key wide backspace';
+    bk.textContent = '⌫ DELETE';
+    bk.setAttribute('data-backspace', 'true');
+    container.appendChild(bk);
+  }
+
+  function makeKeyLocal(label, value, onKey) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'key';
+    btn.textContent = label;
+    btn.setAttribute('aria-label', label);
+    btn.addEventListener('click', function () {
+      onKey(value);
+      // Speak letter name immediately on tap
+      PS.speakOne(value === ' ' ? 'space' : value === '-' ? 'hyphen' : value, 'en-US');
+    });
+    return btn;
+  }
+
+  function makeSpecialLocal(label, value, onKey) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'key wide special';
+    btn.textContent = label;
+    btn.addEventListener('click', function () { onKey(value); });
+    return btn;
+  }
+
+  function makeDividerLocal() {
+    var d = document.createElement('div');
+    d.className = 'key-divider';
+    return d;
+  }
+
+  function spellOutLocal(str) {
+    return str.toUpperCase().split('').map(function (ch) {
+      if (ch === ' ')  return 'space';
+      if (ch === '-')  return 'hyphen';
+      return ch;
+    }).join(', ');
+  }
+
+}());
+</script>
+</body>
+</html>
