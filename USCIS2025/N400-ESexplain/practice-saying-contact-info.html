@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Saying Contact Information — Naturalization Interview Practice</title>
+<link rel="stylesheet" href="practice-saying.css">
+<style>
+  /* ── Phone input row ─────────────────────────────────────────── */
+  .phone-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .phone-cc {
+    width: 72px;
+    font-size: 1rem;
+    padding: 7px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    text-align: center;
+  }
+  .phone-cc:focus { outline: 2px solid var(--navy); border-color: var(--navy); }
+  .phone-num {
+    flex: 1;
+    min-width: 180px;
+    font-size: 1rem;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    letter-spacing: 0.04em;
+  }
+  .phone-num:focus { outline: 2px solid var(--navy); border-color: var(--navy); }
+
+  .field-hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <nav class="top-nav" aria-label="Site navigation">
+    <a href="../index.html">Home / Inicio</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-names.html">Practice Names</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-addresses.html">Practice Address</a>
+    <span class="sep">|</span>
+    <a href="practice-saying-contact-info.html" class="current">Practice Contact Info</a>
+  </nav>
+
+  <div class="page-header">
+    <h1>Practice Saying Contact Information
+      <br><em>Practica como decir tu informacion de contacto</em>
+    </h1>
+    <p class="subtitle">Phone number and email address practice for the naturalization interview &nbsp;&middot;&nbsp;
+      <em>Practica de numero de telefono y correo electronico para la entrevista</em>
+    </p>
+  </div>
+
+  <div class="usage-note" role="note">
+    <p>Type your phone number and email address below, then press <strong>Read Aloud</strong>
+       to hear how to say each one in English. Phone numbers are spoken in groups;
+       email addresses are spoken character by character, with "dot", "at", and "dash"
+       spoken for punctuation.</p>
+    <p><em>Escribe tu numero de telefono y correo electronico, luego presiona
+       <strong>Read Aloud</strong> para escuchar como decirlos en ingles.</em></p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       PANEL 1 — Phone Number
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-phone" aria-labelledby="hdr-phone">
+    <div class="panel-header">
+      <h2 id="hdr-phone">Phone Number
+        <br><em>Numero de telefono</em>
+      </h2>
+    </div>
+    <div class="panel-body">
+
+      <p class="field-hint">Country code defaults to +1 (United States).
+         For US numbers, type 10 digits and they will be grouped automatically.
+         For other countries, type all digits and they will be read one by one.
+         <br><em>El codigo de pais es +1 (Estados Unidos) por defecto.
+         Para numeros de EE.UU., escribe 10 digitos. Para otros paises, escribe todos los digitos.</em>
+      </p>
+
+      <div class="phone-row">
+        <input class="phone-cc" type="text" id="input-cc"
+               value="+1" maxlength="5"
+               autocomplete="off" spellcheck="false"
+               aria-label="Country code">
+        <input class="phone-num" type="text" id="input-phone"
+               placeholder="Type here / Escriba aqui"
+               inputmode="numeric" maxlength="15"
+               autocomplete="off" spellcheck="false"
+               aria-label="Phone number">
+      </div>
+
+      <div class="action-row">
+        <button class="btn-speak" id="speak-phone" type="button">
+          &#128266; Read Aloud / Leer en voz alta
+        </button>
+        <button class="btn-clear" id="clear-phone" type="button">Clear / Borrar</button>
+      </div>
+      <div class="speaking-status" id="status-phone" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       PANEL 2 — Email Address
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="practice-panel" id="panel-email" aria-labelledby="hdr-email">
+    <div class="panel-header">
+      <h2 id="hdr-email">Email Address
+        <br><em>Correo electronico</em>
+      </h2>
+    </div>
+    <div class="panel-body">
+
+      <p class="field-hint">Each letter and number is spoken individually.
+         The symbols <strong>@</strong>, <strong>.</strong>, and <strong>-</strong>
+         are spoken as "at", "dot", and "dash".
+         <br><em>Cada letra y numero se dice individualmente.
+         Los simbolos @ . - se dicen como "at", "dot" y "dash".</em>
+      </p>
+
+      <div class="name-input-row">
+        <input class="name-input" type="email" id="input-email"
+               placeholder="Type here / Escriba aqui"
+               autocomplete="off" spellcheck="false"
+               aria-label="Email address">
+      </div>
+
+      <div class="action-row">
+        <button class="btn-speak" id="speak-email" type="button">
+          &#128266; Read Aloud / Leer en voz alta
+        </button>
+        <button class="btn-clear" id="clear-email" type="button">Clear / Borrar</button>
+      </div>
+      <div class="speaking-status" id="status-email" aria-live="polite"></div>
+    </div>
+  </section>
+
+</div><!-- /.page-wrap -->
+
+<script src="practice-saying.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ════════════════════════════════════════════════════════════════
+     PHONE PANEL
+     ════════════════════════════════════════════════════════════════ */
+  (function () {
+    var ccInput    = document.getElementById('input-cc');
+    var phoneInput = document.getElementById('input-phone');
+    var speakBtn   = document.getElementById('speak-phone');
+    var clearBtn   = document.getElementById('clear-phone');
+    var status     = document.getElementById('status-phone');
+
+    /* Auto-format US numbers as (XXX) XXX-XXXX while typing */
+    phoneInput.addEventListener('input', function () {
+      var cc = ccInput.value.replace(/[^0-9+]/g, '');
+      var digits = phoneInput.value.replace(/\D/g, '');
+
+      if (isUS(cc)) {
+        /* Cap at 10 digits for US */
+        digits = digits.slice(0, 10);
+        phoneInput.value = formatUS(digits);
+      } else {
+        /* Non-US: digits only, no formatting */
+        phoneInput.value = digits.slice(0, 15);
+      }
+    });
+
+    /* Country code: allow + and digits only */
+    ccInput.addEventListener('input', function () {
+      var val = ccInput.value;
+      ccInput.value = val.replace(/[^0-9+]/g, '');
+      /* Re-trigger phone formatting when CC changes */
+      phoneInput.dispatchEvent(new Event('input'));
+    });
+
+    clearBtn.addEventListener('click', function () {
+      phoneInput.value = '';
+      ccInput.value = '+1';
+      status.textContent = '';
+      window.speechSynthesis && window.speechSynthesis.cancel();
+    });
+
+    speakBtn.addEventListener('click', async function () {
+      var cc     = ccInput.value.trim();
+      var raw    = phoneInput.value.replace(/\D/g, ''); /* digits only */
+      if (!raw) return;
+
+      speakBtn.disabled = true;
+      status.textContent = 'Speaking\u2026';
+
+      if (isUS(cc) && raw.length === 10) {
+        /* Speak in three groups: (XXX) XXX-XXXX */
+        var g1 = raw.slice(0, 3).split('').join(', ');
+        var g2 = raw.slice(3, 6).split('').join(', ');
+        var g3 = raw.slice(6).split('').join(', ');
+        await speakPhrase(g1, 0.88);
+        await pause(450);
+        await speakPhrase(g2, 0.88);
+        await pause(450);
+        await speakPhrase(g3, 0.88);
+      } else {
+        /* Non-US or wrong digit count: digit by digit including CC digits */
+        var ccDigits = cc.replace(/[^0-9]/g, '');
+        var full = ccDigits + raw;
+        await speakPhrase(full.split('').join(', '), 0.88);
+      }
+
+      status.textContent = '';
+      speakBtn.disabled = false;
+    });
+
+    function isUS(cc) {
+      return cc === '+1' || cc === '1';
+    }
+
+    /* Format 10 digit string as (XXX) XXX-XXXX progressively */
+    function formatUS(d) {
+      if (d.length === 0)  return '';
+      if (d.length <= 3)   return '(' + d;
+      if (d.length <= 6)   return '(' + d.slice(0,3) + ') ' + d.slice(3);
+      return '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+    }
+
+  }());
+
+  /* ════════════════════════════════════════════════════════════════
+     EMAIL PANEL
+     ════════════════════════════════════════════════════════════════ */
+  (function () {
+    var emailInput = document.getElementById('input-email');
+    var speakBtn   = document.getElementById('speak-email');
+    var clearBtn   = document.getElementById('clear-email');
+    var status     = document.getElementById('status-email');
+
+    clearBtn.addEventListener('click', function () {
+      emailInput.value = '';
+      status.textContent = '';
+      window.speechSynthesis && window.speechSynthesis.cancel();
+    });
+
+    /* Known domains spoken as words */
+    var DOMAIN_WORDS = {
+      'gmail.com':      'gmail dot com',
+      'hotmail.com':    'hotmail dot com',
+      'icloud.com':     'icloud dot com',
+      'outlook.com':    'outlook dot com',
+      'aol.com':        'A O L dot com',
+      'protonmail.com': 'proton mail dot com',
+      'proton.me':      'proton dot me',
+      'comcast.net':    'comcast dot net',
+      'verizon.net':    'verizon dot net',
+      'yahoo.com':      'yahoo dot com'
+    };
+
+    speakBtn.addEventListener('click', async function () {
+      var val = emailInput.value.trim();
+      if (!val) return;
+      speakBtn.disabled = true;
+      status.textContent = 'Speaking\u2026';
+
+      var atPos  = val.indexOf('@');
+      var local  = atPos >= 0 ? val.slice(0, atPos)  : val;
+      var domain = atPos >= 0 ? val.slice(atPos + 1) : '';
+
+      /* Spell local part character by character */
+      await spellSegment(local);
+
+      /* @ and domain */
+      if (domain) {
+        await pause(120);
+        await speakPhrase('at', 0.88);
+        await pause(120);
+        var domainKey = domain.toLowerCase();
+        if (DOMAIN_WORDS[domainKey]) {
+          await speakPhrase(DOMAIN_WORDS[domainKey], 0.88);
+        } else {
+          await spellSegment(domain);
+        }
+      }
+
+      status.textContent = '';
+      speakBtn.disabled = false;
+    });
+
+    /* Spell a segment (local part or unknown domain) char by char */
+    async function spellSegment(str) {
+      var tokens = tokenizeEmail(str);
+      for (var i = 0; i < tokens.length; i++) {
+        var tok = tokens[i];
+        if (tok === '.') {
+          await speakPhrase('dot', 0.88);
+        } else if (tok === '-') {
+          await speakPhrase('dash', 0.88);
+        } else {
+          var chars = tok.toLowerCase().split('');
+          for (var j = 0; j < chars.length; j++) {
+            await speakPhrase(chars[j], 1.0);
+            if (j < chars.length - 1) await pause(60);
+          }
+        }
+        if (i < tokens.length - 1) await pause(120);
+      }
+    }
+
+    /**
+     * Split an email string into an array of tokens.
+     * Runs of alphanumerics stay together; @, ., - each become their own token.
+     * e.g. "rosa.gomez@gmail.com" →
+     *      ["rosa", ".", "gomez", "@", "gmail", ".", "com"]
+     */
+    function tokenizeEmail(str) {
+      var tokens = [];
+      var buf = '';
+      for (var i = 0; i < str.length; i++) {
+        var ch = str[i];
+        if (ch === '@' || ch === '.' || ch === '-') {
+          if (buf) { tokens.push(buf); buf = ''; }
+          tokens.push(ch);
+        } else {
+          buf += ch;
+        }
+      }
+      if (buf) tokens.push(buf);
+      return tokens;
+    }
+
+  }());
+
+  /* ── Shared helpers ───────────────────────────────────────────── */
+  function speakPhrase(text, rate) {
+    return new Promise(function (resolve) {
+      if (!window.speechSynthesis) { resolve(); return; }
+      var utt = new SpeechSynthesisUtterance(text);
+      utt.lang = 'en-US';
+      utt.rate = rate || 0.88;
+      utt.onend   = resolve;
+      utt.onerror = resolve;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utt);
+    });
+  }
+
+  function pause(ms) {
+    return new Promise(function (r) { setTimeout(r, ms); });
+  }
+
+}());
+</script>
+</body>
+</html>
