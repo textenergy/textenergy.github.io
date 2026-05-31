@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tractor Parts — Bilingual Vocabulary / Vocabulario Bilingüe</title>
+<style>
+  :root {
+    --green:   #1a5c2a;
+    --yellow:  #f5c800;
+    --black:   #111;
+    --offwhite:#faf8f2;
+    --rule:    #ccc;
+    --audio-en:#1a5c2a;
+    --audio-es:#b8860b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--black);
+    background: var(--offwhite);
+    padding: 32px 36px;
+  }
+
+  header {
+    border-top: 5px solid var(--green);
+    border-bottom: 3px solid var(--yellow);
+    padding: 14px 0 14px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: Impact, 'Arial Narrow', Arial, sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: var(--green);
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+    color: #000;
+    font-style: normal;
+    margin-top: 8px;
+  }
+
+  .subtitle .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    vertical-align: middle;
+  }
+
+  .subtitle .legend-dot {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .intro {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12.5px;
+    color: #000;
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+
+  .intro p {
+    margin-bottom: 10px;
+  }
+
+  .intro a {
+    color: var(--green);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--offwhite);
+    background: var(--green);
+    padding: 7px 10px;
+    text-align: left;
+  }
+
+  thead th.notes-col {
+    width: 22%;
+  }
+
+  .section-row td {
+    background: var(--yellow);
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    padding: 5px 10px;
+    border-top: 6px solid var(--offwhite);
+  }
+
+  tbody tr {
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background: #f0ede3;
+  }
+
+  td {
+    padding: 5px 8px;
+    vertical-align: middle;
+  }
+
+  /* Term cells with audio button */
+  .term-cell {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+  }
+
+  .term-text {
+    font-weight: 600;
+  }
+
+  .es-text {
+    font-style: italic;
+  }
+
+  /* Audio buttons */
+  button.audio {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s, opacity 0.1s;
+    padding: 0;
+  }
+
+  button.audio:hover {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+
+  button.audio:active {
+    transform: scale(0.95);
+  }
+
+  button.audio.en-btn {
+    background: var(--audio-en);
+  }
+
+  button.audio.es-btn {
+    background: var(--audio-es);
+  }
+
+  button.audio svg {
+    width: 12px;
+    height: 12px;
+    fill: #fff;
+  }
+
+  /* playing state */
+  button.audio.playing {
+    animation: pulse 0.6s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { opacity: 1; }
+    to   { opacity: 0.5; }
+  }
+
+  td.notes {
+    font-size: 11px;
+    color: #000;
+    font-style: italic;
+  }
+
+  .col-en  { width: 34%; }
+  .col-es  { width: 34%; }
+  .col-notes { width: 22%; }
+
+  footer {
+    margin-top: 18px;
+    border-top: 1px solid var(--rule);
+    padding-top: 8px;
+    font-size: 10.5px;
+    color: #000;
+    font-style: italic;
+    display: flex;
+    gap: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Tractor Parts<br>Partes del Tractor</h1>
+  <p class="subtitle"><strong>Click a speaker button to hear the term. &nbsp;<span class="legend-item"><span class="legend-dot" style="background:var(--audio-en)"></span> English</span> &nbsp;|&nbsp; <span class="legend-item"><span class="legend-dot" style="background:var(--audio-es)"></span> Spanish</span></strong><br>
+  <strong><em>Haga clic en un botón de altavoz para escuchar el término. &nbsp;<span class="legend-item"><span class="legend-dot" style="background:var(--audio-en)"></span> inglés</span> &nbsp;|&nbsp; <span class="legend-item"><span class="legend-dot" style="background:var(--audio-es)"></span> español</span></em></strong></p>
+  <div class="intro">
+    <p>We recommend Google Chrome or Microsoft Edge browsers to hear the words pronounced well in both languages.<br>
+    <em>Recomendamos los navegadores Google Chrome o Microsoft Edge para escuchar las palabras bien pronunciadas en ambos idiomas.</em></p>
+    <p>Watch the video about the tractor parts by Purdue Extension Harrison County at <a href="https://www.youtube.com/watch?v=EMszDQ39_8g" target="_blank">https://www.youtube.com/watch?v=EMszDQ39_8g</a> and you will see each of these parts in relation to the tractor.<br>
+    <em>Vea el video sobre las partes del tractor, realizado por Purdue Extension Harrison County, en <a href="https://www.youtube.com/watch?v=EMszDQ39_8g" target="_blank">https://www.youtube.com/watch?v=EMszDQ39_8g</a>, y verá cada una de estas partes en relación con el tractor.</em></p>
+  </div>
+</header>
+
+<table>
+  <thead>
+    <tr>
+      <th class="col-en">English</th>
+      <th class="col-es">Español</th>
+      <th class="col-notes notes-col">Notes / Notas</th>
+    </tr>
+  </thead>
+  <tbody id="vocab-table">
+  </tbody>
+</table>
+
+
+
+<script>
+// Speaker SVG icon
+const speakerSVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+</svg>`;
+
+// Vocabulary data: [English, Spanish, notes]
+const sections = [
+  {
+    label: "Exterior / Safety — Exterior / Seguridad",
+    rows: [
+      ["3 Point Hitch",       "el enganche de tres puntos",   ""],
+      ["ROPS",                "la estructura antivuelco",      "Roll-Over Protective Structure"],
+      ["Seat Belt",           "el cinturón de seguridad",     ""],
+      ["SMV Sign",            "la señal de vehículo lento",   "Slow Moving Vehicle — triángulo naranja"],
+      ["Headlight",           "el faro delantero",            ""],
+      ["Hazard Light Switch", "el interruptor de luces de emergencia", ""],
+      ["Red Tail Light",      "la luz trasera roja",          ""],
+      ["Reflector",           "el reflector",                 ""],
+      ["Warning Label",       "la etiqueta de advertencia",   ""],
+    ]
+  },
+  {
+    label: "Operator Controls — Controles del Operador",
+    rows: [
+      ["Ignition Switch",       "el interruptor de encendido",  ""],
+      ["Steering Wheel",        "el volante",                   ""],
+      ["Throttle Control Lever","la palanca del acelerador",    ""],
+      ["Range Selection Lever", "la palanca de selección de marcha", ""],
+      ["PTO Switch",            "el interruptor de la toma de fuerza", "Power Take-Off"],
+      ["Park Brake Lever",      "la palanca del freno de estacionamiento", ""],
+      ["Brake Pedals",          "los pedales del freno",        ""],
+      ["Clutch Pedal",          "el pedal del embrague",        ""],
+    ]
+  },
+  {
+    label: "Engine & Fuel System — Motor y Sistema de Combustible",
+    rows: [
+      ["Engine Oil Dipstick",         "la varilla del aceite del motor",     ""],
+      ["Engine Oil Fill Cap",         "la tapa para llenar el aceite del motor", ""],
+      ["Drain Plug",                  "el tapón de drenaje",                 ""],
+      ["Fuel Fill Cap",               "la tapa del tanque de combustible",   ""],
+      ["Fuel Injection Pump",         "la bomba de inyección de combustible",""],
+      ["Fuel Injector",               "el inyector de combustible",          ""],
+      ["Fuel Transfer Pump",          "la bomba de transferencia de combustible", ""],
+      ["Fuel Water Separating Filter","el filtro separador de agua y combustible", ""],
+      ["Glow Plug",                   "la bujía de precalentamiento",        "Diesel cold-start heater"],
+      ["DEF Fill Cap",                "la tapa del fluido de escape diésel", "Diesel Exhaust Fluid"],
+      ["EGR Cooler",                  "el enfriador de gases de escape",     "Exhaust Gas Recirculation"],
+      ["EGR Valve",                   "la válvula de recirculación de gases de escape", ""],
+      ["TurboCharger",                "el turbocompresor",                   ""],
+      ["Muffler",                     "el silenciador",                      ""],
+      ["Air Cleaner Housing",         "la carcasa del filtro de aire",       ""],
+      ["Air Filter Element",          "el elemento del filtro de aire",      ""],
+    ]
+  },
+  {
+    label: "Cooling & Electrical — Sistema de Enfriamiento y Eléctrico",
+    rows: [
+      ["Radiator",                 "el radiador",                      ""],
+      ["Radiator Cap",             "la tapa del radiador",             ""],
+      ["Radiator Hose",            "la manguera del radiador",         ""],
+      ["Water Pump",               "la bomba de agua",                 ""],
+      ["Anti-Freeze / Coolant Tester", "el probador de anticongelante",""],
+      ["12 Volt Battery",          "la batería de doce voltios",       ""],
+      ["Battery Cable",            "el cable de la batería",           ""],
+      ["Alternator",               "el alternador",                    ""],
+      ["Starter",                  "el motor de arranque",             ""],
+      ["Starter Solenoid",         "el solenoide del arranque",        ""],
+      ["Fuse",                     "el fusible",                       ""],
+    ]
+  },
+  {
+    label: "Hydraulics & Drivetrain — Hidráulicos y Transmisión",
+    rows: [
+      ["Hydraulic Oil Dipstick",   "la varilla del aceite hidráulico", ""],
+      ["Hydraulic Oil Hose",       "la manguera del aceite hidráulico",""],
+      ["Hydraulic Oil Filter",     "el filtro del aceite hidráulico",  ""],
+      ["PTO (Power Take Off)",     "la toma de fuerza",                ""],
+      ["Serpentine Belt",          "la banda serpentina",              ""],
+      ["V-Belt",                   "la banda en V",                    ""],
+      ["V-Belt Pulley",            "la polea de banda en V",           ""],
+      ["Idler Pulley",             "la polea tensora",                 ""],
+      ["Roller Chain",             "la cadena de rodillos",            ""],
+      ["Sprocket",                 "el piñón dentado",                 ""],
+      ["Universal Joint",          "la junta universal",               ""],
+      ["Ball Joint Linkage",       "la articulación de rótula",        ""],
+      ["Tie Rod End",              "el extremo de la barra de dirección",""],
+      ["Flywheel",                 "el volante de inercia",            ""],
+    ]
+  },
+  {
+    label: "Internal Engine Parts — Partes Internas del Motor",
+    rows: [
+      ["Camshaft",      "el árbol de levas",      ""],
+      ["Connecting Rod","la biela",               ""],
+      ["Rocker Arm",    "el balancín",            ""],
+      ["Push Rod",      "la varilla de empuje",   ""],
+      ["Piston Rings",  "los aros del pistón",    ""],
+      ["Valve",         "la válvula",             ""],
+      ["Valve Core",    "el núcleo de la válvula",""],
+      ["Valve Cover",   "la tapa de válvulas",    ""],
+      ["Valve Spring",  "el resorte de válvula",  ""],
+      ["Valve Stem",    "el vástago de la válvula de llanta","Tire valve stem"],
+    ]
+  },
+  {
+    label: "Wheels & Tires — Ruedas y Llantas",
+    rows: [
+      ["Front Tractor Tire","la llanta delantera del tractor",""],
+      ["Rear Tractor Tire", "la llanta trasera del tractor",  ""],
+      ["Wheel Hub",         "el cubo de la rueda",            ""],
+      ["Wheel Lug Bolt",    "el perno de la rueda",           ""],
+    ]
+  },
+  {
+    label: "Bearings & Hardware — Cojinetes y Ferretería",
+    rows: [
+      ["Ball Bearing",          "el cojinete de bolas",          ""],
+      ["Needle Bearing",        "el cojinete de agujas",         ""],
+      ["Tapered Roller Bearing","el cojinete de rodillos cónicos",""],
+      ["Gear",                  "el engranaje",                  ""],
+    ]
+  },
+  {
+    label: "Tools — Herramientas",
+    rows: [
+      ["Combination Wrench","la llave combinada",       ""],
+      ["Crowfoot Wrench",   "la llave de pata de cuervo",""],
+      ["6 Point Socket",    "el dado de seis puntos",   ""],
+    ]
+  },
+];
+
+// Build table
+const tbody = document.getElementById('vocab-table');
+
+sections.forEach(section => {
+  // Section header row
+  const srow = document.createElement('tr');
+  srow.className = 'section-row';
+  srow.innerHTML = `<td colspan="3">${section.label}</td>`;
+  tbody.appendChild(srow);
+
+  section.rows.forEach(([en, es, note]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="term-cell">
+          <button class="audio en-btn" title="Play English" data-text="${en}" data-lang="en-US">${speakerSVG}</button>
+          <span class="term-text">${en}</span>
+        </div>
+      </td>
+      <td>
+        <div class="term-cell">
+          <button class="audio es-btn" title="Reproducir en español" data-text="${es}" data-lang="es-MX">${speakerSVG}</button>
+          <span class="es-text">${es}</span>
+        </div>
+      </td>
+      <td class="notes">${note}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+});
+
+// TTS
+let currentUtterance = null;
+let currentBtn = null;
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('button.audio');
+  if (!btn) return;
+
+  // Stop anything currently playing
+  window.speechSynthesis.cancel();
+  if (currentBtn) {
+    currentBtn.classList.remove('playing');
+  }
+
+  // If same button clicked again, just stop
+  if (btn === currentBtn) {
+    currentBtn = null;
+    currentUtterance = null;
+    return;
+  }
+
+  const text = btn.dataset.text;
+  const lang = btn.dataset.lang;
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = lang;
+  utter.rate = 0.9;
+
+  // Try to find a matching voice
+  const voices = window.speechSynthesis.getVoices();
+  const match = voices.find(v => v.lang.startsWith(lang.split('-')[0]) && v.lang === lang)
+             || voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+  if (match) utter.voice = match;
+
+  utter.onend = () => {
+    btn.classList.remove('playing');
+    currentBtn = null;
+    currentUtterance = null;
+  };
+
+  utter.onerror = () => {
+    btn.classList.remove('playing');
+    currentBtn = null;
+  };
+
+  btn.classList.add('playing');
+  currentBtn = btn;
+  currentUtterance = utter;
+  window.speechSynthesis.speak(utter);
+});
+
+// Voices load asynchronously in some browsers
+window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+</script>
+</body>
+</html>
