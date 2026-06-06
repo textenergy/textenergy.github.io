@@ -17,8 +17,9 @@
             padding: 20px;
         }
 
+        /* ── Note box ── */
         .note-box details summary::-webkit-details-marker { display: none; }
-        .note-box details[open] .accordion-arrow { display: inline-block; transform: rotate(90deg); }
+        .note-box details[open] .accordion-arrow { transform: rotate(90deg); }
         .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
 
         .note-box {
@@ -29,27 +30,12 @@
             border-radius: 4px;
         }
 
-        .note-box p {
-            margin: 0;
-            font-size: 14px;
-        }
+        .note-box p { margin: 0; font-size: 14px; }
+        .note-box p + p { margin-top: 5px; }
+        .note-box .device-instructions { font-size: 13px; color: navy; margin-top: 5px; }
+        .note-box .incognito-note { font-size: 12px; color: navy; margin-top: 8px; }
 
-        .note-box p + p {
-            margin-top: 5px;
-        }
-
-        .note-box .device-instructions {
-            font-size: 13px;
-            color: navy;
-            margin-top: 5px;
-        }
-
-        .note-box .incognito-note {
-            font-size: 12px;
-            color: navy;
-            margin-top: 8px;
-        }
-
+        /* ── Save confirm ── */
         #saveConfirm {
             display: none;
             background-color: #E8F5E9;
@@ -60,11 +46,13 @@
             font-size: 14px;
         }
 
+        /* ── Quiz controls ── */
         .controls {
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         button {
@@ -83,9 +71,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        #playButton:hover:not(:disabled) {
-            background-color: #90EE90;
-        }
+        #playButton:hover:not(:disabled) { background-color: #90EE90; }
 
         #playButton:disabled {
             background-color: #cccccc;
@@ -93,20 +79,9 @@
             cursor: not-allowed;
         }
 
-        #resetButton {
-            background-color: #FF6347;
-            color: white;
-            border: none;
-        }
-
-        #resetButton:hover {
-            background-color: #E5533D;
-        }
-
-        #saveButton {
-            background-color: white;
-            border: 1px solid #ccc;
-        }
+        #resetButton { background-color: #FF6347; color: white; border: none; }
+        #resetButton:hover { background-color: #E5533D; }
+        #saveButton { background-color: white; border: 1px solid #ccc; }
 
         #showSpanishButton {
             background-color: #E3F2FD;
@@ -116,15 +91,10 @@
             padding: 8px 14px;
         }
 
-        #stats {
-            font-size: 16px;
-            font-weight: bold;
-        }
+        #stats { font-size: 16px; font-weight: bold; }
 
-        #sentenceDisplay {
-            margin: 10px 0;
-            min-height: 56px;
-        }
+        /* ── Sentence display ── */
+        #sentenceDisplay { margin: 10px 0; min-height: 56px; }
 
         #englishSentence {
             font-size: 17px;
@@ -141,11 +111,8 @@
             display: none;
         }
 
-        .set-label {
-            font-size: 14px;
-            color: #555;
-            margin: 12px 0 6px 0;
-        }
+        /* ── Grid ── */
+        .set-label { font-size: 14px; color: #555; margin: 12px 0 6px 0; }
 
         .grid {
             display: grid;
@@ -168,25 +135,10 @@
             min-height: 70px;
         }
 
-        .grid-item:hover:not(.found):not(.locked) {
-            background-color: #f0f0f0;
-        }
-
-        .grid-item.found {
-            background-color: #6B46C1;
-            border-color: #6B46C1;
-            cursor: pointer;
-        }
-
-        .grid-item.wrong {
-            background-color: #FFE0E0;
-            border-color: #e53935;
-        }
-
-        .grid-item.locked {
-            opacity: 0.35;
-            cursor: default;
-        }
+        .grid-item:hover:not(.found):not(.locked) { background-color: #f0f0f0; }
+        .grid-item.found { background-color: #6B46C1; border-color: #6B46C1; cursor: pointer; }
+        .grid-item.wrong { background-color: #FFE0E0; border-color: #e53935; }
+        .grid-item.locked { opacity: 0.35; cursor: default; }
 
         .word-label {
             font-size: clamp(13px, 3vw, 17px);
@@ -198,7 +150,7 @@
         .grid-item.found .word-label { color: white; }
 
         .word-es {
-            font-size: 16px;
+            font-size: 15px;
             color: white;
             text-align: center;
             margin-top: 6px;
@@ -208,6 +160,70 @@
 
         .grid-item.found .word-es { display: block; }
 
+        /* ── Toggle button (shared) ── */
+        .btn-toggle {
+            padding: 10px 22px;
+            background: #f5c800;
+            color: #111;
+            border: 2px solid #1a5c2a;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 14px 0;
+            display: block;
+        }
+
+        .btn-toggle:hover { background: #e0b300; }
+
+        /* ── Vocabulary table ── */
+        #vocabSection h2 { font-size: 1.1rem; margin: 8px 0 6px; color: #1a3a08; }
+
+        .vocab-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 540px;
+            margin-bottom: 10px;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            padding: 4px 10px;
+            border-bottom: 2px solid #aaa;
+        }
+
+        .vocab-table td {
+            padding: 6px 10px;
+            font-size: 15px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        /* ── TTS button ── */
+        .tts-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            background: #1a5c2a;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        .tts-btn svg { width: 18px; height: 18px; fill: #fff; }
+        .tts-btn:hover { background: #145020; }
+        .tts-btn.playing { background: #e06010; }
+
+        /* ── Footer ── */
         footer {
             margin-top: 40px;
             padding: 20px;
@@ -224,58 +240,174 @@
     </nav>
     <h1 style="font-size: 1.3rem; margin: 10px 0;">Times of Day / Momentos del Día</h1>
 
-    <div class="note-box">
-        <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
-        <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
-        <details style="margin-top: 6px;">
-            <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
-                <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
-            </summary>
-            <p class="device-instructions" style="margin-top: 6px;">
-                Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
-                <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
-                iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
-                <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
-            </p>
-            <p class="incognito-note">
-                Progress is saved on this device. Private/incognito browsing does not save progress.<br>
-                <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
-            </p>
-        </details>
-    </div>
+    <!-- ═══════════════════════════════════════════
+         VOCABULARY SECTION
+    ════════════════════════════════════════════ -->
+    <div id="vocabSection">
+        <h2>Vocabulary / Vocabulario</h2>
+        <p style="font-size:14px; margin-bottom:10px;">
+            Click the green button to hear each word in English.<br>
+            <em>Haz clic en el botón verde para escuchar cada palabra en inglés.</em>
+        </p>
 
-    <div class="controls">
-        <button id="playButton">🔊 Play Audio</button>
-        <span id="stats"></span>
-        <button id="showSpanishButton">Mostrar/Ocultar Español</button>
-        <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
-        <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
-    </div>
+        <table class="vocab-table">
+            <thead>
+                <tr>
+                    <th>English</th>
+                    <th>Español</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><button class="tts-btn" data-text="sunrise" data-lang="en-US" aria-label="Play sunrise"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> sunrise</td>
+                    <td><em>amanecer</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="lunchtime" data-lang="en-US" aria-label="Play lunchtime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> lunchtime</td>
+                    <td><em>a la hora del almuerzo</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="afternoon" data-lang="en-US" aria-label="Play afternoon"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> afternoon</td>
+                    <td><em>por la tarde</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="end of day" data-lang="en-US" aria-label="Play end of day"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> end of day</td>
+                    <td><em>al final del día</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="dinnertime" data-lang="en-US" aria-label="Play dinnertime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> dinnertime</td>
+                    <td><em>a la hora de cenar</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="after hours" data-lang="en-US" aria-label="Play after hours"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> after hours</td>
+                    <td><em>fuera de horario</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="dusk" data-lang="en-US" aria-label="Play dusk"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> dusk</td>
+                    <td><em>atardecer</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="sunset" data-lang="en-US" aria-label="Play sunset"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> sunset</td>
+                    <td><em>puesta de sol</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="evening" data-lang="en-US" aria-label="Play evening"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> evening</td>
+                    <td><em>noche temprana</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="nighttime" data-lang="en-US" aria-label="Play nighttime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> nighttime</td>
+                    <td><em>de noche (la noche)</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="midnight" data-lang="en-US" aria-label="Play midnight"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> midnight</td>
+                    <td><em>medianoche</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="all night long" data-lang="en-US" aria-label="Play all night long"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> all night long</td>
+                    <td><em>toda la noche</em></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div id="sentenceDisplay">
-        <div id="englishSentence"></div>
-        <div id="spanishSentence"></div>
-    </div>
+        <button class="btn-toggle" id="btnToQuiz">Check your understanding / Probar tu comprensión ▶</button>
+    </div><!-- end vocabSection -->
 
-    <div id="saveConfirm">
-        ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
-        <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
-    </div>
+    <!-- ═══════════════════════════════════════════
+         QUIZ SECTION
+    ════════════════════════════════════════════ -->
+    <div id="quizSection" style="display:none;">
 
-    <div id="set1-section">
-        <div class="set-label">Set 1 / Serie 1</div>
-        <div class="grid" id="grid-set1"></div>
-    </div>
+        <button class="btn-toggle" id="btnToVocab">◀ Review vocabulary / Revisar vocabulario</button>
 
-    <div class="set-label">Set 2 / Serie 2</div>
-    <div class="grid" id="grid-set2"></div>
+        <div class="note-box">
+            <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
+            <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
+            <details style="margin-top: 6px;">
+                <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                    <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+                </summary>
+                <p class="device-instructions" style="margin-top: 6px;">
+                    Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                    <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                    iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                    <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+                </p>
+                <p class="incognito-note">
+                    Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                    <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+                </p>
+            </details>
+        </div>
 
-    <footer>
-        <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
-        <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
-    </footer>
+        <div class="controls">
+            <button id="playButton">🔊 Play Audio</button>
+            <span id="stats"></span>
+            <button id="showSpanishButton">Mostrar/Ocultar Español</button>
+            <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
+            <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+        </div>
+
+        <div id="sentenceDisplay">
+            <div id="englishSentence"></div>
+            <div id="spanishSentence"></div>
+        </div>
+
+        <div id="saveConfirm">
+            ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
+            <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
+        </div>
+
+        <div id="set1-section">
+            <div class="set-label">Set 1 / Serie 1</div>
+            <div class="grid" id="grid-set1"></div>
+        </div>
+
+        <div class="set-label">Set 2 / Serie 2</div>
+        <div class="grid" id="grid-set2"></div>
+
+        <footer>
+            <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+            <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+        </footer>
+
+    </div><!-- end quizSection -->
 
     <script>
+        // ── Section toggle ──
+        document.getElementById('btnToQuiz').addEventListener('click', function () {
+            document.getElementById('vocabSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = '';
+        });
+
+        document.getElementById('btnToVocab').addEventListener('click', function () {
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('vocabSection').style.display = '';
+        });
+
+        // ── Vocab TTS ──
+        let currentTtsBtn = null;
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+        document.getElementById('vocabSection').addEventListener('click', function (e) {
+            const btn = e.target.closest('.tts-btn');
+            if (!btn) return;
+            window.speechSynthesis.cancel();
+            if (currentTtsBtn) currentTtsBtn.classList.remove('playing');
+            if (btn === currentTtsBtn) { currentTtsBtn = null; return; }
+            const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+            utter.lang = btn.dataset.lang;
+            utter.rate = 0.9;
+            const voices = window.speechSynthesis.getVoices();
+            const match = voices.find(v => v.lang === btn.dataset.lang)
+                       || voices.find(v => v.lang.startsWith('en'));
+            if (match) utter.voice = match;
+            utter.onend = utter.onerror = () => { btn.classList.remove('playing'); currentTtsBtn = null; };
+            btn.classList.add('playing');
+            currentTtsBtn = btn;
+            window.speechSynthesis.speak(utter);
+        });
+
+        // ── Quiz data ──
         const phrases = [
             { word: 'sunrise',      wordEs: 'amanecer',
               set1: { en: 'We start work at sunrise.',
@@ -322,7 +454,7 @@
                       es: 'En la noche temprana me gusta descansar.' },
               set2: { en: 'We had a meeting this evening.',
                       es: 'Tuvimos una reunión en la noche temprana.' } },
-            { word: 'nighttime',    wordEs: 'de noche',
+            { word: 'nighttime',    wordEs: 'de noche (la noche)',
               set1: { en: "I don't like to drive in the nighttime.",
                       es: 'No me gusta manejar de noche.' },
               set2: { en: 'Nighttime is the best time to water the lawn.',
@@ -344,7 +476,6 @@
         let foundSet1 = new Set();
         let foundSet2 = new Set();
         let currentTarget = null;
-        let currentSet = null;
         let score = 0;
         let spanishVisible = false;
 
