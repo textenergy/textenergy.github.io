@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="qa-vocab" content="time:frequency,time-of-day">
+    <meta name="qa-version" content="1">
+    <title>Time: Frequency &amp; Times of Day / Frecuencia y Momentos del Día</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* ── Note box ── */
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p { margin: 0; font-size: 14px; }
+        .note-box p + p { margin-top: 5px; }
+        .note-box .device-instructions { font-size: 13px; color: navy; margin-top: 5px; }
+        .note-box .incognito-note { font-size: 12px; color: navy; margin-top: 8px; }
+
+        /* ── Save confirm ── */
+        #saveConfirm {
+            display: none;
+            background-color: #E8F5E9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* ── Quiz controls ── */
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 15px;
+            padding: 8px 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #playButton:hover:not(:disabled) { background-color: #90EE90; }
+
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        #resetButton { background-color: #FF6347; color: white; border: none; }
+        #resetButton:hover { background-color: #E5533D; }
+        #saveButton { background-color: white; border: 1px solid #ccc; }
+
+        #showSpanishButton {
+            background-color: #E3F2FD;
+            border: 1px solid #2196F3;
+            color: #0D47A1;
+            font-size: 14px;
+            padding: 8px 14px;
+        }
+
+        #stats { font-size: 16px; font-weight: bold; }
+
+        /* ── Sentence display ── */
+        #sentenceDisplay { margin: 10px 0; min-height: 56px; }
+
+        #englishSentence {
+            font-size: 17px;
+            font-weight: bold;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        #spanishSentence {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.4;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* ── Group labels ── */
+        .set-label { font-size: 14px; color: #555; margin: 12px 0 6px 0; }
+
+        /* ── Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #333;
+            background-color: white;
+            cursor: pointer;
+            padding: 14px 8px;
+            transition: background-color 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 70px;
+        }
+
+        .grid-item:hover:not(.found):not(.locked) { background-color: #f0f0f0; }
+        .grid-item.found { background-color: #6B46C1; border-color: #6B46C1; cursor: pointer; }
+        .grid-item.wrong { background-color: #FFE0E0; border-color: #e53935; }
+        .grid-item.locked { opacity: 0.35; cursor: default; }
+
+        .word-label {
+            font-size: clamp(13px, 3vw, 17px);
+            font-weight: bold;
+            color: #222;
+            text-align: center;
+        }
+
+        .grid-item.found .word-label { color: white; }
+
+        .word-es {
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            margin-top: 6px;
+            line-height: 1.4;
+            display: none;
+        }
+
+        .grid-item.found .word-es { display: block; }
+
+        /* ── Toggle button ── */
+        .btn-toggle {
+            padding: 10px 22px;
+            background: #f5c800;
+            color: #111;
+            border: 2px solid #1a5c2a;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 14px 0;
+            display: block;
+        }
+
+        .btn-toggle:hover { background: #e0b300; }
+
+        /* ── Vocabulary table — 4-column layout ── */
+        #vocabSection h2 { font-size: 1.1rem; margin: 8px 0 6px; color: #1a3a08; }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px 10px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .vocab-cell {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            padding: 5px 4px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .vocab-cell .word-text { flex: 1; }
+        .vocab-cell .word-es-text { font-size: 13px; color: #555; font-style: italic; }
+
+        /* ── TTS button ── */
+        .tts-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            padding: 0;
+            background: #1a5c2a;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        .tts-btn svg { width: 16px; height: 16px; fill: #fff; }
+        .tts-btn:hover { background: #145020; }
+        .tts-btn.playing { background: #e06010; }
+
+        /* ── Footer ── */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home / Al inicio</a>
+    </nav>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Time: Frequency &amp; Times of Day / Frecuencia y Momentos del Día</h1>
+
+    <!-- ═══════════════════════════════════════════
+         VOCABULARY SECTION
+    ════════════════════════════════════════════ -->
+    <div id="vocabSection">
+        <h2>Vocabulary / Vocabulario</h2>
+        <p style="font-size:14px; margin-bottom:10px;">
+            Click the green button to hear each word in English.<br>
+            <em>Haz clic en el botón verde para escuchar cada palabra en inglés.</em>
+        </p>
+
+        <!-- 19 words alphabetical order, 4-column grid -->
+        <div class="vocab-grid" id="vocabGrid">
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="after hours" data-lang="en-US" aria-label="Play after hours"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">after hours</div><div class="word-es-text">fuera de horario</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="afternoon" data-lang="en-US" aria-label="Play afternoon"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">afternoon</div><div class="word-es-text">por la tarde</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="all night long" data-lang="en-US" aria-label="Play all night long"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">all night long</div><div class="word-es-text">toda la noche</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="always" data-lang="en-US" aria-label="Play always"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">always</div><div class="word-es-text">siempre</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="daily" data-lang="en-US" aria-label="Play daily"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">daily</div><div class="word-es-text">cada día</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="dinnertime" data-lang="en-US" aria-label="Play dinnertime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">dinnertime</div><div class="word-es-text">a la hora de cenar</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="dusk" data-lang="en-US" aria-label="Play dusk"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">dusk</div><div class="word-es-text">atardecer</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="end of day" data-lang="en-US" aria-label="Play end of day"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">end of day</div><div class="word-es-text">al final del día</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="evening" data-lang="en-US" aria-label="Play evening"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">evening</div><div class="word-es-text">noche temprana</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="lunchtime" data-lang="en-US" aria-label="Play lunchtime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">lunchtime</div><div class="word-es-text">a la hora del almuerzo</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="midnight" data-lang="en-US" aria-label="Play midnight"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">midnight</div><div class="word-es-text">medianoche</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="never" data-lang="en-US" aria-label="Play never"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">never</div><div class="word-es-text">nunca</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="nighttime" data-lang="en-US" aria-label="Play nighttime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">nighttime</div><div class="word-es-text">de noche (la noche)</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="often" data-lang="en-US" aria-label="Play often"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">often</div><div class="word-es-text">a menudo (¿cada cuánto?)</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="rarely" data-lang="en-US" aria-label="Play rarely"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">rarely</div><div class="word-es-text">rara vez (casi nunca)</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="sometimes" data-lang="en-US" aria-label="Play sometimes"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">sometimes</div><div class="word-es-text">a veces</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="sunrise" data-lang="en-US" aria-label="Play sunrise"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">sunrise</div><div class="word-es-text">amanecer</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="sunset" data-lang="en-US" aria-label="Play sunset"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">sunset</div><div class="word-es-text">puesta de sol</div></div>
+            </div>
+
+            <div class="vocab-cell">
+                <button class="tts-btn" data-text="usually" data-lang="en-US" aria-label="Play usually"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+                <div><div class="word-text">usually</div><div class="word-es-text">generalmente</div></div>
+            </div>
+
+        </div><!-- end vocab-grid -->
+
+        <button class="btn-toggle" id="btnToQuiz">Check your understanding / Probar tu comprensión ▶</button>
+    </div><!-- end vocabSection -->
+
+    <!-- ═══════════════════════════════════════════
+         QUIZ SECTION
+    ════════════════════════════════════════════ -->
+    <div id="quizSection" style="display:none;">
+
+        <button class="btn-toggle" id="btnToVocab">◀ Review vocabulary / Revisar vocabulario</button>
+
+        <div class="note-box">
+            <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
+            <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
+            <details style="margin-top: 6px;">
+                <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                    <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+                </summary>
+                <p class="device-instructions" style="margin-top: 6px;">
+                    Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                    <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                    iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                    <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+                </p>
+                <p class="incognito-note">
+                    Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                    <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+                </p>
+            </details>
+        </div>
+
+        <div class="controls">
+            <button id="playButton">🔊 Play Audio</button>
+            <span id="stats"></span>
+            <button id="showSpanishButton">Mostrar/Ocultar Español</button>
+            <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
+            <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+        </div>
+
+        <div id="sentenceDisplay">
+            <div id="englishSentence"></div>
+            <div id="spanishSentence"></div>
+        </div>
+
+        <div id="saveConfirm">
+            ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
+            <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
+        </div>
+
+        <!-- Group 1: sunrise, lunchtime, afternoon, never, rarely -->
+        <div id="group1-set1-section">
+            <div class="set-label">Group 1 — Set 1 / Grupo 1 — Serie 1</div>
+            <div class="grid" id="grid-g1s1"></div>
+        </div>
+        <div id="group1-set2-section">
+            <div class="set-label">Group 1 — Set 2 / Grupo 1 — Serie 2</div>
+            <div class="grid" id="grid-g1s2"></div>
+        </div>
+
+        <!-- Group 2: end of day, dinnertime, after hours, sometimes, often -->
+        <div id="group2-set1-section">
+            <div class="set-label">Group 2 — Set 1 / Grupo 2 — Serie 1</div>
+            <div class="grid" id="grid-g2s1"></div>
+        </div>
+        <div id="group2-set2-section">
+            <div class="set-label">Group 2 — Set 2 / Grupo 2 — Serie 2</div>
+            <div class="grid" id="grid-g2s2"></div>
+        </div>
+
+        <!-- Group 3: dusk, sunset, evening, usually, daily -->
+        <div id="group3-set1-section">
+            <div class="set-label">Group 3 — Set 1 / Grupo 3 — Serie 1</div>
+            <div class="grid" id="grid-g3s1"></div>
+        </div>
+        <div id="group3-set2-section">
+            <div class="set-label">Group 3 — Set 2 / Grupo 3 — Serie 2</div>
+            <div class="grid" id="grid-g3s2"></div>
+        </div>
+
+        <!-- Group 4: nighttime, midnight, all night long, always -->
+        <div id="group4-set1-section">
+            <div class="set-label">Group 4 — Set 1 / Grupo 4 — Serie 1</div>
+            <div class="grid" id="grid-g4s1"></div>
+        </div>
+        <div id="group4-set2-section">
+            <div class="set-label">Group 4 — Set 2 / Grupo 4 — Serie 2</div>
+            <div class="grid" id="grid-g4s2"></div>
+        </div>
+
+        <footer>
+            <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+            <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+        </footer>
+
+    </div><!-- end quizSection -->
+
+    <script>
+        // ── Section toggle ──
+        document.getElementById('btnToQuiz').addEventListener('click', function () {
+            document.getElementById('vocabSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = '';
+        });
+        document.getElementById('btnToVocab').addEventListener('click', function () {
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('vocabSection').style.display = '';
+        });
+
+        // ── Vocab TTS ──
+        let currentTtsBtn = null;
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+        document.getElementById('vocabSection').addEventListener('click', function (e) {
+            const btn = e.target.closest('.tts-btn');
+            if (!btn) return;
+            window.speechSynthesis.cancel();
+            if (currentTtsBtn) currentTtsBtn.classList.remove('playing');
+            if (btn === currentTtsBtn) { currentTtsBtn = null; return; }
+            const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+            utter.lang = btn.dataset.lang;
+            utter.rate = 0.9;
+            const voices = window.speechSynthesis.getVoices();
+            const match = voices.find(v => v.lang === btn.dataset.lang)
+                       || voices.find(v => v.lang.startsWith('en'));
+            if (match) utter.voice = match;
+            utter.onend = utter.onerror = () => { btn.classList.remove('playing'); currentTtsBtn = null; };
+            btn.classList.add('playing');
+            currentTtsBtn = btn;
+            window.speechSynthesis.speak(utter);
+        });
+
+        // ── Quiz data ──
+        // Groups per Fix 1: 
+        //   g1: sunrise, lunchtime, afternoon, never, rarely
+        //   g2: end of day, dinnertime, after hours, sometimes, often
+        //   g3: dusk, sunset, evening, usually, daily
+        //   g4: nighttime, midnight, all night long, always
+        const phrases = [
+            // ── Group 1 ──
+            { group: 1, word: 'sunrise',   wordEs: 'amanecer',
+              set1: { en: 'We start work at sunrise.',
+                      es: 'Empezamos a trabajar al amanecer.' },
+              set2: { en: 'The sky turns pink at sunrise.',
+                      es: 'El cielo se pone rosado al amanecer.' } },
+            { group: 1, word: 'lunchtime', wordEs: 'a la hora del almuerzo',
+              set1: { en: 'We take a break at lunchtime.',
+                      es: 'Tomamos un descanso a la hora del almuerzo.' },
+              set2: { en: 'It was so hot by lunchtime we had to stop.',
+                      es: 'Para la hora del almuerzo hacía tanto calor que tuvimos que parar.' } },
+            { group: 1, word: 'afternoon', wordEs: 'por la tarde',
+              set1: { en: 'It always rains in the afternoon in the summer.',
+                      es: 'En el verano siempre llueve por la tarde.' },
+              set2: { en: 'We finished the job in the afternoon.',
+                      es: 'Terminamos el trabajo por la tarde.' } },
+            { group: 1, word: 'never',     wordEs: 'nunca',
+              set1: { en: 'I am never late for work.',
+                      es: 'Nunca llego tarde al trabajo.' },
+              set2: { en: 'We never work on Sundays.',
+                      es: 'Nunca trabajamos los domingos.' } },
+            { group: 1, word: 'rarely',    wordEs: 'rara vez (casi nunca)',
+              set1: { en: 'The sun is rarely up when I start work in the winter.',
+                      es: 'Rara vez ha salido el sol cuando empiezo a trabajar en invierno.' },
+              set2: { en: 'I got off early today, which rarely happens.',
+                      es: 'Hoy salí temprano, lo cual casi nunca pasa.' } },
+
+            // ── Group 2 ──
+            { group: 2, word: 'end of day',  wordEs: 'al final del día',
+              set1: { en: 'We clean up the equipment at end of day.',
+                      es: 'Al final del día limpiamos el equipo.' },
+              set2: { en: "We're always tired by end of day.",
+                      es: 'Siempre estamos cansados al final del día.' } },
+            { group: 2, word: 'dinnertime',  wordEs: 'a la hora de cenar',
+              set1: { en: 'I was still on the road at dinnertime.',
+                      es: 'Todavía iba en camino a la hora de cenar.' },
+              set2: { en: 'The crew was home by dinnertime.',
+                      es: 'El grupo ya estaba en casa a la hora de cenar.' } },
+            { group: 2, word: 'after hours', wordEs: 'fuera de horario',
+              set1: { en: 'We got a call after hours.',
+                      es: 'Nos llamaron fuera de horario.' },
+              set2: { en: 'We never work after hours on Fridays.',
+                      es: 'Nunca trabajamos fuera de horario los viernes.' } },
+            { group: 2, word: 'sometimes',   wordEs: 'a veces',
+              set1: { en: 'It sometimes rains in the afternoon.',
+                      es: 'A veces llueve por la tarde.' },
+              set2: { en: 'Sometimes we get a late start, then everything is a rush all day.',
+                      es: 'A veces empezamos tarde y entonces todo es una carrera durante todo el día.' } },
+            { group: 2, word: 'often',       wordEs: 'a menudo (¿cada cuánto?)',
+              set1: { en: 'We often work longer in the summer.',
+                      es: 'A menudo trabajamos más horas en verano.' },
+              set2: { en: 'How often do you work the night shift?',
+                      es: '¿Cada cuánto trabajas el turno de noche?' } },
+
+            // ── Group 3 ──
+            { group: 3, word: 'dusk',    wordEs: 'atardecer',
+              set1: { en: 'We finished just before dusk.',
+                      es: 'Terminamos justo antes del atardecer.' },
+              set2: { en: 'It gets cool fast after dusk.',
+                      es: 'Refresca rápido después del atardecer.' } },
+            { group: 3, word: 'sunset',  wordEs: 'puesta de sol',
+              set1: { en: 'We try to finish before sunset.',
+                      es: 'Tratamos de terminar antes de la puesta de sol.' },
+              set2: { en: 'The sky was beautiful at sunset.',
+                      es: 'El cielo estaba hermoso en la puesta de sol.' } },
+            { group: 3, word: 'evening', wordEs: 'noche temprana',
+              set1: { en: 'In the evening I like to rest.',
+                      es: 'En la noche temprana me gusta descansar.' },
+              set2: { en: 'We had a meeting this evening.',
+                      es: 'Tuvimos una reunión en la noche temprana.' } },
+            { group: 3, word: 'usually', wordEs: 'generalmente',
+              set1: { en: 'We usually finish before dark.',
+                      es: 'Generalmente terminamos antes de que oscurezca.' },
+              set2: { en: 'Do you usually get up before dawn?',
+                      es: '¿Generalmente te levantas antes del amanecer?' } },
+            { group: 3, word: 'daily',   wordEs: 'cada día',
+              set1: { en: 'We check the equipment daily.',
+                      es: 'Revisamos el equipo cada día.' },
+              set2: { en: 'The crew meets daily at sunrise.',
+                      es: 'El grupo se reúne cada día al amanecer.' } },
+
+            // ── Group 4 ──
+            { group: 4, word: 'nighttime',     wordEs: 'de noche (la noche)',
+              set1: { en: "I don't like to drive in the nighttime.",
+                      es: 'No me gusta manejar de noche.' },
+              set2: { en: 'Nighttime is the best time to water the lawn.',
+                      es: 'La noche es el mejor momento para regar el pasto.' } },
+            { group: 4, word: 'midnight',      wordEs: 'medianoche',
+              set1: { en: "We didn't get home until midnight.",
+                      es: 'No llegamos a casa hasta la medianoche.' },
+              set2: { en: 'The alarm went off at midnight.',
+                      es: 'La alarma sonó a la medianoche.' } },
+            { group: 4, word: 'all night long', wordEs: 'toda la noche',
+              set1: { en: 'The dog barked all night long.',
+                      es: 'El perro estuvo ladrando toda la noche.' },
+              set2: { en: 'I was worried and was tossing in bed all night long.',
+                      es: 'Estaba preocupado y me estuve dando vueltas en la cama toda la noche.' } },
+            { group: 4, word: 'always',        wordEs: 'siempre',
+              set1: { en: 'We always start at the same time.',
+                      es: 'Siempre empezamos a la misma hora.' },
+              set2: { en: "We're always tired by end of day.",
+                      es: 'Siempre estamos cansados al final del día.' } }
+        ];
+
+        // ── State ──
+        // foundSets[g][s] = Set of found words for group g (1-4), set s ('set1'|'set2')
+        const foundSets = {
+            1: { set1: new Set(), set2: new Set() },
+            2: { set1: new Set(), set2: new Set() },
+            3: { set1: new Set(), set2: new Set() },
+            4: { set1: new Set(), set2: new Set() }
+        };
+
+        const groupPhrases = g => phrases.filter(p => p.group === g);
+        const TOTAL = phrases.length * 2;  // 19 words × 2 sets = 38
+        let score = 0;
+        let currentTarget = null;  // { word, group, setKey }
+        let spanishVisible = false;
+
+        // Unlock chain: g1s1 → g1s2 → g2s1 → g2s2 → g3s1 → g3s2 → g4s1 → g4s2
+        // A slot is unlocked when all prior slots are complete.
+        function isUnlocked(group, setKey) {
+            const chain = [
+                [1,'set1'], [1,'set2'],
+                [2,'set1'], [2,'set2'],
+                [3,'set1'], [3,'set2'],
+                [4,'set1'], [4,'set2']
+            ];
+            for (const [g, s] of chain) {
+                if (g === group && s === setKey) return true;
+                const gp = groupPhrases(g);
+                if (foundSets[g][s].size < gp.length) return false;
+            }
+            return true;
+        }
+
+        function isComplete(group, setKey) {
+            return foundSets[group][setKey].size === groupPhrases(group).length;
+        }
+
+        function allComplete() {
+            return [1,2,3,4].every(g => isComplete(g,'set1') && isComplete(g,'set2'));
+        }
+
+        // ── Active slot for Play button ──
+        // Returns the first unlocked, incomplete slot.
+        function activeSlot() {
+            const chain = [
+                [1,'set1'], [1,'set2'],
+                [2,'set1'], [2,'set2'],
+                [3,'set1'], [3,'set2'],
+                [4,'set1'], [4,'set2']
+            ];
+            for (const [g, s] of chain) {
+                if (!isComplete(g, s)) return { group: g, setKey: s };
+            }
+            return null;
+        }
+
+        // ── TTS ──
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function blankSentence(sentence, keyword) {
+            const idx = sentence.toLowerCase().indexOf(keyword.toLowerCase());
+            if (idx === -1) return sentence;
+            return sentence.slice(0, idx) + '______' + sentence.slice(idx + keyword.length);
+        }
+
+        // ── Grid building ──
+        function buildAllGrids() {
+            [1,2,3,4].forEach(g => {
+                buildGrid(g, 'set1');
+                buildGrid(g, 'set2');
+            });
+        }
+
+        function buildGrid(group, setKey) {
+            const containerId = `grid-g${group}s${setKey === 'set1' ? 1 : 2}`;
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            const gp = groupPhrases(group);
+            const foundSet = foundSets[group][setKey];
+            const locked = !isUnlocked(group, setKey);
+
+            gp.forEach(item => {
+                const div = document.createElement('div');
+                let cls = 'grid-item';
+                if (foundSet.has(item.word)) cls += ' found';
+                else if (locked) cls += ' locked';
+                div.className = cls;
+
+                const label = document.createElement('div');
+                label.className = 'word-label';
+                label.textContent = item.word;
+
+                const wordEs = document.createElement('div');
+                wordEs.className = 'word-es';
+                wordEs.textContent = item.wordEs;
+
+                div.appendChild(label);
+                div.appendChild(wordEs);
+                div.addEventListener('click', () => handleClick(item, group, setKey, div));
+                container.appendChild(div);
+            });
+        }
+
+        // ── Play question ──
+        function playQuestion() {
+            if (allComplete()) return;
+            const slot = activeSlot();
+            if (!slot) return;
+
+            const { group, setKey } = slot;
+            const gp = groupPhrases(group);
+            const foundSet = foundSets[group][setKey];
+            const remaining = gp.filter(i => !foundSet.has(i.word));
+            if (remaining.length === 0) return;
+
+            const item = remaining[Math.floor(Math.random() * remaining.length)];
+            currentTarget = { word: item.word, group, setKey };
+
+            document.getElementById('englishSentence').textContent = blankSentence(item[setKey].en, item.word);
+            document.getElementById('spanishSentence').textContent = item[setKey].es;
+            spanishVisible = false;
+            document.getElementById('spanishSentence').style.display = 'none';
+            speak(item[setKey].en);
+        }
+
+        // ── Handle card click ──
+        function handleClick(item, group, setKey, element) {
+            if (!isUnlocked(group, setKey)) return;
+
+            const foundSet = foundSets[group][setKey];
+
+            // Replay already-found card
+            if (foundSet.has(item.word)) {
+                document.getElementById('englishSentence').textContent = item[setKey].en;
+                document.getElementById('spanishSentence').textContent = item[setKey].es;
+                spanishVisible = false;
+                document.getElementById('spanishSentence').style.display = 'none';
+                speak(item[setKey].en);
+                return;
+            }
+
+            if (!currentTarget) return;
+
+            if (item.word === currentTarget.word && group === currentTarget.group && setKey === currentTarget.setKey) {
+                foundSet.add(item.word);
+                element.classList.remove('locked');
+                element.classList.add('found');
+                currentTarget = null;
+                document.getElementById('englishSentence').textContent = '';
+                document.getElementById('spanishSentence').textContent = '';
+                document.getElementById('spanishSentence').style.display = 'none';
+                spanishVisible = false;
+                score++;
+                updateStats();
+                saveState();
+                onSlotProgress(group, setKey);
+            } else {
+                element.classList.add('wrong');
+                setTimeout(() => element.classList.remove('wrong'), 600);
+            }
+        }
+
+        // ── After a word is found, check if a slot just completed ──
+        function onSlotProgress(group, setKey) {
+            if (!isComplete(group, setKey)) return;
+
+            const sectionId = `group${group}-${setKey}-section`;
+            document.getElementById(sectionId).style.display = 'none';
+
+            // Unlock the next slot in the chain if it exists
+            const chain = [
+                [1,'set1'], [1,'set2'],
+                [2,'set1'], [2,'set2'],
+                [3,'set1'], [3,'set2'],
+                [4,'set1'], [4,'set2']
+            ];
+            const idx = chain.findIndex(([g,s]) => g === group && s === setKey);
+            if (idx !== -1 && idx + 1 < chain.length) {
+                const [ng, ns] = chain[idx + 1];
+                buildGrid(ng, ns);  // rebuild to remove locked state
+            }
+
+            if (allComplete()) {
+                updateStats(true);
+                document.getElementById('playButton').disabled = true;
+            }
+        }
+
+        // ── Spanish toggle ──
+        function toggleSpanish() {
+            if (!document.getElementById('spanishSentence').textContent) return;
+            spanishVisible = !spanishVisible;
+            document.getElementById('spanishSentence').style.display = spanishVisible ? 'block' : 'none';
+        }
+
+        // ── Stats ──
+        function updateStats(complete) {
+            document.getElementById('stats').textContent = complete ? `${TOTAL}/${TOTAL} 🎉` : `${score}/${TOTAL}`;
+        }
+
+        // ── Persistence ──
+        function saveState() {
+            try {
+                const state = { score };
+                [1,2,3,4].forEach(g => {
+                    state[`g${g}s1`] = Array.from(foundSets[g].set1);
+                    state[`g${g}s2`] = Array.from(foundSets[g].set2);
+                });
+                localStorage.setItem('timeCombinedState', JSON.stringify(state));
+            } catch(e) {}
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('timeCombinedState');
+                if (!saved) return false;
+                const state = JSON.parse(saved);
+                score = state.score || 0;
+                [1,2,3,4].forEach(g => {
+                    foundSets[g].set1 = new Set(state[`g${g}s1`] || []);
+                    foundSets[g].set2 = new Set(state[`g${g}s2`] || []);
+                });
+                return true;
+            } catch(e) {}
+            return false;
+        }
+
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                try { localStorage.removeItem('timeCombinedState'); } catch(e) {}
+                location.reload();
+            }
+        }
+
+        // ── Init ──
+        loadState();
+        buildAllGrids();
+        updateStats();
+
+        // Hide completed sections on load; rebuild grids to reflect unlocked state
+        const chain = [
+            [1,'set1'], [1,'set2'],
+            [2,'set1'], [2,'set2'],
+            [3,'set1'], [3,'set2'],
+            [4,'set1'], [4,'set2']
+        ];
+        chain.forEach(([g, s]) => {
+            if (isComplete(g, s)) {
+                const sectionId = `group${g}-${s}-section`;
+                document.getElementById(sectionId).style.display = 'none';
+            }
+        });
+
+        if (allComplete()) {
+            updateStats(true);
+            document.getElementById('playButton').disabled = true;
+        }
+
+        document.getElementById('playButton').addEventListener('click', playQuestion);
+        document.getElementById('showSpanishButton').addEventListener('click', toggleSpanish);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const msg = document.getElementById('saveConfirm');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        });
+    </script>
+</body>
+</html>
