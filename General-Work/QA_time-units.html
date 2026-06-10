@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="qa-vocab" content="time:units">
+    <meta name="qa-version" content="1">
+    <title>Time Units / Unidades de Tiempo</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* ── Note box ── */
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p { margin: 0; font-size: 14px; }
+        .note-box p + p { margin-top: 5px; }
+        .note-box .device-instructions { font-size: 13px; color: navy; margin-top: 5px; }
+        .note-box .incognito-note { font-size: 12px; color: navy; margin-top: 8px; }
+
+        /* ── Save confirm ── */
+        #saveConfirm {
+            display: none;
+            background-color: #E8F5E9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* ── Quiz controls ── */
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 15px;
+            padding: 8px 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #playButton:hover:not(:disabled) { background-color: #90EE90; }
+
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        #resetButton { background-color: #FF6347; color: white; border: none; }
+        #resetButton:hover { background-color: #E5533D; }
+        #saveButton { background-color: white; border: 1px solid #ccc; }
+
+        #showSpanishButton {
+            background-color: #E3F2FD;
+            border: 1px solid #2196F3;
+            color: #0D47A1;
+            font-size: 14px;
+            padding: 8px 14px;
+        }
+
+        #stats { font-size: 16px; font-weight: bold; }
+
+        /* ── Sentence display ── */
+        #sentenceDisplay { margin: 10px 0; min-height: 56px; }
+
+        #englishSentence {
+            font-size: 17px;
+            font-weight: bold;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        #spanishSentence {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.4;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* ── Grid ── */
+        .set-label { font-size: 14px; color: #555; margin: 12px 0 6px 0; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        /* Last row of 3 items spans centered */
+        .grid-item-wide {
+            grid-column: span 1;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #333;
+            background-color: white;
+            cursor: pointer;
+            padding: 14px 8px;
+            transition: background-color 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 70px;
+        }
+
+        .grid-item:hover:not(.found):not(.locked) { background-color: #f0f0f0; }
+        .grid-item.found { background-color: #6B46C1; border-color: #6B46C1; cursor: pointer; }
+        .grid-item.wrong { background-color: #FFE0E0; border-color: #e53935; }
+        .grid-item.locked { opacity: 0.35; cursor: default; }
+
+        .word-label {
+            font-size: clamp(13px, 3vw, 17px);
+            font-weight: bold;
+            color: #222;
+            text-align: center;
+        }
+
+        .grid-item.found .word-label { color: white; }
+
+        .word-es {
+            font-size: 15px;
+            color: white;
+            text-align: center;
+            margin-top: 6px;
+            line-height: 1.4;
+            display: none;
+        }
+
+        .grid-item.found .word-es { display: block; }
+
+        /* ── Toggle button (shared) ── */
+        .btn-toggle {
+            padding: 10px 22px;
+            background: #f5c800;
+            color: #111;
+            border: 2px solid #1a5c2a;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 14px 0;
+            display: block;
+        }
+
+        .btn-toggle:hover { background: #e0b300; }
+
+        /* ── Vocabulary table ── */
+        #vocabSection h2 { font-size: 1.1rem; margin: 8px 0 6px; color: #1a3a08; }
+
+        .vocab-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 540px;
+            margin-bottom: 10px;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            padding: 4px 10px;
+            border-bottom: 2px solid #aaa;
+        }
+
+        .vocab-table td {
+            padding: 6px 10px;
+            font-size: 15px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        /* ── TTS button ── */
+        .tts-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            background: #1a5c2a;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        .tts-btn svg { width: 18px; height: 18px; fill: #fff; }
+        .tts-btn:hover { background: #145020; }
+        .tts-btn.playing { background: #e06010; }
+
+        /* ── Footer ── */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home / Al inicio</a>
+    </nav>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Time Units / Unidades de Tiempo</h1>
+
+    <!-- ═══════════════════════════════════════════
+         VOCABULARY SECTION
+    ════════════════════════════════════════════ -->
+    <div id="vocabSection">
+        <h2>Vocabulary / Vocabulario</h2>
+        <p style="font-size:14px; margin-bottom:10px;">
+            Click the green button to hear each word in English.<br>
+            <em>Haz clic en el botón verde para escuchar cada palabra en inglés.</em>
+        </p>
+
+        <table class="vocab-table">
+            <thead>
+                <tr>
+                    <th>English</th>
+                    <th>Español</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><button class="tts-btn" data-text="second" data-lang="en-US" aria-label="Play second"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> second</td>
+                    <td><em>segundo</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="minute" data-lang="en-US" aria-label="Play minute"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> minute</td>
+                    <td><em>minuto</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="hour" data-lang="en-US" aria-label="Play hour"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> hour</td>
+                    <td><em>hora</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="day" data-lang="en-US" aria-label="Play day"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> day</td>
+                    <td><em>día</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="week" data-lang="en-US" aria-label="Play week"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> week</td>
+                    <td><em>semana</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="month" data-lang="en-US" aria-label="Play month"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> month</td>
+                    <td><em>mes</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="season" data-lang="en-US" aria-label="Play season"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> season</td>
+                    <td><em>estación</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="year" data-lang="en-US" aria-label="Play year"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> year</td>
+                    <td><em>año</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="decade" data-lang="en-US" aria-label="Play decade"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> decade</td>
+                    <td><em>década</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="lifetime" data-lang="en-US" aria-label="Play lifetime"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> lifetime</td>
+                    <td><em>vida</em></td>
+                </tr>
+                <tr>
+                    <td><button class="tts-btn" data-text="century" data-lang="en-US" aria-label="Play century"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> century</td>
+                    <td><em>siglo</em></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn-toggle" id="btnToQuiz">Check your understanding / Probar tu comprensión ▶</button>
+    </div><!-- end vocabSection -->
+
+    <!-- ═══════════════════════════════════════════
+         QUIZ SECTION
+    ════════════════════════════════════════════ -->
+    <div id="quizSection" style="display:none;">
+
+        <button class="btn-toggle" id="btnToVocab">◀ Review vocabulary / Revisar vocabulario</button>
+
+        <div class="note-box">
+            <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
+            <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
+            <details style="margin-top: 6px;">
+                <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                    <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+                </summary>
+                <p class="device-instructions" style="margin-top: 6px;">
+                    Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                    <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                    iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                    <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+                </p>
+                <p class="incognito-note">
+                    Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                    <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+                </p>
+            </details>
+        </div>
+
+        <div class="controls">
+            <button id="playButton">🔊 Play Audio</button>
+            <span id="stats"></span>
+            <button id="showSpanishButton">Mostrar/Ocultar Español</button>
+            <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
+            <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+        </div>
+
+        <div id="sentenceDisplay">
+            <div id="englishSentence"></div>
+            <div id="spanishSentence"></div>
+        </div>
+
+        <div id="saveConfirm">
+            ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
+            <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
+        </div>
+
+        <!-- Grid: 4 columns. 11 items = rows of 4, 4, 3 -->
+        <div id="set1-section">
+            <div class="set-label">Set 1 / Serie 1</div>
+            <div class="grid" id="grid-set1"></div>
+        </div>
+
+        <div class="set-label">Set 2 / Serie 2</div>
+        <div class="grid" id="grid-set2"></div>
+
+        <footer>
+            <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+            <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+        </footer>
+
+    </div><!-- end quizSection -->
+
+    <script>
+        // ── Section toggle ──
+        document.getElementById('btnToQuiz').addEventListener('click', function () {
+            document.getElementById('vocabSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = '';
+        });
+
+        document.getElementById('btnToVocab').addEventListener('click', function () {
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('vocabSection').style.display = '';
+        });
+
+        // ── Vocab TTS ──
+        let currentTtsBtn = null;
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+        document.getElementById('vocabSection').addEventListener('click', function (e) {
+            const btn = e.target.closest('.tts-btn');
+            if (!btn) return;
+            window.speechSynthesis.cancel();
+            if (currentTtsBtn) currentTtsBtn.classList.remove('playing');
+            if (btn === currentTtsBtn) { currentTtsBtn = null; return; }
+            const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+            utter.lang = btn.dataset.lang;
+            utter.rate = 0.9;
+            const voices = window.speechSynthesis.getVoices();
+            const match = voices.find(v => v.lang === btn.dataset.lang)
+                       || voices.find(v => v.lang.startsWith('en'));
+            if (match) utter.voice = match;
+            utter.onend = utter.onerror = () => { btn.classList.remove('playing'); currentTtsBtn = null; };
+            btn.classList.add('playing');
+            currentTtsBtn = btn;
+            window.speechSynthesis.speak(utter);
+        });
+
+        // ── Quiz data ──
+        const phrases = [
+            { word: 'second',   wordEs: 'segundo',
+              set1: { en: "I'll be there in a second.",
+                      es: 'Estaré allí en un segundo.' },
+              set2: { en: 'A second can change your life.',
+                      es: 'Un segundo puede cambiar tu vida.' } },
+            { word: 'minute',   wordEs: 'minuto',
+              set1: { en: 'Give me a minute.',
+                      es: 'Dame un minuto.' },
+              set2: { en: "One minute it's here, then it's gone.",
+                      es: 'Un minuto está aquí y al siguiente desaparece.' } },
+            { word: 'hour',     wordEs: 'hora',
+              set1: { en: "It's an hour from now.",
+                      es: 'Es dentro de una hora.' },
+              set2: { en: 'A busy hour passes quickly.',
+                      es: 'Una hora ajetreada pasa rápido.' } },
+            { word: 'day',      wordEs: 'día',
+              set1: { en: 'Just another day in heaven.',
+                      es: 'Otro día más en el paraíso.' },
+              set2: { en: 'Every day is an adventure.',
+                      es: 'Cada día es una aventura.' } },
+            { word: 'week',     wordEs: 'semana',
+              set1: { en: "I'll see you next week.",
+                      es: 'Nos vemos la próxima semana.' },
+              set2: { en: 'It changes from one week to the next.',
+                      es: 'Cambia de una semana a otra.' } },
+            { word: 'month',    wordEs: 'mes',
+              set1: { en: 'We pay it every month.',
+                      es: 'Lo pagamos cada mes.' },
+              set2: { en: 'Every month, we have a new opportunity.',
+                      es: 'Cada mes tenemos una nueva oportunidad.' } },
+            { word: 'season',   wordEs: 'estación',
+              set1: { en: "It's the change of season.",
+                      es: 'Es el cambio de estación.' },
+              set2: { en: 'Life is a season to explore.',
+                      es: 'La vida es una estación para explorar.' } },
+            { word: 'year',     wordEs: 'año',
+              set1: { en: 'I get 8 paid days a year.',
+                      es: 'Tengo 8 días pagados al año.' },
+              set2: { en: 'Every year, we gain experience.',
+                      es: 'Cada año ganamos experiencia.' } },
+            { word: 'decade',   wordEs: 'década',
+              set1: { en: "He's been here for a decade.",
+                      es: 'Lleva aquí una década.' },
+              set2: { en: "In a decade, we change a lot.",
+                      es: 'En una década cambiamos mucho.' } },
+            { word: 'lifetime', wordEs: 'vida',
+              set1: { en: 'We have a lifetime to learn.',
+                      es: 'Tenemos toda una vida para aprender.' },
+              set2: { en: "It's a once-in-a-lifetime opportunity.",
+                      es: 'Es una oportunidad única en la vida.' } },
+            { word: 'century',  wordEs: 'siglo',
+              set1: { en: 'The town is a century old.',
+                      es: 'El pueblo tiene un siglo de antigüedad.' },
+              set2: { en: 'In a century, everything will change.',
+                      es: 'En un siglo, todo cambiará.' } }
+        ];
+
+        const TOTAL = phrases.length * 2;
+
+        let foundSet1 = new Set();
+        let foundSet2 = new Set();
+        let currentTarget = null;
+        let score = 0;
+        let spanishVisible = false;
+
+        function activeSet() {
+            return foundSet1.size < phrases.length ? 'set1' : 'set2';
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function buildGrids() {
+            buildGrid('grid-set1', 'set1');
+            buildGrid('grid-set2', 'set2');
+        }
+
+        function buildGrid(containerId, setKey) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            const foundSet = setKey === 'set1' ? foundSet1 : foundSet2;
+            const isLocked = setKey === 'set2' && foundSet1.size < phrases.length;
+
+            phrases.forEach(item => {
+                const div = document.createElement('div');
+                let cls = 'grid-item';
+                if (foundSet.has(item.word)) cls += ' found';
+                else if (isLocked) cls += ' locked';
+                div.className = cls;
+
+                const label = document.createElement('div');
+                label.className = 'word-label';
+                label.textContent = item.word;
+
+                const wordEs = document.createElement('div');
+                wordEs.className = 'word-es';
+                wordEs.textContent = item.wordEs;
+
+                div.appendChild(label);
+                div.appendChild(wordEs);
+                div.addEventListener('click', () => handleClick(item, setKey, div));
+                container.appendChild(div);
+            });
+        }
+
+        function blankSentence(sentence, keyword) {
+            const idx = sentence.toLowerCase().indexOf(keyword.toLowerCase());
+            if (idx === -1) return sentence;
+            return sentence.slice(0, idx) + '______' + sentence.slice(idx + keyword.length);
+        }
+
+        function playQuestion() {
+            if (foundSet1.size === phrases.length && foundSet2.size === phrases.length) return;
+
+            const set = activeSet();
+            const foundSet = set === 'set1' ? foundSet1 : foundSet2;
+            const remaining = phrases.filter(i => !foundSet.has(i.word));
+            if (remaining.length === 0) return;
+
+            const item = remaining[Math.floor(Math.random() * remaining.length)];
+            currentTarget = { word: item.word, set };
+
+            document.getElementById('englishSentence').textContent = blankSentence(item[set].en, item.word);
+            document.getElementById('spanishSentence').textContent = item[set].es;
+            spanishVisible = false;
+            document.getElementById('spanishSentence').style.display = 'none';
+
+            speak(item[set].en);
+        }
+
+        function handleClick(item, setKey, element) {
+            const foundSet = setKey === 'set1' ? foundSet1 : foundSet2;
+
+            if (setKey === 'set2' && foundSet1.size < phrases.length) return;
+
+            if (foundSet.has(item.word)) {
+                document.getElementById('englishSentence').textContent = item[setKey].en;
+                document.getElementById('spanishSentence').textContent = item[setKey].es;
+                spanishVisible = false;
+                document.getElementById('spanishSentence').style.display = 'none';
+                speak(item[setKey].en);
+                return;
+            }
+
+            if (!currentTarget) return;
+
+            if (item.word === currentTarget.word && setKey === currentTarget.set) {
+                foundSet.add(item.word);
+                element.classList.remove('locked');
+                element.classList.add('found');
+                currentTarget = null;
+                document.getElementById('englishSentence').textContent = '';
+                document.getElementById('spanishSentence').textContent = '';
+                document.getElementById('spanishSentence').style.display = 'none';
+                spanishVisible = false;
+                score++;
+                updateStats();
+                saveState();
+
+                if (setKey === 'set1' && foundSet1.size === phrases.length) {
+                    document.getElementById('set1-section').style.display = 'none';
+                    document.querySelectorAll('#grid-set2 .grid-item.locked').forEach(el => {
+                        el.classList.remove('locked');
+                    });
+                }
+
+                if (foundSet1.size === phrases.length && foundSet2.size === phrases.length) {
+                    updateStats(true);
+                    document.getElementById('playButton').disabled = true;
+                }
+            } else {
+                element.classList.add('wrong');
+                setTimeout(() => element.classList.remove('wrong'), 600);
+            }
+        }
+
+        function toggleSpanish() {
+            if (!document.getElementById('spanishSentence').textContent) return;
+            spanishVisible = !spanishVisible;
+            document.getElementById('spanishSentence').style.display = spanishVisible ? 'block' : 'none';
+        }
+
+        function updateStats(complete) {
+            document.getElementById('stats').textContent = complete ? `${TOTAL}/${TOTAL} 🎉` : `${score}/${TOTAL}`;
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem('timeUnitsState', JSON.stringify({
+                    foundSet1: Array.from(foundSet1),
+                    foundSet2: Array.from(foundSet2),
+                    score
+                }));
+            } catch(e) {}
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('timeUnitsState');
+                if (!saved) return false;
+                const state = JSON.parse(saved);
+                foundSet1 = new Set(state.foundSet1 || []);
+                foundSet2 = new Set(state.foundSet2 || []);
+                score = state.score || 0;
+                return true;
+            } catch(e) {}
+            return false;
+        }
+
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                try { localStorage.removeItem('timeUnitsState'); } catch(e) {}
+                location.reload();
+            }
+        }
+
+        loadState();
+        buildGrids();
+        updateStats();
+
+        if (foundSet1.size === phrases.length) {
+            document.getElementById('set1-section').style.display = 'none';
+        }
+        if (foundSet1.size === phrases.length && foundSet2.size === phrases.length) {
+            updateStats(true);
+            document.getElementById('playButton').disabled = true;
+        }
+
+        document.getElementById('playButton').addEventListener('click', playQuestion);
+        document.getElementById('showSpanishButton').addEventListener('click', toggleSpanish);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const msg = document.getElementById('saveConfirm');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        });
+    </script>
+</body>
+</html>
