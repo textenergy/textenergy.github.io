@@ -1,0 +1,162 @@
+/* civics-flip.css — shared styles for civics flash card pages */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: #f5f5f5;
+}
+
+/* ── Nav bar (matches Biling-USCIS-QA.css pattern) ──────────────── */
+.nav-bar {
+    background-color: #003366;
+    padding: 6px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+.nav-bar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+.nav-bar a:hover,
+.nav-bar a.current { background: rgba(255,255,255,0.25); }
+.nav-section {
+    color: #ccc;
+    font-size: 0.78em;
+    font-weight: bold;
+    margin-left: 6px;
+}
+.nav-bar a.govt   { border-left: 4px solid red;        border-bottom: 4px solid red; }
+.nav-bar a.history{ border-left: 4px solid aqua;       border-bottom: 4px solid aqua; }
+.nav-bar a.symbols{ border-left: 4px solid gold;       border-bottom: 4px solid gold; }
+
+/* ── Page header ─────────────────────────────────────────────────── */
+h1 {
+    color: #003366;
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+h2 {
+    color: #003366;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+/* ── Review link ─────────────────────────────────────────────────── */
+.review-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    color: #003366;
+    text-decoration: underline;
+}
+.review-link:hover { color: #0055aa; }
+
+/* ── Instructions ────────────────────────────────────────────────── */
+.instructions {
+    font-size: 0.88rem;
+    color: #444;
+    margin-bottom: 16px;
+    font-style: italic;
+}
+
+/* ── Card grid: 1 or 2 columns ───────────────────────────────────── */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+/* ── Flip card container ─────────────────────────────────────────── */
+.flip-card {
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* ── Card faces ──────────────────────────────────────────────────── */
+.card-face {
+    border-radius: 6px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.card-front {
+    background: #fff;
+}
+
+.card-back {
+    background: #e8f0fa;
+}
+
+
+/* ── Question number badge ───────────────────────────────────────── */
+.q-num {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #003366;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+/* ── Starred (65+) indicator ─────────────────────────────────────── */
+.starred {
+    color: #b00;
+    font-size: 0.85rem;
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+/* ── Question text (front) ───────────────────────────────────────── */
+.q-text {
+    font-size: 1rem;
+    color: #111;
+    line-height: 1.45;
+    margin-bottom: 12px;
+}
+
+/* ── Answer label (back) ─────────────────────────────────────────── */
+.a-label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 8px;
+}
+
+/* ── Answer list ─────────────────────────────────────────────────── */
+.a-list {
+    margin: 0 0 0 18px;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #111;
+    line-height: 1.55;
+}
+.a-list li {
+    margin-bottom: 2px;
+}
+
+/* ── Answer note (e.g. "answers will vary") ──────────────────────── */
+.a-note {
+    font-size: 0.83rem;
+    color: #555;
+    font-style: italic;
+    margin-top: 6px;
+}
+
+/* ── Responsive: single column on narrow viewports ───────────────── */
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+}
