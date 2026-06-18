@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="qa-vocab" content="weather:conditions-nouns">
+    <meta name="qa-version" content="1">
+    <title>Weather Conditions / Condiciones del tiempo</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* ── Note box ── */
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { display: inline-block; transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p { margin: 0; font-size: 14px; }
+        .note-box p + p { margin-top: 5px; }
+
+        .note-box .device-instructions {
+            font-size: 13px;
+            color: navy;
+            margin-top: 5px;
+        }
+
+        .note-box .incognito-note {
+            font-size: 12px;
+            color: navy;
+            margin-top: 8px;
+        }
+
+        #saveConfirm {
+            display: none;
+            background-color: #E8F5E9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+
+        #playButton {
+            background-color: lightgreen;
+            color: black;
+            border: none;
+            font-size: 15px;
+            padding: 8px 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #playButton:hover:not(:disabled) { background-color: #90EE90; }
+
+        #playButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
+
+        #resetButton {
+            background-color: #FF6347;
+            color: white;
+            border: none;
+        }
+
+        #resetButton:hover { background-color: #E5533D; }
+
+        #saveButton {
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+
+        #stats { font-size: 16px; font-weight: bold; }
+
+        /* Phase indicator */
+        #phaseLabel {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a5c2a;
+            margin: 8px 0 4px 0;
+        }
+
+        #phaseProgress {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #333;
+            background-color: white;
+            cursor: pointer;
+            padding: 12px 8px;
+            transition: background-color 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100px;
+            justify-content: flex-start;
+        }
+
+        .grid-item:hover:not(.found) { background-color: #f0f0f0; }
+
+        .grid-item.found {
+            background-color: #6B46C1;
+            border-color: #6B46C1;
+            cursor: pointer;
+        }
+
+        .grid-item.wrong {
+            background-color: #FFE0E0;
+            border-color: #e53935;
+        }
+
+        .word-label {
+            font-size: clamp(14px, 3.2vw, 17px);
+            font-weight: bold;
+            color: #222;
+            text-align: center;
+        }
+
+        .grid-item.found .word-label { color: white; }
+
+        #showSpanishButton {
+            background-color: #E3F2FD;
+            border: 1px solid #2196F3;
+            color: #0D47A1;
+            font-size: 14px;
+            padding: 8px 14px;
+        }
+
+        #sentenceDisplay {
+            margin: 10px 0;
+            min-height: 56px;
+        }
+
+        #englishSentence {
+            font-size: 17px;
+            font-weight: bold;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        #spanishSentence {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.4;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .word-es {
+            font-size: 13px;
+            color: white;
+            text-align: center;
+            margin-top: 6px;
+            line-height: 1.3;
+            display: none;
+        }
+
+        .grid-item.found .word-es { display: block; }
+
+        /* Phase-complete banner */
+        #phaseBanner {
+            display: none;
+            background-color: #E8F5E9;
+            border-left: 4px solid #1a5c2a;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+        #phaseBanner button {
+            margin-top: 10px;
+            background: #f5c800;
+            color: #111;
+            border: 2px solid #1a5c2a;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 8px 18px;
+            cursor: pointer;
+            display: block;
+        }
+
+        #phaseBanner button:hover { background: #e0b300; }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        /* ── Toggle button ── */
+        .btn-toggle {
+            padding: 10px 22px;
+            background: #f5c800;
+            color: #111;
+            border: 2px solid #1a5c2a;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 14px 0;
+            display: block;
+        }
+
+        .btn-toggle:hover { background: #e0b300; }
+
+        /* ── Vocabulary table ── */
+        #vocabSection h2 {
+            font-size: 1.1rem;
+            margin: 8px 0 6px;
+            color: #1a3a08;
+        }
+
+        .vocab-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 580px;
+            margin-bottom: 10px;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            padding: 4px 10px;
+            border-bottom: 2px solid #aaa;
+        }
+
+        .vocab-table td {
+            padding: 6px 10px;
+            font-size: 15px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .tts-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            background: #1a5c2a;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        .tts-btn svg { width: 18px; height: 18px; fill: #fff; }
+        .tts-btn:hover { background: #145020; }
+        .tts-btn.playing { background: #e06010; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home / Al inicio</a>
+    </nav>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Weather Conditions / Condiciones del tiempo</h1>
+
+    <!-- ═══════════════════════════════════════════
+         VOCABULARY SECTION
+    ════════════════════════════════════════════ -->
+    <div id="vocabSection">
+        <h2>Vocabulary / Vocabulario</h2>
+        <p style="font-size:14px; margin-bottom:10px;">
+            Click the green button to hear each word in English.<br>
+            <em>Haz clic en el botón verde para escuchar cada palabra en inglés.</em>
+        </p>
+
+        <table class="vocab-table">
+            <thead>
+                <tr><th>English</th><th>Español</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><button class="tts-btn" data-text="sky" data-lang="en-US" aria-label="Play sky"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> sky</td><td><em>el cielo</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="cloud" data-lang="en-US" aria-label="Play cloud"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> cloud</td><td><em>la nube</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="thunder" data-lang="en-US" aria-label="Play thunder"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> thunder</td><td><em>el trueno</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="lightning" data-lang="en-US" aria-label="Play lightning"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> lightning</td><td><em>el relámpago</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="sun" data-lang="en-US" aria-label="Play sun"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> sun</td><td><em>el sol</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="rain" data-lang="en-US" aria-label="Play rain"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> rain</td><td><em>la lluvia</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="flood" data-lang="en-US" aria-label="Play flood"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> flood</td><td><em>la inundación</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="wind" data-lang="en-US" aria-label="Play wind"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> wind</td><td><em>el viento</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="drizzle" data-lang="en-US" aria-label="Play drizzle"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> drizzle</td><td><em>la llovizna</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="storm" data-lang="en-US" aria-label="Play storm"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> storm</td><td><em>la tormenta</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="tornado" data-lang="en-US" aria-label="Play tornado"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> tornado</td><td><em>el tornado</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="flurry" data-lang="en-US" aria-label="Play flurry"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> flurry</td><td><em>la nevada ligera (el chubasquillo de nieve)</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="blizzard" data-lang="en-US" aria-label="Play blizzard"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> blizzard</td><td><em>la tormenta de nieve</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="mist" data-lang="en-US" aria-label="Play mist"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> mist</td><td><em>la neblina</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="fog" data-lang="en-US" aria-label="Play fog"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> fog</td><td><em>la niebla (el banco de niebla)</em></td></tr>
+                <tr><td><button class="tts-btn" data-text="mud" data-lang="en-US" aria-label="Play mud"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button> mud</td><td><em>el lodo (el barro)</em></td></tr>
+            </tbody>
+        </table>
+
+        <button class="btn-toggle" id="btnToQuiz">Check your understanding / Probar tu comprensión ▶</button>
+    </div><!-- end vocabSection -->
+
+    <!-- ═══════════════════════════════════════════
+         QUIZ SECTION
+    ════════════════════════════════════════════ -->
+    <div id="quizSection" style="display:none;">
+
+        <button class="btn-toggle" id="btnToVocab">◀ Review vocabulary / Revisar vocabulario</button>
+
+        <div class="note-box">
+            <p><strong>Note / Nota:</strong> This tool uses English text-to-speech. Make sure your device has an English voice installed.</p>
+            <p><strong>Esta herramienta usa texto a voz en inglés. Asegúrese de que su dispositivo tenga instalada una voz en inglés.</strong></p>
+            <details style="margin-top: 6px;">
+                <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                    <span class="accordion-arrow">▸</span> Device setup &amp; progress saving / Configuración del dispositivo
+                </summary>
+                <p class="device-instructions" style="margin-top: 6px;">
+                    Android: Settings → Language &amp; Input → Text-to-speech → Install English voice<br>
+                    <em>Android: Ajustes → Idioma y entrada → Texto a voz → Instalar voz en inglés</em><br>
+                    iOS: Settings → Accessibility → Spoken Content → Voices → English<br>
+                    <em>iOS: Ajustes → Accesibilidad → Contenido hablado → Voces → Inglés</em>
+                </p>
+                <p class="incognito-note">
+                    Progress is saved on this device. Private/incognito browsing does not save progress.<br>
+                    <em>El progreso se guarda en este dispositivo. La navegación privada/incógnito no guarda el progreso.</em>
+                </p>
+            </details>
+        </div>
+
+        <div class="controls">
+            <button id="playButton">🔊 Play Audio</button>
+            <span id="stats"></span>
+            <button id="showSpanishButton">Mostrar/Ocultar Español</button>
+            <button id="saveButton">Save<br><span style="font-size: 12px;">Guardar</span></button>
+            <button id="resetButton">Reset<br><span style="font-size: 12px;">Reiniciar</span></button>
+        </div>
+
+        <div id="sentenceDisplay">
+            <div id="englishSentence"></div>
+            <div id="spanishSentence"></div>
+        </div>
+
+        <div id="saveConfirm">
+            ✓ Progress saved! Click "Reset" to start again with 0 score.<br>
+            <em>¡Progreso guardado! Haga clic en "Reiniciar" para comenzar de nuevo con puntuación 0.</em>
+        </div>
+
+        <!-- Phase label shown above the grid -->
+        <div id="phaseLabel"></div>
+        <div id="phaseProgress"></div>
+
+        <!-- Single grid — rebuilt each phase -->
+        <div class="grid" id="quizGrid"></div>
+
+        <!-- Between-phase banner -->
+        <div id="phaseBanner">
+            <div id="bannerMessage"></div>
+            <button id="bannerNext"></button>
+        </div>
+
+        <footer>
+            <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+            <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+        </footer>
+
+    </div><!-- end quizSection -->
+
+    <script>
+        // ── Section toggle ──
+        document.getElementById('btnToQuiz').addEventListener('click', function () {
+            document.getElementById('vocabSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = '';
+        });
+        document.getElementById('btnToVocab').addEventListener('click', function () {
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('vocabSection').style.display = '';
+        });
+
+        // ── Vocab TTS ──
+        let currentTtsBtn = null;
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+        document.getElementById('vocabSection').addEventListener('click', function (e) {
+            const btn = e.target.closest('.tts-btn');
+            if (!btn) return;
+            window.speechSynthesis.cancel();
+            if (currentTtsBtn) currentTtsBtn.classList.remove('playing');
+            if (btn === currentTtsBtn) { currentTtsBtn = null; return; }
+            const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+            utter.lang = btn.dataset.lang;
+            utter.rate = 0.9;
+            const voices = window.speechSynthesis.getVoices();
+            const match = voices.find(v => v.lang === btn.dataset.lang)
+                       || voices.find(v => v.lang.startsWith('en'));
+            if (match) utter.voice = match;
+            utter.onend = utter.onerror = () => { btn.classList.remove('playing'); currentTtsBtn = null; };
+            btn.classList.add('playing');
+            currentTtsBtn = btn;
+            window.speechSynthesis.speak(utter);
+        });
+
+        // ── Quiz data ──
+        // Group A: sky, cloud, thunder, lightning, sun, rain, flood, wind
+        // Group B: drizzle, storm, tornado, flurry, blizzard, mist, fog, mud
+        // Each word has set1 and set2 sentences.
+        // Four phases: A-set1, A-set2, B-set1, B-set2.
+
+        const groupA = [
+            { word: 'sky',
+              wordEs: 'el cielo',
+              set1: { en: 'Check the sky before you load the truck — it looks like rain.',
+                      es: 'Revisa el cielo antes de cargar el camión — parece que va a llover.' },
+              set2: { en: 'The sky was clear, so we finished planting the hedge.',
+                      es: 'El cielo estuvo despejado, así que terminamos de plantar el seto.' } },
+
+            { word: 'cloud',
+              wordEs: 'la nube',
+              set1: { en: 'A big cloud blocked the sun while we were trimming branches.',
+                      es: 'Una gran nube bloqueó el sol mientras recortábamos las ramas.' },
+              set2: { en: 'Clouds we see in November could mean snow.',
+                      es: 'Las nubes que vemos en noviembre puede significar nieve.' } },
+
+            { word: 'thunder',
+              wordEs: 'el trueno',
+              set1: { en: 'When you hear thunder, stop the mower and go inside.',
+                      es: 'Cuando escuches un trueno, apaga la cortadora y entra.' },
+              set2: { en: 'The lightning came immediately after the thunder.',
+                      es: 'El relámpago apareció inmediatamente después del trueno.' } },
+
+            { word: 'lightning',
+              wordEs: 'el relámpago',
+              set1: { en: 'Never work near a tall tree when there is lightning.',
+                      es: 'Nunca trabajes cerca de un árbol alto cuando hay relámpagos.' },
+              set2: { en: 'We saw lightning flashes and moved the equipment to the shed.',
+                      es: 'Vimos relámpagos a lo lejos y llevamos el equipo al cobertizo.' } },
+
+            { word: 'sun',
+              wordEs: 'el sol',
+              set1: { en: 'The sun dried out the grass enough to mow by noon.',
+                      es: 'El sol secó el pasto lo suficiente para cortar al mediodía.' },
+              set2: { en: 'Plant those flowers where they get morning sun only.',
+                      es: 'Planta estas flores donde reciban sol solamente por la mañana.' } },
+
+            { word: 'rain',
+              wordEs: 'la lluvia',
+              set1: { en: 'Heavy rain last night made the yard too wet to mow.',
+                      es: 'La lluvia fuerte de anoche dejó el patio demasiado blando para cortarlo.' },
+              set2: { en: 'A little rain is good for a new planting.',
+                      es: 'Un poco de lluvia es bueno para una plantación nueva.' } },
+
+            { word: 'flood',
+              wordEs: 'la inundación',
+              set1: { en: 'The flood washed the mulch out of the beds.',
+                      es: 'La inundación arrastró el mantillo de las camas.' },
+              set2: { en: 'After the flood, the team had to clean mud out of the drain.',
+                      es: 'Después de la inundación, el equipo tuvo que limpiar el barro del desagüe.' } },
+
+            { word: 'wind',
+              wordEs: 'el viento',
+              set1: { en: 'High wind can tear blossoms from a bush.',
+                      es: 'Los vientos fuertes pueden arrancar las flores de un arbusto.' },
+              set2: { en: 'The wind blew the dead leaves off the tarp.',
+                      es: 'El viento barrió las hojas secas de la lona.' } }
+        ];
+
+        const groupB = [
+            { word: 'drizzle',
+              wordEs: 'la llovizna',
+              set1: { en: 'The drizzle was not heavy, so we kept trimming.',
+                      es: 'La llovizna no era fuerte, así que seguimos podando.' },
+              set2: { en: 'A light drizzle settled the dust on the path.',
+                      es: 'Una llovizna ligera asentó el polvo del camino.' } },
+
+            { word: 'storm',
+              wordEs: 'la tormenta',
+              set1: { en: 'The storm broke a large branch off the oak tree.',
+                      es: 'La tormenta rompió una rama grande del roble.' },
+              set2: { en: 'After the storm, check the plantings for damage.',
+                      es: 'Después de la tormenta, inspeccione las plantaciónes en busca de daños.' } },
+
+            { word: 'tornado',
+              wordEs: 'el tornado',
+              set1: { en: 'A tornado warning means stop work and take cover immediately.',
+                      es: 'Una alerta de tornado significa parar trabajo y ponerse a cubierto de inmediato.' },
+              set2: { en: 'The tornado uprooted three trees in the backyard.',
+                      es: 'El tornado arrancó tres árboles de raíz en el patio.' } },
+
+            { word: 'flurry',
+              wordEs: 'la nevada ligera (el chubasquillo de nieve)',
+              set1: { en: 'A flurry in October is normal here — keep working.',
+                      es: 'Una nevada ligera en octubre es normal aquí — sigue trabajando.' },
+              set2: { en: 'The morning flurry stopped before noon.',
+                      es: 'La nevada ligera de la mañana cesó antes del mediodía.' } },
+
+            { word: 'blizzard',
+              wordEs: 'la tormenta de nieve',
+              set1: { en: 'A blizzard can drop three feet of snow overnight.',
+                      es: 'Una tormenta de nieve puede dejar un metro de nieve durante la noche.' },
+              set2: { en: 'After the blizzard we used the snowblower all day',
+                      es: 'Después de la tormenta de nieve usamos el soplador de nieve todo el día.' } },
+
+            { word: 'mist',
+              wordEs: 'la neblina',
+              set1: { en: 'Early morning mist makes the grass very wet.',
+                      es: 'La neblina de la mañana deja el pasto muy mojado.' },
+              set2: { en: 'We waited for the mist to lift before we started spraying.',
+                      es: 'Esperamos a que se levantara la neblina antes de empezar a rociar.' } },
+
+            { word: 'fog',
+              wordEs: 'la niebla (el banco de niebla)',
+              set1: { en: 'Thick fog makes it dangerous to mow.',
+                      es: 'La niebla espesa hace que sea peligroso cortar el césped.' },
+              set2: { en: 'Drive slowly when you pull the trailer in the fog.',
+                      es: 'Maneja despacio cuando jales el remolque en la niebla.' } },
+
+            { word: 'mud',
+              wordEs: 'el lodo (el barro)',
+              set1: { en: 'The mud here is too deep for the wheelbarrow.',
+                      es: 'El barro aquí es demasiado profundo para la carretilla.' },
+              set2: { en: 'Rinse the mud off your boots before you get in the truck.',
+                      es: 'Enjuágate el lodo de las botas antes de subir al camión.' } }
+        ];
+
+        // Phases: 0=A-set1, 1=A-set2, 2=B-set1, 3=B-set2
+        const phases = [
+            { group: groupA, setKey: 'set1', label: 'Words 1–8 / Palabras 1–8',  round: 'Round 1 / Serie 1' },
+            { group: groupA, setKey: 'set2', label: 'Words 1–8 / Palabras 1–8',  round: 'Round 2 / Serie 2' },
+            { group: groupB, setKey: 'set1', label: 'Words 9–16 / Palabras 9–16', round: 'Round 1 / Serie 1' },
+            { group: groupB, setKey: 'set2', label: 'Words 9–16 / Palabras 9–16', round: 'Round 2 / Serie 2' }
+        ];
+
+        const TOTAL = 32; // 16 words × 2 sentences
+
+        // State
+        let currentPhase = 0;   // 0–3
+        let foundInPhase = new Set();
+        let score = 0;
+        let currentTarget = null;
+        let spanishVisible = false;
+
+        // Persist: track which phases are complete and running score
+        const STORAGE_KEY = 'weatherConditionsNounsState';
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ currentPhase, score }));
+            } catch(e) {}
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) return;
+                const s = JSON.parse(saved);
+                currentPhase = s.currentPhase || 0;
+                score = s.score || 0;
+            } catch(e) {}
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utt = new SpeechSynthesisUtterance(text);
+                utt.lang = 'en-US';
+                utt.rate = 0.85;
+                speechSynthesis.speak(utt);
+            }
+        }
+
+        function blankSentence(sentence, keyword) {
+            const idx = sentence.toLowerCase().indexOf(keyword.toLowerCase());
+            if (idx === -1) return sentence;
+            return sentence.slice(0, idx) + '______' + sentence.slice(idx + keyword.length);
+        }
+
+        function updateStats() {
+            const el = document.getElementById('stats');
+            if (currentPhase >= phases.length && foundInPhase.size === 0) {
+                el.textContent = `${TOTAL}/${TOTAL} 🎉`;
+            } else {
+                el.textContent = `${score}/${TOTAL}`;
+            }
+        }
+
+        function buildGrid() {
+            const phase = phases[currentPhase];
+            const container = document.getElementById('quizGrid');
+            container.innerHTML = '';
+
+            // Phase label
+            document.getElementById('phaseLabel').textContent =
+                `${phase.label} — ${phase.round}`;
+            document.getElementById('phaseProgress').textContent =
+                `Phase ${currentPhase + 1} of 4 / Fase ${currentPhase + 1} de 4`;
+
+            phase.group.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'grid-item' + (foundInPhase.has(item.word) ? ' found' : '');
+
+                const label = document.createElement('div');
+                label.className = 'word-label';
+                label.textContent = item.word;
+
+                const wordEs = document.createElement('div');
+                wordEs.className = 'word-es';
+                wordEs.textContent = item.wordEs;
+
+                div.appendChild(label);
+                div.appendChild(wordEs);
+                div.addEventListener('click', () => handleClick(item, div));
+                container.appendChild(div);
+            });
+        }
+
+        function playQuestion() {
+            if (currentPhase >= phases.length) return;
+            const phase = phases[currentPhase];
+            const remaining = phase.group.filter(i => !foundInPhase.has(i.word));
+            if (remaining.length === 0) return;
+
+            const item = remaining[Math.floor(Math.random() * remaining.length)];
+            currentTarget = item.word;
+
+            document.getElementById('englishSentence').textContent =
+                blankSentence(item[phase.setKey].en, item.word);
+            document.getElementById('spanishSentence').textContent =
+                item[phase.setKey].es;
+            spanishVisible = false;
+            document.getElementById('spanishSentence').style.display = 'none';
+
+            speak(item[phase.setKey].en);
+        }
+
+        function handleClick(item, element) {
+            if (currentPhase >= phases.length) return;
+
+            // Click on already-found tile: replay its sentence
+            if (foundInPhase.has(item.word)) {
+                const phase = phases[currentPhase];
+                document.getElementById('englishSentence').textContent = item[phase.setKey].en;
+                document.getElementById('spanishSentence').textContent = item[phase.setKey].es;
+                spanishVisible = false;
+                document.getElementById('spanishSentence').style.display = 'none';
+                speak(item[phase.setKey].en);
+                return;
+            }
+
+            if (!currentTarget) return;
+
+            if (item.word === currentTarget) {
+                foundInPhase.add(item.word);
+                element.classList.add('found');
+                currentTarget = null;
+                document.getElementById('englishSentence').textContent = '';
+                document.getElementById('spanishSentence').textContent = '';
+                document.getElementById('spanishSentence').style.display = 'none';
+                spanishVisible = false;
+                score++;
+                updateStats();
+
+                const phase = phases[currentPhase];
+                if (foundInPhase.size === phase.group.length) {
+                    // Phase complete
+                    saveState();
+                    showPhaseBanner();
+                }
+            } else {
+                element.classList.add('wrong');
+                setTimeout(() => element.classList.remove('wrong'), 600);
+            }
+        }
+
+        function showPhaseBanner() {
+            document.getElementById('quizGrid').style.display = 'none';
+            document.getElementById('playButton').disabled = true;
+            document.getElementById('phaseLabel').textContent = '';
+            document.getElementById('phaseProgress').textContent = '';
+
+            const banner = document.getElementById('phaseBanner');
+            const msg = document.getElementById('bannerMessage');
+            const btn = document.getElementById('bannerNext');
+
+            const isLast = currentPhase === phases.length - 1;
+
+            if (isLast) {
+                msg.innerHTML = `
+                    <strong>All done! / ¡Todo listo!</strong><br>
+                    You completed all 4 rounds. Score: ${score}/${TOTAL} 🎉<br>
+                    <em>Completaste las 4 series. Puntuación: ${score}/${TOTAL}</em>`;
+                btn.style.display = 'none';
+                document.getElementById('stats').textContent = `${TOTAL}/${TOTAL} 🎉`;
+            } else {
+                const next = phases[currentPhase + 1];
+                const isNewGroup = currentPhase === 1; // switching from A to B
+                if (isNewGroup) {
+                    msg.innerHTML = `
+                        <strong>Words 1–8 complete! / ¡Palabras 1–8 completas!</strong><br>
+                        Now starting Words 9–16.<br>
+                        <em>Ahora comenzamos con las palabras 9–16.</em>`;
+                    btn.textContent = 'Start Words 9–16 / Comenzar palabras 9–16 ▶';
+                } else {
+                    msg.innerHTML = `
+                        <strong>Round complete! / ¡Serie completa!</strong><br>
+                        Ready for ${next.round} with the same words?<br>
+                        <em>¿Listo para la ${next.round} con las mismas palabras?</em>`;
+                    btn.textContent = 'Continue / Continuar ▶';
+                }
+                btn.style.display = 'block';
+            }
+
+            banner.style.display = 'block';
+        }
+
+        function advancePhase() {
+            currentPhase++;
+            foundInPhase = new Set();
+            currentTarget = null;
+            document.getElementById('phaseBanner').style.display = 'none';
+            document.getElementById('quizGrid').style.display = 'grid';
+            document.getElementById('playButton').disabled = false;
+            buildGrid();
+            updateStats();
+            saveState();
+        }
+
+        function toggleSpanish() {
+            if (!document.getElementById('spanishSentence').textContent) return;
+            spanishVisible = !spanishVisible;
+            document.getElementById('spanishSentence').style.display = spanishVisible ? 'block' : 'none';
+        }
+
+        function resetAll() {
+            if (confirm('Start completely fresh? This will clear all progress.\n\n¿Empezar completamente de nuevo? Esto borrará todo el progreso.')) {
+                try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+                location.reload();
+            }
+        }
+
+        // ── Init ──
+        loadState();
+
+        // If resuming a completed quiz, show final state
+        if (currentPhase >= phases.length) {
+            // Rebuild the last grid as all-found for context, then show done banner
+            currentPhase = phases.length - 1;
+            phases[currentPhase].group.forEach(i => foundInPhase.add(i.word));
+            buildGrid();
+            updateStats();
+            showPhaseBanner();
+            currentPhase = phases.length; // restore
+        } else {
+            buildGrid();
+            updateStats();
+        }
+
+        document.getElementById('playButton').addEventListener('click', playQuestion);
+        document.getElementById('showSpanishButton').addEventListener('click', toggleSpanish);
+        document.getElementById('resetButton').addEventListener('click', resetAll);
+        document.getElementById('bannerNext').addEventListener('click', advancePhase);
+        document.getElementById('saveButton').addEventListener('click', () => {
+            saveState();
+            const msg = document.getElementById('saveConfirm');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        });
+    </script>
+</body>
+</html>
