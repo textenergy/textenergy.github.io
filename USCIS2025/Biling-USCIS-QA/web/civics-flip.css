@@ -39,6 +39,7 @@ body {
 .nav-bar a.govt   { border-left: 4px solid red;        border-bottom: 4px solid red; }
 .nav-bar a.history{ border-left: 4px solid aqua;       border-bottom: 4px solid aqua; }
 .nav-bar a.symbols{ border-left: 4px solid gold;       border-bottom: 4px solid gold; }
+.nav-bar a.vocab { border-left: 4px solid blueviolet; border-bottom: 4px solid blueviolet;}
 
 /* ── Page header ─────────────────────────────────────────────────── */
 h1 {
