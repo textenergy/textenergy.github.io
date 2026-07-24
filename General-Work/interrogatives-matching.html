@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="qa-vocab" content="grammar:interrogatives-matching">
+    <meta name="qa-version" content="1">
+    <title>Question Words Matching Game / Juego de Memoria: Palabras de Pregunta</title>
+    <!--
+    Copyright (c) 2026 Dorothy J. Hoskins
+    Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* ── Series branding banner (same as interrogatives-battleship.html) ── */
+        .series-banner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .series-icon {
+            width: auto;
+            height: 40px;
+            display: block;
+        }
+
+        .series-label {
+            font-size: 1rem;
+            font-weight: bold;
+            font-style: italic;
+            color: #1a5c2a;
+        }
+
+        /* ── Note box ── */
+        .note-box details summary::-webkit-details-marker { display: none; }
+        .note-box details[open] .accordion-arrow { transform: rotate(90deg); }
+        .note-box details .accordion-arrow { display: inline-block; transition: transform 0.2s; }
+
+        .note-box {
+            background-color: #FFF9C4;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #FBC02D;
+            border-radius: 4px;
+        }
+
+        .note-box p { margin: 0; font-size: 14px; }
+        .note-box p + p { margin-top: 5px; }
+        .note-box .device-instructions { font-size: 13px; color: navy; margin-top: 5px; }
+
+        /* ── Toggle / continue button (shared) ── */
+        .btn-toggle {
+            padding: 10px 22px;
+            background: #f5c800;
+            color: #111;
+            border: 2px solid #1a5c2a;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 14px 0;
+            display: block;
+        }
+
+        .btn-toggle:hover { background: #e0b300; }
+
+        /* ── Scoreboard ── */
+        .scoreboard {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #f4f4f4;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin: 14px 0;
+        }
+
+        .team-score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 6px;
+        }
+
+        .team-a { background: #e8f5e9; color: #1a5c2a; border: 2px solid #1a5c2a; }
+        .team-b { background: #e3f2fd; color: #0d47a1; border: 2px solid #1565c0; }
+
+        .team-score.active-turn {
+            outline: 3px solid #f5c800;
+            outline-offset: 2px;
+        }
+
+        .turn-label {
+            font-size: 0.95rem;
+            color: #555;
+            text-align: center;
+        }
+
+        /* ── Set heading ── */
+        .set-section h2 { font-size: 1.15rem; margin: 18px 0 6px; color: #1a3a08; }
+
+        /* ── Card grid (4 columns × 3 rows = 12 cards) ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #333;
+            background-color: white;
+            cursor: pointer;
+            padding: 16px 8px;
+            min-height: 90px;
+            transition: background-color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .grid-item:hover:not(.solved):not(.locked) { background-color: #f0f0f0; }
+        .grid-item.selected { border-color: #f5c800; background-color: #fffbe6; }
+        .grid-item.mismatch { background-color: #ffe0e0; border-color: #e53935; }
+        .grid-item.solved-a { background-color: #1a5c2a; border-color: #1a5c2a; cursor: default; }
+        .grid-item.solved-b { background-color: #1565c0; border-color: #1565c0; cursor: default; }
+        .grid-item.locked { cursor: not-allowed; }
+
+        .cell-icon { font-size: 1.6rem; color: #888; }
+        .cell-num { font-size: 1.6rem; font-weight: bold; color: #222; margin-top: 4px; }
+
+        .cell-en {
+            font-size: clamp(19px, 4.2vw, 24px);
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .cell-es {
+            font-size: clamp(18px, 3.5vw, 21px);
+            color: white;
+            text-align: center;
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        #set2-wrap { display: none; }
+
+        /* ── Winner banner ── */
+        #winnerBanner {
+            display: none;
+            background: #fff3cd;
+            border: 2px solid #f5c800;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 16px 0;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="series-banner">
+        <img src="data:image/png;base64,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" alt="loro" class="series-icon">
+        <span class="series-label">La Lucha de Loros</span>
+    </div>
+    <h1 style="font-size: 1.3rem; margin: 10px 0;">Question Words Matching Game / Juego de Memoria: Palabras de Pregunta</h1>
+
+    <div class="note-box">
+        <p><strong>How to play / Cómo jugar:</strong> Tap two cards to hear them. If they're the same word, you get a match and a point. If not, both cards flip back and the turn passes.</p>
+        <p><strong>Toca dos cuadros para escucharlos. Si son la misma palabra, hacen pareja y ganan un punto. Si no, ambos se voltean y pasa el turno.</strong></p>
+        <details style="margin-top: 6px;">
+            <summary style="font-size: 13px; color: navy; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px;">
+                <span class="accordion-arrow">▸</span> Game rules / Reglas del juego
+            </summary>
+            <p class="device-instructions" style="margin-top: 6px;">
+                Each word appears on two cards. Listen carefully and remember where each word was.<br>
+                <em>Cada palabra aparece en dos cuadros. Escuchen con atención y recuerden dónde estaba cada palabra.</em><br>
+                A match reveals the English and Spanish text and awards 1 point. Turns always alternate between teams, whether a pair matches or not.<br>
+                <em>Una pareja revela el texto en inglés y español y otorga 1 punto. Los turnos siempre se alternan entre equipos, haga pareja o no.</em><br>
+                There are 2 sets of 6 words each — finish Set 1 to unlock Set 2.<br>
+                <em>Hay 2 conjuntos de 6 palabras cada uno — terminen el Conjunto 1 para desbloquear el Conjunto 2.</em>
+            </p>
+        </details>
+    </div>
+
+    <div class="scoreboard">
+        <div class="team-score team-a" id="scoreA">Team A: 0</div>
+        <div class="turn-label" id="turnLabel">Turn: Team A ▶</div>
+        <div class="team-score team-b" id="scoreB">Team B: 0</div>
+    </div>
+
+    <div id="winnerBanner"></div>
+
+    <div class="set-section" id="setSection1">
+        <h2>Set 1 / Conjunto 1</h2>
+        <div class="grid" id="grid1"></div>
+    </div>
+
+    <button class="btn-toggle" id="continue-btn">Continue to Set 2 / Continuar al Conjunto 2 ▶</button>
+
+    <div id="set2-wrap">
+        <div class="set-section" id="setSection2">
+            <h2>Set 2 / Conjunto 2</h2>
+            <div class="grid" id="grid2"></div>
+        </div>
+    </div>
+
+    <button class="btn-toggle" id="newGameBtn">New Game / Juego Nuevo (reshuffle)</button>
+
+    <footer>
+        <p>© 2026 Dorothy J. Hoskins | Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: #2196F3;">Creative Commons Attribution 4.0 (CC BY 4.0)</a></p>
+        <p style="font-size: 12px; margin-top: 5px;">Free to use, modify, and share with attribution</p>
+    </footer>
+
+    <script>
+        // 12 interrogatives, split into 2 groups of 6 — words only, no example sentences.
+        const setWords1 = [
+            { word: 'who',        wordEs: 'quién' },
+            { word: 'what',       wordEs: 'qué' },
+            { word: 'which',      wordEs: 'cuál' },
+            { word: 'which one',  wordEs: 'cuál de ellos' },
+            { word: 'where',      wordEs: 'dónde' },
+            { word: 'when',       wordEs: 'cuándo' }
+        ];
+
+        const setWords2 = [
+            { word: 'why',        wordEs: 'por qué' },
+            { word: 'how',        wordEs: 'cómo' },
+            { word: 'how much',   wordEs: 'cuánto' },
+            { word: 'how many',   wordEs: 'cuántos' },
+            { word: 'how long',   wordEs: 'cuánto tiempo' },
+            { word: 'how far',    wordEs: 'qué tan lejos' }
+        ];
+
+        let scoreA = 0, scoreB = 0;
+        let currentTeam = 'a';
+        let gameOver = false;
+
+        function shuffle(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'en-US';
+            utter.rate = 0.78;
+            const voices = speechSynthesis.getVoices();
+            const match = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+            if (match) utter.voice = match;
+            speechSynthesis.speak(utter);
+        }
+
+        function updateScoreboard() {
+            document.getElementById('scoreA').textContent = 'Team A: ' + scoreA;
+            document.getElementById('scoreB').textContent = 'Team B: ' + scoreB;
+            document.getElementById('scoreA').classList.toggle('active-turn', currentTeam === 'a');
+            document.getElementById('scoreB').classList.toggle('active-turn', currentTeam === 'b');
+            document.getElementById('turnLabel').textContent =
+                'Turn: ' + (currentTeam === 'a' ? 'Team A ▶' : '◀ Team B');
+        }
+
+        // ── One matching set (12 cards = 6 words × 2 each) ──
+        function createSet(words, containerId, onSetComplete) {
+            const cardWordIdx = shuffle(
+                words.map((_, i) => i).concat(words.map((_, i) => i))
+            );
+            const solved = new Array(cardWordIdx.length).fill(false);
+            let selected = [];
+            let locked = false;
+
+            function render() {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                cardWordIdx.forEach((wordIdx, cardIdx) => {
+                    const div = document.createElement('div');
+                    div.className = 'grid-item';
+
+                    if (solved[cardIdx]) {
+                        const claimTeam = solved[cardIdx]; // 'a' or 'b'
+                        div.classList.add(claimTeam === 'a' ? 'solved-a' : 'solved-b');
+                        const item = words[wordIdx];
+                        div.innerHTML = `<div class="cell-en">${item.word}</div><div class="cell-es">${item.wordEs}</div>`;
+                    } else {
+                        if (selected.includes(cardIdx)) div.classList.add('selected');
+                        else if (locked) div.classList.add('locked');
+                        div.innerHTML = `<div class="cell-icon">🔊</div><div class="cell-num">${cardIdx + 1}</div>`;
+                        if (!locked) {
+                            div.addEventListener('click', () => pick(cardIdx));
+                        }
+                    }
+                    container.appendChild(div);
+                });
+            }
+
+            function pick(cardIdx) {
+                if (gameOver || locked || solved[cardIdx]) return;
+
+                // Re-tapping the already-selected first card just replays its audio.
+                if (selected.length === 1 && selected[0] === cardIdx) {
+                    speak(words[cardWordIdx[cardIdx]].word);
+                    return;
+                }
+                if (selected.includes(cardIdx)) return;
+                speak(words[cardWordIdx[cardIdx]].word);
+                selected.push(cardIdx);
+                render();
+
+                if (selected.length === 2) {
+                    locked = true;
+                    const [i, j] = selected;
+                    if (cardWordIdx[i] === cardWordIdx[j]) {
+                        // Match — reveal, award a point, then pass the turn.
+                        setTimeout(() => {
+                            solved[i] = currentTeam;
+                            solved[j] = currentTeam;
+                            if (currentTeam === 'a') scoreA++; else scoreB++;
+                            selected = [];
+                            locked = false;
+                            currentTeam = currentTeam === 'a' ? 'b' : 'a'; // strict alternation
+                            updateScoreboard();
+                            render();
+                            if (solved.every(s => s !== false)) onSetComplete();
+                        }, 700);
+                    } else {
+                        // Mismatch — brief red flash, flip back, pass the turn.
+                        setTimeout(() => {
+                            const container = document.getElementById(containerId);
+                            [i, j].forEach(idx => container.children[idx].classList.add('mismatch'));
+                        }, 50);
+                        setTimeout(() => {
+                            selected = [];
+                            locked = false;
+                            currentTeam = currentTeam === 'a' ? 'b' : 'a'; // strict alternation
+                            updateScoreboard();
+                            render();
+                        }, 1100);
+                    }
+                }
+            }
+
+            render();
+            return { render, reset: () => { /* rebuilt fresh via createSet on new game */ } };
+        }
+
+        let set1, set2;
+
+        function checkFinalWinner() {
+            gameOver = true;
+            const banner = document.getElementById('winnerBanner');
+            let msg;
+            if (scoreA > scoreB) msg = '🎉 Team A wins! / ¡Equipo A gana! (' + scoreA + '–' + scoreB + ')';
+            else if (scoreB > scoreA) msg = '🎉 Team B wins! / ¡Equipo B gana! (' + scoreB + '–' + scoreA + ')';
+            else msg = "🤝 It's a tie! / ¡Empate! (" + scoreA + '–' + scoreB + ')';
+            banner.textContent = msg;
+            banner.style.display = 'block';
+        }
+
+        function newGame() {
+            scoreA = 0;
+            scoreB = 0;
+            currentTeam = 'a';
+            gameOver = false;
+            document.getElementById('winnerBanner').style.display = 'none';
+            document.getElementById('set2-wrap').style.display = 'none';
+            document.getElementById('continue-btn').style.display = 'block';
+            updateScoreboard();
+            set1 = createSet(setWords1, 'grid1', () => {
+                document.getElementById('continue-btn').style.display = 'block';
+            });
+            set2 = createSet(setWords2, 'grid2', checkFinalWinner);
+        }
+
+        document.getElementById('continue-btn').addEventListener('click', function () {
+            document.getElementById('set2-wrap').style.display = 'block';
+            this.style.display = 'none';
+            document.getElementById('set2-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.getElementById('newGameBtn').addEventListener('click', newGame);
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+        newGame();
+    </script>
+</body>
+</html>
