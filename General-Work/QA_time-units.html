@@ -571,10 +571,11 @@
                 element.classList.remove('locked');
                 element.classList.add('found');
                 currentTarget = null;
-                document.getElementById('englishSentence').textContent = '';
-                document.getElementById('spanishSentence').textContent = '';
-                document.getElementById('spanishSentence').style.display = 'none';
-                spanishVisible = false;
+                document.getElementById('englishSentence').textContent = item[setKey].en;
+                const spEl = document.getElementById('spanishSentence');
+                spEl.innerHTML = '<em>' + item[setKey].es + '</em>';
+                spEl.style.display = 'block';
+                spanishVisible = true;
                 score++;
                 updateStats();
                 saveState();
