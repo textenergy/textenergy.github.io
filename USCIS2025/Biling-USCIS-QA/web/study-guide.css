@@ -106,12 +106,8 @@ h3 {
     border-right: none;
 }
 
-.spanish-column {
+.translation-column, .spanish-column {
     padding-left: 0;
-}
-
-.spanish-column.hidden {
-    display: none;
 }
 
 p {
@@ -213,7 +209,7 @@ li {
     }
 }
 /* Spanish help hint box */
-.spanish-hint {
+.translation-hint, .spanish-hint {
     background-color: #e8f5e9;
     border: 2px solid #2196f3;
     border-radius: 8px;
@@ -224,14 +220,14 @@ li {
     line-height: 1.5;
 }
 
-/* Hide Spanish by default */
-.spanish-column {
+/* Hide Spanish or other translation by default */
+.translation-column, .spanish-column {
     display: none;
 }
 
-/* Show Spanish when activated - matches hint box styling */
-.spanish-column.show,
-.spanish-translation-inline {
+/* Show Spanish or other translation when activated - matches hint box styling */
+.translation-column.show, .spanish-column.show,
+.translation-inline, .spanish-translation-inline {
     display: block;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -244,13 +240,17 @@ li {
     font-size: inherit;
 }
 
+.translation-inline:hover {
+    background-color: #d0ead0;
+}
 .spanish-translation-inline:hover {
     background-color: #d0ead0;
 }
 
 /* Section collapsing */
 .content-row.collapsed .english-column > *:not(h2):not(.section-intro),
-.content-row.collapsed .spanish-column {
+.content-row.collapsed .spanish-column,
+.content-row.collapsed .translation-column {
     display: none;
 }
 
@@ -281,7 +281,7 @@ h3::after {
     transform: rotate(-90deg);
 }
 
-/* Make English paragraphs clickable for Spanish toggle */
+/* Make English paragraphs clickable for Spanish or other translation toggle */
 .english-column p,
 .english-column ul,
 .english-column ol {
@@ -313,7 +313,7 @@ h3::after {
     opacity: 0.6;
 }
 
-/* Don't make page-refs or captions clickable for Spanish */
+/* Don't make page-refs or captions clickable for Spanish or other transaltion */
 .page-ref,
 .caption {
     cursor: default !important;
@@ -326,7 +326,7 @@ h3::after {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-    .spanish-hint {
+    .translation-hint, .spanish-hint {
         font-size: 13px;
         padding: 10px 12px;
     }
@@ -400,6 +400,7 @@ h3::after {
 
 /* Modal body content */
 .qpop .english-question,
+.qpop .translation-question,
 .qpop .spanish-question {
     padding: 12px 16px;
 }
@@ -445,7 +446,8 @@ h3::after {
     height: 36px;
 }
 
-/* Divider between English and Spanish sections */
+/* Divider between English and Spanish or other translation sections */
+.qpop .english-question + .translation-question,
 .qpop .english-question + .spanish-question {
     border-top: 1px solid #ddd;
     background-color: #f9f9f9;
