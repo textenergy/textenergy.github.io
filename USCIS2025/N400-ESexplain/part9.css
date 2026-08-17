@@ -83,6 +83,8 @@ h1 .subtitle {
 .page-nav a:hover { background-color: #003366; color: #fff; }
 .page-nav .spacer { flex: 1; }
 
+p.note {font-size:80%; color:navy}
+
 /* ── Question block ──────────────────────────────────────────── */
 .q-block {
   background-color: #ffffff;
