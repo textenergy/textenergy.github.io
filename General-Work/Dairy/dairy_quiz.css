@@ -1,0 +1,473 @@
+/*
+ * dairy_quiz.css — Dairy-only fork of the shared quiz engine styles
+ *
+ * Forked from quiz.css (site-wide shared engine, still used by
+ * Landscaping/tools_quiz.html and others). This copy is dairy_quiz.html's
+ * alone — edit freely here without affecting other topic pages.
+ *
+ * Used by:
+ *   Dairy/dairy_quiz.html
+ *
+ * Font: system sans-serif stack — no external font loading required
+ * Stack: Helvetica Neue, Arial, Liberation Sans, sans-serif
+ *
+ * CSS custom properties (variables) are defined in :root.
+ *
+ * Future interaction modules:
+ *   drag-drop.css    — drag-and-drop matching exercises   [STUB — not yet implemented]
+ *   flashcard.css    — flip-card vocabulary review        [STUB — not yet implemented]
+ *   imagemap.css     — clickable image-map exercises      [STUB — not yet implemented]
+ *   audio-player.css — styled <audio> element wrapper     [STUB — not yet implemented]
+ */
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── DESIGN TOKENS ── */
+:root {
+  /* Brand greens */
+  --accent-dark:   #1a5c1a;
+  --accent-mid:    #2e7d32;
+  --accent-light:  #e8f5e9;
+  --accent-border: #a5d6a7;
+
+  /* Feedback colors */
+  --correct:       #2e7d32;
+  --correct-bg:    #e8f5e9;
+  --wrong:         #c62828;
+  --wrong-bg:      #ffebee;
+  --wrong-border:  #ef9a9a;
+
+  /* Neutral tones */
+  --neutral:       #f5f5f5;
+  --page-bg:       #f0f4f0;
+  --card-bg:       #ffffff;
+
+  /* Text */
+  --text:          #1a1a1a;
+  --subtext:       #555555;
+
+  /* Card header (light — keeps text readable without color reversal) */
+  --header-bg:     #e8f4fd;
+  --header-border: #b3d7f0;
+  --header-text:   #1a1a1a;
+
+  /* Scenario / narrative highlight */
+  --note-bg:       #fff8e1;
+  --note-border:   #ffe082;
+
+  /* Keyword highlight (underlined EN keyword + highlighted ES equivalent) */
+  --keyword-bg:    #fff59d;
+
+  /* Minimum tap target — Apple HIG / Android Material: 44px */
+  --tap-min:       44px;
+
+  /* Layout */
+  --max-width:     700px;
+  --radius-card:   12px;
+  --radius-btn:    8px;
+  --radius-pill:   20px;
+}
+
+/* ── BASE ── */
+body {
+  font-family: 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+}
+
+/* ── HEADER ── */
+header {
+  max-width: var(--max-width);
+  margin: 0 auto 20px;
+  text-align: center;
+}
+header h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--accent-dark);
+  margin-bottom: 4px;
+}
+header p {
+  font-size: 0.9rem;
+  color: var(--subtext);
+  line-height: 1.5;
+}
+
+/* ── SCENARIO SELECTOR ── */
+.scenario-selector {
+  max-width: var(--max-width);
+  margin: 0 auto 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.scenario-btn {
+  min-height: var(--tap-min);
+  padding: 7px 16px;
+  border: 2px solid var(--accent-border);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: center;
+  line-height: 1.4;
+}
+.scenario-btn:hover { background: var(--accent-light); }
+.scenario-btn.active {
+  background: var(--accent-light);
+  color: var(--text);
+  font-weight: 900;
+  border-color: var(--accent-mid);
+}
+
+/* ── NARRATIVE / SCENARIO NOTE ── */
+.narrative {
+  max-width: var(--max-width);
+  margin: 0 auto 18px;
+  background: var(--note-bg);
+  border: 1.5px solid var(--note-border);
+  border-radius: var(--radius-card);
+  padding: 13px 18px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.narrative-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 5px;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto 8px;
+  background: #ddd;
+  border-radius: 6px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent-mid);
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+.progress-label {
+  max-width: var(--max-width);
+  margin: 0 auto 16px;
+  font-size: 0.82rem;
+  color: var(--subtext);
+  text-align: right;
+}
+
+/* ── QUESTION CARD ── */
+.card {
+  max-width: var(--max-width);
+  margin: 0 auto 16px;
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+  border: 1.5px solid var(--accent-border);
+}
+.card-header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 12px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-bottom: 1.5px solid var(--header-border);
+}
+.q-number {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  background: rgba(46,125,50,0.1);
+  border-radius: 4px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+/* English sentence shown in the card header */
+.eng-prompt {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  flex: 1;
+  color: var(--text);
+}
+/* Underlined keyword within the sentence — underline plus a yellow
+   highlight so the option-to-keyword link is visually unmistakable */
+.eng-prompt u {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: var(--keyword-bg);
+  padding: 0 3px;
+  border-radius: 3px;
+  color: var(--accent-dark);
+}
+
+/* ── SPANISH SENTENCE REVEAL ──
+ * Shown below the card header once the learner picks the correct option.
+ * Italic, full sentence, with the matching Spanish term highlighted via
+ * .keyword-es (same highlight color as the English .eng-prompt u keyword,
+ * for visual consistency between the two languages). No audio control here
+ * by design — this is a reading reinforcement, not a listening exercise.
+ */
+.es-sentence {
+  display: none;
+  padding: 0 18px 14px;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--subtext);
+}
+.es-sentence .keyword-es {
+  background: var(--keyword-bg);
+  padding: 0 3px;
+  border-radius: 3px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── AUDIO BUTTONS (text-to-speech triggers) ──────────────────────────────
+ * .audio-btn       — question-level speaker (in card header)
+ * .option-audio-btn — per-option speaker (left of each answer row)
+ *
+ * Both meet the 44px minimum tap target via min-width / min-height.
+ * The option speaker is visually smaller but its tap area is padded to 44px.
+ */
+.audio-btn,
+.option-audio-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  line-height: 1;
+  border-radius: 4px;
+  transition: transform 0.1s;
+  flex-shrink: 0;
+}
+.audio-btn {
+  /* Question-level: sits in card header row */
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  padding: 4px;
+  margin-top: -6px;   /* vertically centre with first line of prompt text */
+}
+.option-audio-btn {
+  /* Per-option: narrower column, full row height via flex stretch */
+  min-width: var(--tap-min);
+  align-self: stretch;   /* fills the option-row height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  font-size: 1.1rem;
+}
+.audio-btn:hover,
+.option-audio-btn:hover       { transform: scale(1.2); }
+.audio-btn.playing,
+.option-audio-btn.playing     { animation: pulse 0.6s ease-in-out infinite alternate; }
+@keyframes pulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+/*
+ * STUB: audio-player styles for <audio> element wrappers
+ * Uncomment and complete when .mp3 playback is needed.
+ *
+ * .audio-player { ... }
+ * .audio-player audio { width: 100%; ... }
+ */
+
+/* ── SLOW MODE BUTTON ──
+ * Injected inline into the <header> <p> tag by quiz.js at init time.
+ * Full opacity by default (available/inviting).
+ * Dimmed when slow mode is ON (.rate-btn--active) — engaged, tap to cancel.
+ * Brightens to full on hover regardless of state.
+ */
+.rate-label {
+  font-size: 0.9rem;
+  color: var(--subtext);
+  white-space: nowrap;
+}
+.rate-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.2s;
+  vertical-align: middle;
+}
+.rate-btn:hover        { opacity: 1; }
+.rate-btn--active      { opacity: 0.35; }
+
+/* ── ANSWER OPTIONS ── */
+.options {
+  padding: 14px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/*
+ * Each answer is an .option-row: a flex container holding
+ * the speaker button and the selectable answer button side by side.
+ */
+.option-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;                      /* fills remaining width after speaker button */
+  min-height: var(--tap-min);   /* 44px tap target */
+  padding: 11px 16px;
+  border: 2px solid #ddd;
+  border-radius: var(--radius-btn);
+  background: var(--neutral);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+.option-btn:hover:not(:disabled) {
+  border-color: var(--accent-mid);
+  background: var(--accent-light);
+}
+.option-btn .letter {
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: var(--subtext);
+  min-width: 20px;
+}
+.option-btn.correct {
+  border-color: var(--correct);
+  background: var(--correct-bg);
+  color: var(--correct);
+  font-weight: 700;
+}
+.option-btn.wrong {
+  border-color: var(--wrong);
+  background: var(--wrong-bg);
+  color: var(--wrong);
+  text-decoration: line-through;
+}
+.option-btn:disabled { cursor: default; }
+
+/* ── FEEDBACK BAR ── */
+.feedback {
+  max-width: var(--max-width);
+  margin: 0 auto 14px;
+  padding: 11px 16px;
+  border-radius: var(--radius-btn);
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: none;
+}
+.feedback.show    { display: block; }
+.feedback.correct { background: var(--correct-bg); color: var(--correct);  border: 1.5px solid var(--accent-border); }
+.feedback.wrong   { background: var(--wrong-bg);   color: var(--wrong);    border: 1.5px solid var(--wrong-border); }
+
+/* ── NAV BUTTONS ── */
+.nav-row {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nav-btn {
+  min-height: var(--tap-min);
+  padding: 11px 28px;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: center;
+  line-height: 1.4;
+}
+#btn-prev               { background: #e0e0e0; color: var(--subtext); }
+#btn-prev:hover         { background: #ccc; }
+#btn-next               { background: var(--accent-mid); color: #fff; margin-left: auto; }
+#btn-next:hover         { background: var(--accent-dark); }
+#btn-next:disabled      { background: #aaa; cursor: default; }
+
+/* ── END SCREEN ── */
+.end-screen {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  border: 1.5px solid var(--accent-border);
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: none;
+}
+.end-screen h2 { font-size: 1.4rem; font-weight: 900; color: var(--accent-dark); margin-bottom: 10px; }
+.end-screen p  { font-size: 1rem;   color: var(--subtext); margin-bottom: 22px; }
+.restart-btn {
+  min-height: var(--tap-min);
+  background: var(--accent-mid);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 11px 30px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin: 0 6px;
+}
+.restart-btn:hover { background: var(--accent-dark); }
+
+/*
+ * STUBS — future interaction types
+ *
+ * STUB: drag-drop.css
+ *   .drag-item { ... }
+ *   .drop-zone { ... }
+ *   .drop-zone.over { ... }
+ *
+ * STUB: flashcard.css
+ *   .flashcard-wrap { perspective: 800px; }
+ *   .flashcard { transform-style: preserve-3d; transition: transform 0.5s; }
+ *   .flashcard.flipped { transform: rotateY(180deg); }
+ *   .flashcard-front, .flashcard-back { backface-visibility: hidden; }
+ *
+ * STUB: imagemap.css
+ *   .imagemap-wrap { position: relative; display: inline-block; }
+ *   .imagemap-target { position: absolute; cursor: pointer; ... }
+ */
