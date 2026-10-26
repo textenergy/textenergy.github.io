@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luggage / Equipaje</title>
+<!--
+Copyright (c) 2026 Dorothy J. Hoskins
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+-->
+<meta name="qa-vocab" content="travel:luggage">
+<meta name="qa-version" content="1">
+<style>
+body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 20px; color: #222; }
+nav { margin-bottom: 8px; font-size: 15px; }
+nav a { color: #1a3a08; }
+h1 { font-size: 1.6rem; margin: 10px 0; }
+
+.note-box { background-color: #FFF9C4; padding: 15px; margin: 10px 0;
+            border-left: 4px solid #FBC02D; border-radius: 4px; }
+.note-box p { margin: 0; font-size: 14px; }
+.note-box p + p { margin-top: 5px; }
+.note-box summary { cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 8px; }
+.note-box .device-instructions { font-size: 13px; color: navy; margin-top: 5px; }
+.note-box .incognito-note { font-size: 12px; color: navy; margin-top: 8px; }
+
+.btn-toggle { padding: 10px 22px; background: #f5c800; color: #111;
+              border: 2px solid #1a5c2a; border-radius: 5px;
+              font-family: Arial, sans-serif; font-size: 15px; font-weight: bold;
+              cursor: pointer; margin: 14px 0; display: block; }
+.btn-toggle:hover { background: #e0b300; }
+
+.tts-btn { display: inline-flex; align-items: center; justify-content: center;
+           width: 30px; height: 30px; padding: 0; background: #1a5c2a;
+           border: none; border-radius: 4px; cursor: pointer;
+           vertical-align: middle; margin-right: 6px; flex-shrink: 0; }
+.tts-btn svg { width: 18px; height: 18px; fill: #fff; }
+.tts-btn:hover { background: #145020; }
+.tts-btn.playing { background: #e06010; }
+
+.vocab-table { border-collapse: collapse; width: 100%; max-width: 540px; margin-bottom: 10px; }
+.vocab-table th { text-align: left; font-size: 14px; color: #333;
+                  padding: 4px 10px; border-bottom: 2px solid #aaa; }
+.vocab-table td { padding: 6px 10px; font-size: 15px;
+                  border-bottom: 1px solid #ddd; vertical-align: middle; }
+#vocabSection h2 { font-size: 1.1rem; margin: 8px 0 6px; color: #1a3a08; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.set-label { font-size: 14px; color: #555; margin: 12px 0 6px 0; }
+
+.grid-item { display: flex; flex-direction: column; align-items: center; justify-content: center;
+             border: 3px solid #333; background-color: white; cursor: pointer;
+             padding: 14px 8px; transition: background-color 0.3s;
+             -webkit-tap-highlight-color: transparent; min-height: 70px; }
+.grid-item:hover:not(.found):not(.locked) { background-color: #f0f0f0; }
+.grid-item.found  { background-color: #6B46C1; border-color: #6B46C1; cursor: pointer; }
+.grid-item.wrong  { background-color: #FFE0E0; border-color: #e53935; }
+.grid-item.locked { opacity: 0.35; cursor: default; }
+
+.word-label { font-size: clamp(13px, 3vw, 17px); font-weight: bold; color: #222; text-align: center; }
+.grid-item.found .word-label { color: white; }
+.word-es { font-size: 15px; color: white; text-align: center; margin-top: 6px; line-height: 1.4; display: none; }
+.grid-item.found .word-es { display: block; }
+
+#sentenceDisplay { margin: 10px 0; min-height: 56px; }
+#englishSentence { font-size: 17px; font-weight: bold; color: #222; line-height: 1.4; }
+#spanishSentence { font-size: 16px; color: #444; line-height: 1.4; margin-top: 4px; display: none; }
+
+#saveConfirm { display: none; background-color: #E8F5E9; padding: 10px 15px; margin: 5px 0;
+               border-left: 4px solid #4CAF50; border-radius: 4px; font-size: 14px; }
+
+.controls { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+button { padding: 10px 20px; font-size: 16px; cursor: pointer; line-height: 1.4; }
+#playButton { background-color: lightgreen; color: black; border: none; font-size: 15px;
+              padding: 8px 16px; -webkit-tap-highlight-color: transparent; }
+#playButton:hover:not(:disabled) { background-color: #90EE90; }
+#playButton:disabled { background-color: #cccccc; color: #666666; cursor: not-allowed; }
+#resetButton { background-color: #FF6347; color: white; border: none; }
+#resetButton:hover { background-color: #E5533D; }
+#saveButton { background-color: white; border: 1px solid #ccc; }
+#showSpanishButton { background-color: #E3F2FD; border: 1px solid #2196F3; color: #0D47A1;
+                     font-size: 14px; padding: 8px 14px; }
+#stats { font-size: 16px; font-weight: bold; }
+
+footer { margin-top: 24px; font-size: 12px; color: #555; border-top: 1px solid #ddd; padding-top: 8px; }
+footer a { color: #555; }
+</style>
+</head>
+<body>
+
+<nav><a href="index.html">Home / Al inicio</a></nav>
+
+<h1>Luggage / <em>Equipaje</em></h1>
+
+<!-- ═══════════════════════════════════════════
+     VOCABULARY SECTION
+════════════════════════════════════════════ -->
+<div id="vocabSection">
+    <h2>Vocabulary / Vocabulario</h2>
+    <p>Tap the speaker button to hear each English word.<br>
+       <em>Toca el botón del altavoz para escuchar cada palabra en inglés.</em></p>
+    <table class="vocab-table">
+        <thead>
+            <tr><th>English</th><th>Español</th></tr>
+        </thead>
+        <tbody id="vocabTableBody"></tbody>
+    </table>
+    <button type="button" class="btn-toggle" id="btnToQuiz">Check your understanding / Probar tu comprensión ▶</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     QUIZ SECTION
+════════════════════════════════════════════ -->
+<div id="quizSection" style="display:none">
+    <button type="button" class="btn-toggle" id="btnToVocab">◀ Review vocabulary / Revisar vocabulario</button>
+
+    <div class="note-box">
+        <p>Tap "Play" to hear a sentence. Tap the word that goes in the blank.<br>
+           <em>Toca "Play" para escuchar una oración. Toca la palabra que va en el espacio en blanco.</em></p>
+        <details>
+            <summary>No sound? / ¿No hay sonido?</summary>
+            <p class="device-instructions"><strong>Android:</strong> Settings &rarr; System &rarr; Languages &amp; input &rarr; Text-to-speech output. Choose a speech engine and install English (US) voice data.<br>
+               <em>Ajustes &rarr; Sistema &rarr; Idiomas y entrada &rarr; Salida de texto a voz. Elige un motor de voz e instala los datos de voz en inglés (EE. UU.).</em></p>
+            <p class="device-instructions"><strong>iPhone / iPad:</strong> Settings &rarr; Accessibility &rarr; Spoken Content &rarr; Voices &rarr; English. Download a voice. Make sure the silent switch is off and the volume is up.<br>
+               <em>Ajustes &rarr; Accesibilidad &rarr; Contenido hablado &rarr; Voces &rarr; Inglés. Descarga una voz. Asegúrate de que el interruptor de silencio esté apagado y el volumen alto.</em></p>
+            <p class="incognito-note">Your progress is saved on this device. It will not be saved in a private or incognito window.<br>
+               <em>Tu progreso se guarda en este dispositivo. No se guardará en una ventana privada o de incógnito.</em></p>
+        </details>
+    </div>
+
+    <div class="controls">
+        <button type="button" id="playButton">▶ Play / Escuchar</button>
+        <span id="stats">0/24</span>
+        <button type="button" id="showSpanishButton">Show Spanish / Mostrar español</button>
+        <button type="button" id="saveButton">Save / Guardar</button>
+        <button type="button" id="resetButton">Reset / Reiniciar</button>
+    </div>
+
+    <div id="sentenceDisplay">
+        <div id="englishSentence"></div>
+        <div id="spanishSentence"></div>
+    </div>
+
+    <div id="saveConfirm">Progress saved. / Progreso guardado.</div>
+
+    <div id="set1-section">
+        <div class="set-label">Set 1 / Conjunto 1</div>
+        <div class="grid" id="grid-set1"></div>
+    </div>
+
+    <div class="set-label">Set 2 / Conjunto 2</div>
+    <div class="grid" id="grid-set2"></div>
+
+    <footer>
+        &copy; 2026 Dorothy J. Hoskins.
+        <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    </footer>
+</div>
+
+<script>
+// ── 1. Section toggles ──
+document.getElementById('btnToQuiz').addEventListener('click', function () {
+    document.getElementById('vocabSection').style.display = 'none';
+    document.getElementById('quizSection').style.display = '';
+});
+document.getElementById('btnToVocab').addEventListener('click', function () {
+    document.getElementById('quizSection').style.display = 'none';
+    document.getElementById('vocabSection').style.display = '';
+});
+
+// ── 2. Data ──
+// word must appear verbatim in set1.en and set2.en.
+// "pounds" sentence: 50 lb (23 kg) is the standard economy limit on major US airlines in 2026;
+// premium cabins and other airlines differ, so learners should check their own ticket.
+const phrases = [
+    { word: 'suitcase', wordEs: 'maleta',
+      set1: { en: 'This suitcase is big.', es: 'Esta maleta es grande.' },
+      set2: { en: 'Put your suitcase on the scale.', es: 'Pon tu maleta en la báscula.' } },
+    { word: 'carry-on', wordEs: 'equipaje de mano',
+      set1: { en: 'My carry-on is small.', es: 'Mi equipaje de mano es pequeño.' },
+      set2: { en: 'Keep your carry-on with you.', es: 'Guarda tu equipaje de mano contigo.' } },
+    { word: 'check-in', wordEs: 'check-in (registro)',
+      set1: { en: 'Check-in is open.', es: 'El check-in está abierto.' },
+      set2: { en: 'Go to check-in first.', es: 'Ve primero al check-in.' } },
+    { word: 'scale', wordEs: 'báscula (balanza)',
+      set1: { en: 'The scale shows 48 pounds.', es: 'La báscula muestra 48 libras.' },
+      set2: { en: 'Use a scale at home.', es: 'Usa una báscula en casa.' } },
+    { word: 'heavy', wordEs: 'pesado (pesada)',
+      set1: { en: 'This bag is heavy.', es: 'Esta maleta es pesada.' },
+      set2: { en: 'My suitcase is too heavy.', es: 'Mi maleta es demasiado pesada.' } },
+    { word: 'pounds', wordEs: 'libras',
+      set1: { en: 'The limit is 50 pounds.', es: 'El límite es 50 libras (23 kilos).' },
+      set2: { en: 'My bag is 55 pounds.', es: 'Mi maleta pesa 55 libras.' } },
+    { word: 'overweight', wordEs: 'sobrepeso (exceso de peso)',
+      set1: { en: 'Your bag is overweight.', es: 'Tu maleta tiene sobrepeso.' },
+      set2: { en: 'Overweight bags cost more.', es: 'Las maletas con sobrepeso cuestan más.' } },
+    { word: 'fee', wordEs: 'tarifa (cargo)',
+      set1: { en: 'There is a fee for this bag.', es: 'Hay una tarifa por esta maleta.' },
+      set2: { en: 'Pay the fee here.', es: 'Paga la tarifa aquí.' } },
+    { word: 'extra bag', wordEs: 'maleta extra (maleta adicional)',
+      set1: { en: 'I have one extra bag.', es: 'Tengo una maleta extra.' },
+      set2: { en: 'An extra bag costs more money.', es: 'Una maleta extra cuesta más dinero.' } },
+    { word: 'claim tag', wordEs: 'comprobante de equipaje (talón)',
+      set1: { en: 'Keep your claim tag.', es: 'Guarda tu comprobante de equipaje.' },
+      set2: { en: 'The claim tag has a number.', es: 'El comprobante de equipaje tiene un número.' } },
+    { word: 'gifts', wordEs: 'regalos',
+      set1: { en: 'These gifts are for my family.', es: 'Estos regalos son para mi familia.' },
+      set2: { en: 'Do not wrap the gifts.', es: 'No envuelvas los regalos.' } },
+    { word: 'fragile', wordEs: 'frágil',
+      set1: { en: 'This gift is fragile.', es: 'Este regalo es frágil.' },
+      set2: { en: 'Put fragile things in your carry-on.', es: 'Pon las cosas frágiles en tu equipaje de mano.' } }
+];
+
+// ── 3. State ──
+const STORAGE_KEY = 'travelLuggageQuizState';
+const TOTAL = phrases.length * 2;
+let foundSet1 = new Set();
+let foundSet2 = new Set();
+let currentTarget = null;
+let score = 0;
+let spanishVisible = false;
+
+// ── 4. Functions ──
+function activeSet() {
+    if (foundSet1.size < phrases.length) return 1;
+    if (foundSet2.size < phrases.length) return 2;
+    return 0;
+}
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.85;
+        speechSynthesis.speak(utterance);
+    }
+}
+
+function buildVocabTable() {
+    const body = document.getElementById('vocabTableBody');
+    body.innerHTML = '';
+    phrases.forEach(function (p) {
+        const tr = document.createElement('tr');
+        const tdEn = document.createElement('td');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tts-btn';
+        btn.dataset.text = p.word;
+        btn.dataset.lang = 'en-US';
+        btn.setAttribute('aria-label', 'Listen: ' + p.word);
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>';
+        tdEn.appendChild(btn);
+        tdEn.appendChild(document.createTextNode(p.word));
+        const tdEs = document.createElement('td');
+        const em = document.createElement('em');
+        em.lang = 'es';
+        em.textContent = p.wordEs;
+        tdEs.appendChild(em);
+        tr.appendChild(tdEn);
+        tr.appendChild(tdEs);
+        body.appendChild(tr);
+    });
+}
+
+function buildGrids() {
+    buildGrid(1, 'grid-set1', foundSet1);
+    buildGrid(2, 'grid-set2', foundSet2);
+}
+
+function buildGrid(setNum, gridId, foundSet) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = '';
+    phrases.forEach(function (p) {
+        const div = document.createElement('div');
+        div.className = 'grid-item';
+        div.dataset.word = p.word;
+        div.dataset.set = String(setNum);
+        const label = document.createElement('div');
+        label.className = 'word-label';
+        label.textContent = p.word;
+        const es = document.createElement('div');
+        es.className = 'word-es';
+        es.lang = 'es';
+        es.textContent = p.wordEs;
+        div.appendChild(label);
+        div.appendChild(es);
+        if (foundSet.has(p.word)) div.classList.add('found');
+        if (setNum === 2 && foundSet1.size < phrases.length) div.classList.add('locked');
+        div.addEventListener('click', function () { handleClick(div, p, setNum); });
+        grid.appendChild(div);
+    });
+}
+
+function escapeRegExp(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function blankSentence(sentence, word) {
+    const re = new RegExp('\\b' + escapeRegExp(word) + '\\b', 'i');
+    return sentence.replace(re, '______');
+}
+
+function clearSentence() {
+    document.getElementById('englishSentence').textContent = '';
+    const es = document.getElementById('spanishSentence');
+    es.textContent = '';
+    es.style.display = 'none';
+    spanishVisible = false;
+    document.getElementById('showSpanishButton').textContent = 'Show Spanish / Mostrar español';
+}
+
+function playQuestion() {
+    const setNum = activeSet();
+    if (!setNum) return;
+    const found = setNum === 1 ? foundSet1 : foundSet2;
+    const pool = phrases.filter(function (p) { return !found.has(p.word); });
+    if (!pool.length) return;
+    const p = pool[Math.floor(Math.random() * pool.length)];
+    const s = setNum === 1 ? p.set1 : p.set2;
+    currentTarget = { word: p.word, set: setNum, en: s.en, es: s.es };
+    clearSentence();
+    document.getElementById('englishSentence').textContent = blankSentence(s.en, p.word);
+    document.getElementById('spanishSentence').textContent = s.es;
+    speak(s.en);
+}
+
+function handleClick(div, p, setNum) {
+    if (div.classList.contains('locked')) return;
+    const found = setNum === 1 ? foundSet1 : foundSet2;
+    const s = setNum === 1 ? p.set1 : p.set2;
+
+    if (found.has(p.word)) {
+        // Replay a found tile: show full sentences and play audio
+        currentTarget = null;
+        clearSentence();
+        document.getElementById('englishSentence').textContent = s.en;
+        const es = document.getElementById('spanishSentence');
+        es.textContent = s.es;
+        es.style.display = 'block';
+        spanishVisible = true;
+        document.getElementById('showSpanishButton').textContent = 'Hide Spanish / Ocultar español';
+        speak(s.en);
+        return;
+    }
+
+    if (!currentTarget || currentTarget.set !== setNum) return;
+
+    if (currentTarget.word === p.word) {
+        found.add(p.word);
+        score = foundSet1.size + foundSet2.size;
+        div.classList.add('found');
+        currentTarget = null;
+        clearSentence();
+        if (setNum === 1 && foundSet1.size === phrases.length) {
+            document.getElementById('set1-section').style.display = 'none';
+            document.querySelectorAll('#grid-set2 .grid-item').forEach(function (el) {
+                el.classList.remove('locked');
+            });
+        }
+        updateStats();
+        saveState();
+    } else {
+        div.classList.add('wrong');
+        setTimeout(function () { div.classList.remove('wrong'); }, 600);
+    }
+}
+
+function toggleSpanish() {
+    if (!currentTarget) return;
+    spanishVisible = !spanishVisible;
+    document.getElementById('spanishSentence').style.display = spanishVisible ? 'block' : 'none';
+    document.getElementById('showSpanishButton').textContent =
+        spanishVisible ? 'Hide Spanish / Ocultar español' : 'Show Spanish / Mostrar español';
+}
+
+function updateStats() {
+    score = foundSet1.size + foundSet2.size;
+    document.getElementById('stats').textContent =
+        score === TOTAL ? TOTAL + '/' + TOTAL + ' 🎉' : score + '/' + TOTAL;
+    document.getElementById('playButton').disabled = (score === TOTAL);
+}
+
+function saveState() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            foundSet1: Array.from(foundSet1),
+            foundSet2: Array.from(foundSet2),
+            score: score
+        }));
+        return true;
+    } catch (e) { return false; }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const d = JSON.parse(raw);
+        const valid = phrases.map(function (p) { return p.word; });
+        foundSet1 = new Set((d.foundSet1 || []).filter(function (w) { return valid.indexOf(w) !== -1; }));
+        foundSet2 = new Set((d.foundSet2 || []).filter(function (w) { return valid.indexOf(w) !== -1; }));
+        score = foundSet1.size + foundSet2.size;
+    } catch (e) { /* ignore */ }
+}
+
+function resetAll() {
+    if (!window.confirm('Erase your progress? / ¿Borrar tu progreso?')) return;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+    location.reload();
+}
+
+// ── 5. Init ──
+buildVocabTable();
+loadState();
+buildGrids();
+updateStats();
+if (foundSet1.size === phrases.length) {
+    document.getElementById('set1-section').style.display = 'none';
+}
+document.getElementById('playButton').addEventListener('click', playQuestion);
+document.getElementById('showSpanishButton').addEventListener('click', toggleSpanish);
+document.getElementById('saveButton').addEventListener('click', function () {
+    saveState();
+    const c = document.getElementById('saveConfirm');
+    c.style.display = 'block';
+    setTimeout(function () { c.style.display = 'none'; }, 2500);
+});
+document.getElementById('resetButton').addEventListener('click', resetAll);
+
+// ── 6. Vocab TTS ──
+let currentTtsBtn = null;
+if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = function () { window.speechSynthesis.getVoices(); };
+}
+document.getElementById('vocabSection').addEventListener('click', function (e) {
+    const btn = e.target.closest('.tts-btn');
+    if (!btn || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    if (currentTtsBtn) currentTtsBtn.classList.remove('playing');
+    if (btn === currentTtsBtn) { currentTtsBtn = null; return; }
+    const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+    utter.lang = btn.dataset.lang;
+    utter.rate = 0.9;
+    const voices = window.speechSynthesis.getVoices();
+    const match = voices.find(function (v) { return v.lang === btn.dataset.lang; })
+               || voices.find(function (v) { return v.lang.indexOf('en') === 0; });
+    if (match) utter.voice = match;
+    utter.onend = utter.onerror = function () { btn.classList.remove('playing'); currentTtsBtn = null; };
+    btn.classList.add('playing');
+    currentTtsBtn = btn;
+    window.speechSynthesis.speak(utter);
+});
+</script>
+</body>
+</html>
